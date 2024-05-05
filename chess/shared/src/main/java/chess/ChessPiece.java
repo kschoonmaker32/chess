@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -10,8 +11,15 @@ import java.util.Collection;
  * signature of the existing methods.
  */
 public class ChessPiece {
+    //assigning each chess piece a color and type that is private and unmutable
+    private final ChessGame.TeamColor  pieceColor;
+    private final ChessPiece.PieceType pieceType;
+
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
+    // setting current object as instance variables for color and type
+        this.pieceColor = pieceColor;
+        this.pieceType = type;
     }
 
     /**
@@ -26,18 +34,41 @@ public class ChessPiece {
         PAWN
     }
 
+    // prints out in readable fashion
+    @Override
+    public String toString() {
+        return "ChessPiece{" +
+                "pieceColor=" + pieceColor +
+                ", type=" + pieceType +
+                '}';
+    }
+
+    // checks if a piece has the same type and color as another piece
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessPiece that = (ChessPiece) o;
+        return pieceColor == that.pieceColor && pieceType == that.pieceType;
+    }
+    // assigns a "locker number" to each piece for aid in finding where a piece is stored
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceColor, pieceType);
+    }
+
     /**
      * @return Which team this chess piece belongs to
      */
     public ChessGame.TeamColor getTeamColor() {
-        throw new RuntimeException("Not implemented");
+        return pieceColor;
     }
 
     /**
      * @return which type of chess piece this piece is
      */
     public PieceType getPieceType() {
-        throw new RuntimeException("Not implemented");
+        return pieceType;
     }
 
     /**
