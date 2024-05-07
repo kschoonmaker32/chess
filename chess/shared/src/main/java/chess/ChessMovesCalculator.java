@@ -10,7 +10,7 @@ public class ChessMovesCalculator {
         int row = position.getRow()-1;
         int col = position.getColumn()-1;
         int[][] directions = getDirections(piece); // create array of arrays holding directions given piece can take
-        int maxSteps = getMaxSteps(piece, position); // find out max # of steps a given piece can take
+        int maxSteps = getMaxSteps(piece, position);// find out max # of steps a given piece can take
 
         for(int[] direction : directions) { // go through all directions (arrays) for given piece
             for(int step = 1; step <= maxSteps; step++) {
@@ -22,17 +22,32 @@ public class ChessMovesCalculator {
                 }
 
                 ChessPosition nextPosition = new ChessPosition(nextRow+1, nextCol+1); // get next position coordinates
-                ChessPiece pieceAtNextPosition = board.getPiece(nextPosition); // get piece type at next position
+                ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);// get piece type at next position
 
-                if(pieceAtNextPosition == null) { // if no piece, add movement
+
+                if(pieceAtNextPosition == null) {// if no piece
+                    if(piece.getPieceType() == ChessPiece.PieceType.PAWN && direction[1] != 0) { // if piece is a pawn and its not moving forward
+                        continue; //pawns don't move
+                    }
                     validMoves.add(new ChessMove(position, nextPosition, null));
-                } else if(pieceAtNextPosition.getTeamColor() != piece.getTeamColor()) { // if theres an opponent piece, add movement
+                } else if(pieceAtNextPosition.getTeamColor() != piece.getTeamColor()) {
+                    if (piece.getPieceType() == ChessPiece.PieceType.PAWN && direction[1] == 0) {
+                        continue;
+                    }
                     validMoves.add(new ChessMove(position, nextPosition, null));
-                    break; // stop moving after piece is captured
                 } else {
-                    break; //otherwise break out of loop because piece cannot move there
+                        break;
+                    }
                 }
-            }
+
+//                if(pieceAtNextPosition == null) { // if no piece, add movement
+//                    validMoves.add(new ChessMove(position, nextPosition, null));
+//                } else if(pieceAtNextPosition.getTeamColor() != piece.getTeamColor()) { // if theres an opponent piece, add movement
+//                    validMoves.add(new ChessMove(position, nextPosition, null));
+//                    break; // stop moving after piece is captured
+//                } else {
+//                    break; //otherwise break out of loop because piece cannot move there
+//                }
         }
         return validMoves;
     }
@@ -53,11 +68,16 @@ public class ChessMovesCalculator {
             case KING:
                 return new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
             case PAWN:
-                if(pieceColor == ChessGame.TeamColor.WHITE){
-                    return new int[][]{{0,2}, {0,1}, {1, -1}, {1,1}};
+                if(pieceColor == ChessGame.TeamColor.WHITE) {
+                    return new int[][]{{1,0}, {1,1}, {1,-1}};
                 } else {
-                    return new int[][]{{0,-2}, {0,-1}, {-1,-1}, {-1,1}};
+                    return new int[][]{{-1,0}, {-1,-1}, {-1,1}};
                 }
+//                if(pieceColor == ChessGame.TeamColor.WHITE){
+//                    return new int[][]{{0,2}, {0,1}, {1, -1}, {1,1}};
+//                } else {
+//                    return new int[][]{{0,-2}, {0,-1}, {-1,-1}, {-1,1}};
+//                }
             default:
                 return new int[][]{};
         }
@@ -69,5 +89,10 @@ public class ChessMovesCalculator {
             case PAWN -> piece.pawnFirstMove(position) ? 2 : 1;
             default -> 7;
         };
+    }
+
+    private static boolean isPawnPromotion(ChessPiece piece, int nextRow) {
+        return (piece.getTeamColor() == ChessGame.TeamColor.WHITE && nextRow == 7) ||
+                (piece.getTeamColor() == ChessGame.TeamColor.BLACK && nextRow == 0);
     }
 }
