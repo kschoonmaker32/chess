@@ -29,12 +29,27 @@ public class ChessMovesCalculator {
                     if(piece.getPieceType() == ChessPiece.PieceType.PAWN && direction[1] != 0) { // if piece is a pawn and its not moving forward
                         continue; //pawns don't move
                     }
-                    validMoves.add(new ChessMove(position, nextPosition, null));
-                } else if(pieceAtNextPosition.getTeamColor() != piece.getTeamColor()) {
+                    if(isPawnPromotion(piece, nextRow)) {
+                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.KNIGHT));
+                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.BISHOP));
+                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.QUEEN));
+                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.ROOK));
+                    } else {
+                        validMoves.add(new ChessMove(position, nextPosition, null));
+                    }
+                } else if (pieceAtNextPosition.getTeamColor() != piece.getTeamColor()) {
                     if (piece.getPieceType() == ChessPiece.PieceType.PAWN && direction[1] == 0) {
                         continue;
                     }
-                    validMoves.add(new ChessMove(position, nextPosition, null));
+                    if(isPawnPromotion(piece, nextRow)) {
+                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.KNIGHT));
+                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.BISHOP));
+                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.QUEEN));
+                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.ROOK));
+                    } else {
+                        validMoves.add(new ChessMove(position, nextPosition, null));
+                        break;
+                    }
                 } else {
                         break;
                     }
@@ -52,7 +67,7 @@ public class ChessMovesCalculator {
         return validMoves;
     }
 
-    public static int[][] getDirections(ChessPiece piece) { // create object of chessPiece called piece and use it to get color and type
+    private static int[][] getDirections(ChessPiece piece) { // create object of chessPiece called piece and use it to get color and type
         ChessPiece.PieceType pieceType = piece.getPieceType();
         ChessGame.TeamColor pieceColor = piece.getTeamColor();
 
@@ -83,7 +98,7 @@ public class ChessMovesCalculator {
         }
     }
 
-    public static int getMaxSteps(ChessPiece piece, ChessPosition position) {
+    private static int getMaxSteps(ChessPiece piece, ChessPosition position) {
         return switch (piece.getPieceType()) {
             case KNIGHT, KING -> 1;
             case PAWN -> piece.pawnFirstMove(position) ? 2 : 1;
@@ -92,7 +107,10 @@ public class ChessMovesCalculator {
     }
 
     private static boolean isPawnPromotion(ChessPiece piece, int nextRow) {
-        return (piece.getTeamColor() == ChessGame.TeamColor.WHITE && nextRow == 7) ||
-                (piece.getTeamColor() == ChessGame.TeamColor.BLACK && nextRow == 0);
+        if(piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+            return (piece.getTeamColor() == ChessGame.TeamColor.WHITE && nextRow == 7) ||
+                    (piece.getTeamColor() == ChessGame.TeamColor.BLACK && nextRow == 0);
+        }
+        return false;
     }
 }
