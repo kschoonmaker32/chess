@@ -34,7 +34,7 @@ public class ChessPosition {
         return Objects.hash(row, col);
     }
 
-    public ChessPosition(int row, int col) {
+    public ChessPosition(int row, int col) { //constructor that take in row and column
         this.row = row;
         this.col = col;
     }

@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -48,7 +49,7 @@ public class ChessPiece {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ChessPiece that = (ChessPiece) o;
+        ChessPiece that = (ChessPiece) o; // casting line
         return pieceColor == that.pieceColor && pieceType == that.pieceType;
     }
     // assigns a "locker number" to each piece for aid in finding where a piece is stored
@@ -71,6 +72,15 @@ public class ChessPiece {
         return pieceType;
     }
 
+    public boolean pawnFirstMove(ChessPosition position) {
+        if(this.pieceType != PieceType.PAWN) { //only call function on pawns
+            return false;
+        } else {
+            return (this.pieceColor == ChessGame.TeamColor.WHITE && position.getRow() == 2) ||
+                    (this.pieceColor == ChessGame.TeamColor.BLACK && position.getRow() == 7);
+        }
+    }
+
     /**
      * Calculates all the positions a chess piece can move to
      * Does not take into account moves that are illegal due to leaving the king in
@@ -79,6 +89,10 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        return new ArrayList<>();
+        if (board == null || myPosition == null) {
+            return Collections.emptyList();
+        }
+        return ChessMovesCalculator.moveCalculator(this, board, myPosition);
+
     }
 }
