@@ -64,14 +64,10 @@ public class ChessMovesCalculator {
     }
 
     public static int getMaxSteps(ChessPiece piece, ChessPosition position) {
-        switch(piece.getPieceType()) {
-            case KNIGHT:
-            case KING:
-                return 1;
-            case PAWN:
-                return piece.pawnFirstMove(position) ? 2 : 1;
-            default:
-                return 7;
-        }
+        return switch (piece.getPieceType()) {
+            case KNIGHT, KING -> 1;
+            case PAWN -> piece.pawnFirstMove(position) ? 2 : 1;
+            default -> 7;
+        };
     }
 }
