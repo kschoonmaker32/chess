@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="da512ee9-0e35-4cc9-b52d-e9af9f5dfe9a" name="Changes" comment="passed all tests for phase 0">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/google_code_gson.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/junit_jupiter.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/10k-architecture.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/client.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/lib/passoff-dependencies.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/shared.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessBoard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMovesCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPiece.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPosition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/InvalidMoveException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/ChessBoardTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/ChessMoveTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/ChessPositionTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/TestUtilities.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/piece/BishopMoveTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/piece/KingMoveTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/piece/KnightMoveTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/piece/PawnMoveTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/piece/QueenMoveTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/piece/RookMoveTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/1-chess-game/passoff/chess/extracredit/CastlingTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/1-chess-game/passoff/chess/extracredit/EnPassantTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/1-chess-game/passoff/chess/game/FullGameTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/1-chess-game/passoff/chess/game/GameStatusTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/1-chess-game/passoff/chess/game/MakeMoveTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/1-chess-game/passoff/chess/game/ValidMovesTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/3-web-api/dataaccess/DataAccessException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/3-web-api/passoff/server/StandardAPITests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/3-web-api/resources/web/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/3-web-api/resources/web/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/3-web-api/resources/web/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/3-web-api/resources/web/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/3-web-api/server/Server.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/4-database/dataaccess/DatabaseManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/4-database/passoff/server/DatabaseTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/4-database/resources/db.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/5-pregame/client/ServerFacadeTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/5-pregame/ui/EscapeSequences.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/6-gameplay/passoff/server/TestFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/6-gameplay/passoff/server/WebSocketTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/6-gameplay/websocket/commands/UserGameCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/starter-code/6-gameplay/websocket/messages/ServerMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-dependencies-assembly.xml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;kschoonmaker32&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/kschoonmaker32/chess.git&quot;,
+    &quot;accountId&quot;: &quot;d20b99bf-bf17-4546-b203-6b2ff9f88813&quot;
+  }
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2ZdeZEoo0WsXUuIH3zHpGaPMMFj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.BishopMoveTests.bishopBlocked.executor": "Run",
+    "JUnit.BishopMoveTests.bishopCaptureEnemy.executor": "Debug",
+    "JUnit.BishopMoveTests.bishopMoveUntilEdge.executor": "Run",
+    "JUnit.BishopMoveTests.executor": "Run",
+    "JUnit.KingMoveTests.executor": "Run",
+    "JUnit.KingMoveTests.kingBlocked.executor": "Run",
+    "JUnit.KingMoveTests.kingCaptureEnemy.executor": "Run",
+    "JUnit.KingMoveTests.kingMoveUntilEdge.executor": "Run",
+    "JUnit.KnightMoveTests.executor": "Run",
+    "JUnit.KnightMoveTests.knightMiddleOfBoardWhite.executor": "Debug",
+    "JUnit.PawnMoveTests.executor": "Run",
+    "JUnit.PawnMoveTests.pawnAdvanceBlockedWhite.executor": "Debug",
+    "JUnit.PawnMoveTests.pawnCaptureBlack.executor": "Debug",
+    "JUnit.PawnMoveTests.pawnMiddleOfBoardWhite.executor": "Debug",
+    "JUnit.QueenMoveTests.executor": "Run",
+    "JUnit.QueenMoveTests.queenMoveUntilEdge.executor": "Debug",
+    "JUnit.RookMoveTests.executor": "Run",
+    "JUnit.RookMoveTests.rookMoveUntilEdge.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/kendra/Desktop/cs240/chess/chess",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.34252873"
+  }
+}]]></component>
+  <component name="RunManager" selected="JUnit.RookMoveTests">
+    <configuration name="KingMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shared" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.chess.piece.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.chess.piece" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.KingMoveTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KnightMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shared" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.chess.piece.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.chess.piece" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.KnightMoveTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PawnMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shared" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.chess.piece.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.chess.piece" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.PawnMoveTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QueenMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shared" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.chess.piece.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.chess.piece" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.QueenMoveTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RookMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shared" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.chess.piece.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.chess.piece" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.RookMoveTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.RookMoveTests" />
+        <item itemvalue="JUnit.QueenMoveTests" />
+        <item itemvalue="JUnit.PawnMoveTests" />
+        <item itemvalue="JUnit.KnightMoveTests" />
+        <item itemvalue="JUnit.KingMoveTests" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="da512ee9-0e35-4cc9-b52d-e9af9f5dfe9a" name="Changes" comment="" />
+      <created>1702756436549</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1702756436549</updated>
+    </task>
+    <task id="LOCAL-00001" summary="add(client) dependency on server for running tests.">
+      <option name="closed" value="true" />
+      <created>1703044500221</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1703044500221</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fix(shared) maven resource reference">
+      <option name="closed" value="true" />
+      <created>1703046815883</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1703046815883</updated>
+    </task>
+    <task id="LOCAL-00003" summary="init">
+      <option name="closed" value="true" />
+      <created>1714671675319</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1714671675319</updated>
+    </task>
+    <task id="LOCAL-00004" summary="init">
+      <option name="closed" value="true" />
+      <created>1714783859218</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1714783859218</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added private variables and instantiated objects in chess move and chess piece classes, overwrote to strings and hash and equals in these as well, and fixed arrays by subtracting one in chess position class">
+      <option name="closed" value="true" />
+      <created>1714876969161</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1714876969161</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fully implemented ChessMovesCalculator, fixed switching from 0 index to 1 index, passing all tests except pawn tests now.">
+      <option name="closed" value="true" />
+      <created>1715112750375</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1715112750375</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fully implemented ChessMovesCalculator, fixed switching from 0 index to 1 index, passing all tests except pawn tests now.">
+      <option name="closed" value="true" />
+      <created>1715112938866</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1715112938866</updated>
+    </task>
+    <task id="LOCAL-00008" summary="passed more pawn tests">
+      <option name="closed" value="true" />
+      <created>1715119056589</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1715119056589</updated>
+    </task>
+    <task id="LOCAL-00009" summary="passed all tests for phase 0">
+      <option name="closed" value="true" />
+      <created>1715120761104</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1715120761104</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add(client) dependency on server for running tests." />
+    <MESSAGE value="fix(shared) maven resource reference" />
+    <MESSAGE value="init" />
+    <MESSAGE value="added private variables and instantiated objects in chess move and chess piece classes, overwrote to strings and hash and equals in these as well, and fixed arrays by subtracting one in chess position class" />
+    <MESSAGE value="fully implemented ChessMovesCalculator, fixed switching from 0 index to 1 index, passing all tests except pawn tests now." />
+    <MESSAGE value="passed more pawn tests" />
+    <MESSAGE value="passed all tests for phase 0" />
+    <option name="LAST_COMMIT_MESSAGE" value="passed all tests for phase 0" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/shared/src/main/java/chess/ChessMovesCalculator.java</url>
+          <line>8</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/shared/src/main/java/chess/ChessMovesCalculator.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/chess$BishopMoveTests_bishopMoveUntilEdge.ic" NAME="BishopMoveTests.bishopMoveUntilEdge Coverage Results" MODIFIED="1715011416605" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>passoff.chess.piece.*</FILTER>
+    </SUITE>
+  </component>
+</project>
