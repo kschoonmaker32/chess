@@ -22,6 +22,10 @@ public class ChessPiece {
         this.pieceType = type;
     }
 
+    public ChessPiece clonePiece() {
+        return new ChessPiece(this.pieceColor, this.pieceType);
+    }
+
     /**
      * The various different chess piece options
      */

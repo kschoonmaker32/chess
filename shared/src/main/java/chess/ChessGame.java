@@ -18,7 +18,7 @@ public class ChessGame {
 
     /**
      * @return Which team's turn it is
-     */t
+     */
     public TeamColor getTeamTurn() {
         return currentTeam;
     }
@@ -60,6 +60,7 @@ public class ChessGame {
         return piece.pieceMoves(getBoard(), startPosition);
     }
 
+
     /**
      * Makes a move in a chess game
      *
@@ -70,6 +71,10 @@ public class ChessGame {
         throw new RuntimeException("Not implemented");
     }
 
+
+    public boolean isLegalMove(ChessMove move, ChessPiece piece) {
+
+    }
     /**
      * Determines if the given team is in check
      *

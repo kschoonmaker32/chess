@@ -16,6 +16,16 @@ public class ChessBoard {
         
     }
 
+    public ChessBoard cloneBoard() {
+        ChessBoard newBoard = new ChessBoard();
+        for(int i=0; i <= squares.length; i++) {
+            for(int j=0; j <= squares[i].length; j++) {
+                newBoard.squares[i][j] = this.squares[i][j] != null ? this.squares[i][j].clonePiece() : null;
+            }
+        }
+        return newBoard;
+    }
+
     @Override
     public String toString() {
         for(int i=0; i <= squares.length-1; i++){
