@@ -21,7 +21,7 @@ public class ChessBoard {
     }
 
     public int getColCount(int row) {
-        return squares[row].length;
+        return row;
     }
 
     public ChessBoard cloneBoard() {

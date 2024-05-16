@@ -111,11 +111,11 @@ public class ChessGame {
 
         for(int i =0; i < numRows; i++) {
             for(int j=0; j < numCols; j++) {
-                ChessPosition piecePosition = new ChessPosition(i, j);
+                ChessPosition piecePosition = new ChessPosition(i+1, j+1);
                 ChessPiece piece = board.getPiece(piecePosition);
                 if(piece != null && piece.getTeamColor() == opposingColor) {
                     for(ChessMove move : validMoves(piecePosition)) {
-                        if(move.equals(kingPosition)) {
+                        if(move.getEndPosition().equals(kingPosition)) {
                             return true;
                         }
                     }
