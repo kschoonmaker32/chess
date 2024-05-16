@@ -16,6 +16,14 @@ public class ChessBoard {
         
     }
 
+    public int getRowCount() {
+        return squares.length;
+    }
+
+    public int getColCount(int row) {
+        return squares[row].length;
+    }
+
     public ChessBoard cloneBoard() {
         ChessBoard newBoard = new ChessBoard();
         for(int i=0; i <= squares.length; i++) {
@@ -71,6 +79,17 @@ public class ChessBoard {
      */
     public ChessPiece getPiece(ChessPosition position) {
         return squares[position.getRow()-1][position.getColumn()-1];
+    }
+
+    public ChessPosition findKing(ChessGame.TeamColor teamColor) {
+        for(int i =0; i <= squares.length; i++) {
+            for(int j=0; j <= squares[i].length; j++) {
+                ChessPiece piece = squares[i][j];
+                if(piece.getTeamColor() == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING) {
+                    return new ChessPosition(i,j);
+                }
+            }
+        }
     }
 
     /**

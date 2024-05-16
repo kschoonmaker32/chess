@@ -11,9 +11,11 @@ import java.util.Collection;
 public class ChessGame {
 
     private TeamColor currentTeam;
+    private ChessBoard board;
 
     public ChessGame() {
-        this.currentTeam = TeamColor.WHITE; // since white starts
+        this.currentTeam = TeamColor.WHITE;// since white starts
+        //this.board = new ChessBoard();
     }
 
     /**
@@ -83,12 +85,16 @@ public class ChessGame {
        if(!validMoves(start).contains(move)) {
            throw new InvalidMoveException("This move is not allowed.");
        }
+
+       clonedBoard.addPiece(end, piece);
+       clonedBoard.addPiece(start, null);
+
+
+
     }
 
 
-    public boolean isLegalMove(ChessMove move, ChessPiece piece) {
 
-    }
     /**
      * Determines if the given team is in check
      *
@@ -96,7 +102,27 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        ChessBoard board = getBoard();
+        ChessPosition kingPosition = board.findKing(teamColor);
+        int numRows = board.getRowCount();
+        int numCols = board.getColCount(numRows);
+
+        ChessGame.TeamColor opposingColor = (teamColor == TeamColor.WHITE) ? ChessGame.TeamColor.BLACK : ChessGame.TeamColor.WHITE;
+
+        for(int i =0; i <= numRows; i++) {
+            for(int j=0; j <= numCols; j++) {
+                ChessPosition piecePosition = new ChessPosition(i, j);
+                ChessPiece piece = board.getPiece(piecePosition);
+                if(piece != null && piece.getTeamColor() == opposingColor) {
+                    for(ChessMove move : validMoves(piecePosition)) {
+                        if(move.equals(kingPosition)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -126,7 +152,10 @@ public class ChessGame {
      * @param board the new board to use
      */
     public void setBoard(ChessBoard board) {
-        throw new RuntimeException("Not implemented");
+        if(board == null) {
+            throw new IllegalArgumentException("Board cannot be null");
+        }
+        this.board = board;
     }
 
     /**
@@ -135,6 +164,6 @@ public class ChessGame {
      * @return the chessboard
      */
     public ChessBoard getBoard() {
-        throw new RuntimeException("Not implemented");
+        return board;
     }
 }
