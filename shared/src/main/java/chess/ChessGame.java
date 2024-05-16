@@ -109,8 +109,8 @@ public class ChessGame {
 
         ChessGame.TeamColor opposingColor = (teamColor == TeamColor.WHITE) ? ChessGame.TeamColor.BLACK : ChessGame.TeamColor.WHITE;
 
-        for(int i =0; i <= numRows; i++) {
-            for(int j=0; j <= numCols; j++) {
+        for(int i =0; i < numRows; i++) {
+            for(int j=0; j < numCols; j++) {
                 ChessPosition piecePosition = new ChessPosition(i, j);
                 ChessPiece piece = board.getPiece(piecePosition);
                 if(piece != null && piece.getTeamColor() == opposingColor) {

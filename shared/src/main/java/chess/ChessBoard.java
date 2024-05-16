@@ -26,8 +26,8 @@ public class ChessBoard {
 
     public ChessBoard cloneBoard() {
         ChessBoard newBoard = new ChessBoard();
-        for(int i=0; i <= squares.length; i++) {
-            for(int j=0; j <= squares[i].length; j++) {
+        for(int i=0; i < squares.length; i++) {
+            for(int j=0; j < squares[i].length; j++) {
                 newBoard.squares[i][j] = this.squares[i][j] != null ? this.squares[i][j].clonePiece() : null;
             }
         }
@@ -82,8 +82,8 @@ public class ChessBoard {
     }
 
     public ChessPosition findKing(ChessGame.TeamColor teamColor) {
-        for(int i =0; i <= squares.length; i++) {
-            for(int j=0; j <= squares[i].length; j++) {
+        for(int i =0; i < squares.length; i++) {
+            for(int j=0; j < squares[i].length; j++) {
                 ChessPiece piece = squares[i][j];
                 if(piece.getTeamColor() == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING) {
                     return new ChessPosition(i,j);
