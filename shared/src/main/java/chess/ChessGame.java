@@ -59,36 +59,36 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
-//    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-//        ChessPiece piece = getBoard().getPiece(startPosition);
-//        if(piece == null) return Collections.emptyList();
-//        return piece.pieceMoves(getBoard(), startPosition);
-//    }
-
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = getBoard().getPiece(startPosition);
-        if (piece == null) return Collections.emptyList();
-
-        Collection<ChessMove> moves = piece.pieceMoves(getBoard(), startPosition);
-        Collection<ChessMove> legalMoves = new ArrayList<>();
-
-        for(ChessMove move : moves) {
-            if(moveDoesNotResultInCheck(move)) {
-                legalMoves.add(move);
-            }
-        }
-        return legalMoves;
+        if(piece == null) return Collections.emptyList();
+        return piece.pieceMoves(getBoard(), startPosition);
     }
 
-    private boolean moveDoesNotResultInCheck(ChessMove move)  {
-        try {
-            ChessBoard clonedBoard = this.board.cloneBoard();
-            clonedBoard.executeMove(move);
-            return !isInCheckClonedBoard(clonedBoard, currentTeam);
-        } catch (InvalidMoveException e) {
-            return false;
-        }
-    }
+//    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
+//        ChessPiece piece = getBoard().getPiece(startPosition);
+//        if (piece == null) return Collections.emptyList();
+//
+//        Collection<ChessMove> moves = piece.pieceMoves(getBoard(), startPosition);
+//        Collection<ChessMove> legalMoves = new ArrayList<>();
+//
+//        for(ChessMove move : moves) {
+//            if(moveDoesNotResultInCheck(move)) {
+//                legalMoves.add(move);
+//            }
+//        }
+//        return legalMoves;
+//    }
+//
+//    private boolean moveDoesNotResultInCheck(ChessMove move)  {
+//        try {
+//            ChessBoard clonedBoard = this.board.cloneBoard();
+//            clonedBoard.executeMove(move);
+//            return !isInCheckClonedBoard(clonedBoard, currentTeam);
+//        } catch (InvalidMoveException e) {
+//            return false;
+//        }
+//    }
 
 
     /**
