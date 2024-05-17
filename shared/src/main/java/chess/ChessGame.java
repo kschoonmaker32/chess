@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -59,7 +60,7 @@ public class ChessGame {
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = getBoard().getPiece(startPosition);
-        if(piece == null) return null;
+        if(piece == null) return Collections.emptyList();
         return piece.pieceMoves(getBoard(), startPosition);
     }
 
@@ -185,13 +186,13 @@ public class ChessGame {
         if (!isInCheck(teamColor)) {
             return false;
         }
-        ChessBoard board = getBoard(); // changed from getboard
+        ChessBoard board = getBoard();
 
         for (int i = 0; i < board.getRowCount(); i++) {
             for (int j = 0; j < board.getColCount(board.getRowCount()); j++) {
                 ChessPosition piecePosition = new ChessPosition(i + 1, j + 1);
                 ChessPiece piece = board.getPiece(piecePosition);
-                if (piece != null && piece.getTeamColor() == teamColor) {
+                if (piece != null && piece.getTeamColor() != teamColor) {
                     //Collection<ChessMove> validMoves = ChessMovesCalculator.moveCalculator(piece, board, piecePosition);
                     for (ChessMove move : validMoves(piecePosition)) {
                         ChessBoard clonedBoard = board.cloneBoard();
