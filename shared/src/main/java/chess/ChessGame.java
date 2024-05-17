@@ -2,6 +2,7 @@ package chess;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.ArrayList;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -58,10 +59,35 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
+//    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
+//        ChessPiece piece = getBoard().getPiece(startPosition);
+//        if(piece == null) return Collections.emptyList();
+//        return piece.pieceMoves(getBoard(), startPosition);
+//    }
+
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = getBoard().getPiece(startPosition);
-        if(piece == null) return Collections.emptyList();
-        return piece.pieceMoves(getBoard(), startPosition);
+        if (piece == null) return Collections.emptyList();
+
+        Collection<ChessMove> moves = piece.pieceMoves(getBoard(), startPosition);
+        Collection<ChessMove> legalMoves = new ArrayList<>();
+
+        for(ChessMove move : moves) {
+            if(moveDoesNotResultInCheck(move)) {
+                legalMoves.add(move);
+            }
+        }
+        return legalMoves;
+    }
+
+    private boolean moveDoesNotResultInCheck(ChessMove move)  {
+        try {
+            ChessBoard clonedBoard = this.board.cloneBoard();
+            clonedBoard.executeMove(move);
+            return !isInCheckClonedBoard(clonedBoard, currentTeam);
+        } catch (InvalidMoveException e) {
+            return false;
+        }
     }
 
 
@@ -104,7 +130,22 @@ public class ChessGame {
 
 
     public void makeMove(ChessMove move) throws InvalidMoveException {
-       ChessBoard clonedBoard = this.board.cloneBoard();
+       ChessPosition start = move.getStartPosition();
+       ChessPiece piece = getBoard().getPiece(start);
+
+       if(piece == null) {
+           throw new InvalidMoveException("Need piece to move.");
+       }
+
+       if(piece.getTeamColor() != currentTeam) {
+           throw new InvalidMoveException("Not this team's turn.");
+       }
+
+       if(!validMoves(start).contains(move)) {
+           throw new InvalidMoveException("This move is not allowed.");
+       }
+
+        ChessBoard clonedBoard = this.board.cloneBoard();
 
         // Simulate the move on the cloned board to check for validity
         clonedBoard.executeMove(move);
@@ -192,14 +233,14 @@ public class ChessGame {
             for (int j = 0; j < board.getColCount(board.getRowCount()); j++) {
                 ChessPosition piecePosition = new ChessPosition(i + 1, j + 1);
                 ChessPiece piece = board.getPiece(piecePosition);
-                if (piece != null && piece.getTeamColor() != teamColor) {
+                if (piece != null && piece.getTeamColor() == teamColor) {
                     //Collection<ChessMove> validMoves = ChessMovesCalculator.moveCalculator(piece, board, piecePosition);
                     for (ChessMove move : validMoves(piecePosition)) {
                         ChessBoard clonedBoard = board.cloneBoard();
                         try {
                             clonedBoard.executeMove(move);
                             if (!isInCheckClonedBoard(clonedBoard, teamColor)) {
-                                return false;
+                                return false; // found a move that gets king out of check
                             }
                         } catch (InvalidMoveException e) {
                             //ignore move

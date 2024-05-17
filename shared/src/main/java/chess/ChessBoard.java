@@ -126,6 +126,14 @@ public class ChessBoard {
             throw new InvalidMoveException("Need piece to move.");
         }
 
+        if(move.getPromotionPiece() != null) {
+            if(piece.getPieceType() == ChessPiece.PieceType.PAWN && (end.getRow() == 1 || end.getRow() == 8)) {
+                piece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
+            } else {
+                throw new InvalidMoveException("Invalid promotion.");
+            }
+        }
+
         ChessPiece pieceAtEnd = getPiece(end);
         if(pieceAtEnd == null) {
             addPiece(end, piece); // put piece in new position
