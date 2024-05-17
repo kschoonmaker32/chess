@@ -3,6 +3,7 @@ package chess;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.ArrayList;
 
 /**
  * Represents a single chess piece
@@ -25,6 +26,7 @@ public class ChessPiece {
     public ChessPiece clonePiece() {
         return new ChessPiece(this.pieceColor, this.pieceType);
     }
+
 
     /**
      * The various different chess piece options

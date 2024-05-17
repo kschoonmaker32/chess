@@ -158,7 +158,7 @@ public class ChessGame {
 
         // Iterate over all pieces on the board
         for (int i = 0; i < board.getRowCount(); i++) {
-            for (int j = 0; j < board.getRowCount(); j++) {
+            for (int j = 0; j < board.getColCount(board.getRowCount()); j++) {
                 ChessPosition piecePosition = new ChessPosition(i + 1, j + 1);  // Assuming 1-based positions
                 ChessPiece piece = board.getPiece(piecePosition);  // Assuming getPiece accepts 0-based indices
                 if (piece != null && piece.getTeamColor() == opposingTeam) {

@@ -27,11 +27,28 @@ public class ChessBoard {
         ChessBoard newBoard = new ChessBoard();
         for(int i=0; i < squares.length; i++) {
             for(int j=0; j < squares[i].length; j++) {
-                newBoard.squares[i][j] = this.squares[i][j] != null ? this.squares[i][j].clonePiece() : null;
+                if(this.squares[i][j] != null) {
+                    newBoard.squares[i][j] = this.squares[i][j].clonePiece();
+                }
             }
         }
         return newBoard;
     }
+
+//    public ChessBoard cloneBoard() {
+//        ChessBoard newBoard = new ChessBoard();  // Assuming there's a constructor that initializes an empty board
+//        for (int row = 0; row < this.getRowCount(); row++) {
+//            for (int col = 0; col < this.getColCount(row); col++) {
+//                ChessPosition pos = new ChessPosition(row + 1, col + 1);  // Assuming 1-based index
+//                ChessPiece originalPiece = this.getPiece(pos);
+//                if (originalPiece != null) {
+//                    ChessPiece clonedPiece = originalPiece.clonePiece();  // You need to implement clone method in ChessPiece class
+//                    newBoard.addPiece(pos, clonedPiece);  // Assuming there's a method to place a piece on the board
+//                }
+//            }
+//        }
+//        return newBoard;
+//    }
 
     @Override
     public String toString() {
