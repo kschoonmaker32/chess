@@ -90,8 +90,32 @@ public class ChessBoard {
             for(int j=0; j < squares[i].length; j++) {
                 ChessPiece piece = squares[i][j];
                 if(piece.getTeamColor() == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING) {
-                    return new ChessPosition(i,j);
+                    return new ChessPosition(i+1,j+1); // indexes
                 }
+            }
+        }
+        return null;
+    }
+
+
+    public void executeMove(ChessMove move) throws InvalidMoveException {
+        ChessPosition start = move.getStartPosition();
+        ChessPosition end = move.getEndPosition();
+        ChessPiece piece = getPiece(start);
+
+        if(piece == null) {
+            throw new InvalidMoveException("Need piece to move.");
+        }
+
+        ChessPiece pieceAtEnd = getPiece(end);
+        if(pieceAtEnd == null) {
+            addPiece(end, piece); // put piece in new position
+            removePiece(start); // delete piece from old position
+        } else {
+            if(pieceAtEnd.getTeamColor() != piece.getTeamColor()) {
+                removePiece(end); // capture opponent piece
+                addPiece(end, piece); // put piece in new position
+                removePiece(start); // delete piece from old position
             }
         }
     }
