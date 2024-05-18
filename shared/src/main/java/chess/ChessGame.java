@@ -59,11 +59,6 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
-//    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-//        ChessPiece piece = getBoard().getPiece(startPosition);
-//        if (piece == null) return Collections.emptyList();
-//        return piece.pieceMoves(getBoard(), startPosition);
-//    }
 
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = getBoard().getPiece(startPosition);
