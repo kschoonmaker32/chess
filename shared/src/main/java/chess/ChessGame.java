@@ -80,16 +80,7 @@ public class ChessGame {
         }
         return legalMoves;
     }
-//
-//    private boolean moveResultsInCheck(ChessMove move)  {
-//        try {
-//            ChessBoard clonedBoard = this.board.cloneBoard();
-//            clonedBoard.executeMove(move);
-//            return isInCheckClonedBoard(clonedBoard, currentTeam);
-//        } catch (InvalidMoveException e) {
-//            return false;
-//        }
-//    }
+
 
 
     /**
@@ -98,36 +89,6 @@ public class ChessGame {
      * @param move chess move to preform
      * @throws InvalidMoveException if move is invalid
      */
-//    public void makeMove(ChessMove move) throws InvalidMoveException {
-//       ChessPosition start = move.getStartPosition();
-//       ChessPosition end = move.getEndPosition();
-//       ChessPiece piece = getBoard().getPiece(start);
-//
-//       if(piece == null){
-//           throw new InvalidMoveException("No piece at starting position,");
-//
-//       } if(piece.getTeamColor() != currentTeam) {
-//           throw new InvalidMoveException("Not this team's turn.");
-//        }
-//
-//       if(!validMoves(start).contains(move)) {
-//           throw new InvalidMoveException("This move is not allowed.");
-//       }
-//
-//       ChessBoard clonedBoard = getBoard().cloneBoard();
-//
-//       executeMove(clonedBoard, move);
-//
-//       if(isInCheckClonedBoard(clonedBoard, currentTeam)) {
-//           throw new InvalidMoveException("Move would put or leave king in check.");
-//       }
-//
-//       executeMove(getBoard(), move);
-//       switchTeams();
-////       clonedBoard.addPiece(end, piece);
-////       clonedBoard.addPiece(start, null);
-//
-//    }
 
 
     public void makeMove(ChessMove move) throws InvalidMoveException {

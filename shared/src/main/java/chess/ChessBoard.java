@@ -35,20 +35,6 @@ public class ChessBoard {
         return newBoard;
     }
 
-//    public ChessBoard cloneBoard() {
-//        ChessBoard newBoard = new ChessBoard();  // Assuming there's a constructor that initializes an empty board
-//        for (int row = 0; row < this.getRowCount(); row++) {
-//            for (int col = 0; col < this.getColCount(row); col++) {
-//                ChessPosition pos = new ChessPosition(row + 1, col + 1);  // Assuming 1-based index
-//                ChessPiece originalPiece = this.getPiece(pos);
-//                if (originalPiece != null) {
-//                    ChessPiece clonedPiece = originalPiece.clonePiece();  // You need to implement clone method in ChessPiece class
-//                    newBoard.addPiece(pos, clonedPiece);  // Assuming there's a method to place a piece on the board
-//                }
-//            }
-//        }
-//        return newBoard;
-//    }
 
     @Override
     public String toString() {
