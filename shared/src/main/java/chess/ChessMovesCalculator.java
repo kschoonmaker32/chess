@@ -54,15 +54,6 @@ public class ChessMovesCalculator {
                         break;
                     }
                 }
-
-//                if(pieceAtNextPosition == null) { // if no piece, add movement
-//                    validMoves.add(new ChessMove(position, nextPosition, null));
-//                } else if(pieceAtNextPosition.getTeamColor() != piece.getTeamColor()) { // if theres an opponent piece, add movement
-//                    validMoves.add(new ChessMove(position, nextPosition, null));
-//                    break; // stop moving after piece is captured
-//                } else {
-//                    break; //otherwise break out of loop because piece cannot move there
-//                }
         }
         return validMoves;
     }
@@ -88,11 +79,6 @@ public class ChessMovesCalculator {
                 } else {
                     return new int[][]{{-1,0}, {-1,-1}, {-1,1}};
                 }
-//                if(pieceColor == ChessGame.TeamColor.WHITE){
-//                    return new int[][]{{0,2}, {0,1}, {1, -1}, {1,1}};
-//                } else {
-//                    return new int[][]{{0,-2}, {0,-1}, {-1,-1}, {-1,1}};
-//                }
             default:
                 return new int[][]{};
         }

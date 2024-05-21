@@ -116,9 +116,6 @@ public class ChessBoard {
             if(piece.getPieceType() == ChessPiece.PieceType.PAWN && (end.getRow() == 1 || end.getRow() == 8)) {
                 piece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
             }
-//            else {
-//                throw new InvalidMoveException("Invalid promotion.");
-//            }
         }
 
         ChessPiece pieceAtEnd = getPiece(end);
