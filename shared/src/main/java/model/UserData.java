@@ -12,6 +12,7 @@ public class UserData {
         this.email = email;
     }
 
+    //GETTERS
     public String getUsername() {
         return username;
     }
@@ -24,6 +25,7 @@ public class UserData {
         return email;
     }
 
+    //SETTERS
     public void setPassword(String password) {
         this.password = password;
     }
