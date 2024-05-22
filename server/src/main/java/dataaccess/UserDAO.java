@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class UserDAO {
 
+    //keep track of users
     private Map<String, UserData> users = new HashMap<>();
 
     public void clear() {
