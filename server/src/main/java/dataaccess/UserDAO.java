@@ -22,7 +22,7 @@ public class UserDAO {
 
     public UserData getUser(String username) throws DataAccessException{
         if(!users.containsKey(username)) {
-            throw new DataAccessException("User not found");
+            throw new DataAccessException("User not found.");
         }
         return users.get(username);
     }
