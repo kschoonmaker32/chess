@@ -18,7 +18,7 @@ public class UserService {
     }
 
     public AuthData register(UserData user) throws DataAccessException {
-        if(userDAO.getUser(user.getUsername()) != null) {
+        if (userDAO.getUser(user.getUsername()) != null) {
             throw new DataAccessException("User already exists.");
         }
         userDAO.createUser(user);
@@ -27,10 +27,10 @@ public class UserService {
         return auth;
     }
 
-    public AuthData login(UserData user) throws DataAccessException{
+    public AuthData login(UserData user) throws DataAccessException {
         //retrieve user from database here
         UserData existingUser = userDAO.getUser(user.getUsername());
-        if(existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
+        if (existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
             throw new DataAccessException("Invalid credentials.");
         }
         AuthData auth = new AuthData(generateAuthToken(), user.getUsername());
@@ -38,11 +38,15 @@ public class UserService {
         return auth;
     }
 
-    public void logout(String authToken) throws DataAccessException{
+    public void logout(String authToken) throws DataAccessException {
         authDAO.deleteAuth(authToken);
     }
 
     private String generateAuthToken() {
         return UUID.randomUUID().toString();
+    }
+
+    private String getUsername(String authToken) throws DataAccessException {
+        return authDAO.getAuth(authToken).getUsername();
     }
 }
