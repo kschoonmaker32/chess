@@ -14,21 +14,21 @@ public class AuthDAO {
         auths.clear();
     }
 
-    public void createAuth(AuthData auth) throws DataAccessException{
+    public void createAuth(AuthData auth) throws DataAccessException {
         if(auths.containsKey(auth.getAuthToken())){
             throw new DataAccessException("Auth token already exists.");
         }
         auths.put(auth.getAuthToken(), auth);
     }
 
-    public AuthData getAuth(String authToken) throws DataAccessException{
+    public AuthData getAuth(String authToken) throws DataAccessException {
         if(!auths.containsKey(authToken)) {
             throw new DataAccessException("Auth token not found.");
         }
         return auths.get(authToken);
     }
 
-    public void deleteAuth(String authToken) throws DataAccessException{
+    public void deleteAuth(String authToken) throws DataAccessException {
         if(!auths.containsKey(authToken)) {
             throw new DataAccessException("Auth token not found.");
         }
