@@ -10,10 +10,6 @@ import java.util.Map;
 public class AuthDAO {
     private Map<String, AuthData> auths = new HashMap<>();
 
-    public void clear() {
-        auths.clear();
-    }
-
     public void createAuth(AuthData auth) throws DataAccessException {
         if(auths.containsKey(auth.getAuthToken())){
             throw new DataAccessException("Auth token already exists.");

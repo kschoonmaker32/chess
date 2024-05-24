@@ -4,7 +4,6 @@ import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import dataaccess.AuthDAO;
 import model.GameData;
-import model.AuthData;
 import java.util.List;
 import java.util.Random;
 import chess.ChessGame;
