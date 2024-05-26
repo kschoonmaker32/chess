@@ -12,6 +12,10 @@ public class GameDAO {
     //keep track of games
     private Map<Integer, GameData> games = new HashMap<>();
 
+    public void clear() {
+        games.clear();
+    }
+
     public void createGame(GameData game) throws DataAccessException{
         if(games.containsKey(game.getGameID())) {
             throw new DataAccessException("This game already exists.");
