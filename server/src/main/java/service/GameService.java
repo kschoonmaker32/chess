@@ -27,13 +27,13 @@ public class GameService {
         gameDAO.clear();
     }
 
-    public List<GameData> listGames(String AuthToken) throws DataAccessException {
-        verifyAuth(AuthToken);
+    public List<GameData> listGames(String authToken) throws DataAccessException {
+        verifyAuth(authToken);
         return gameDAO.listGames();
     }
 
-    public GameData createGame(String AuthToken, String gameName) throws DataAccessException {
-        verifyAuth(AuthToken);
+    public GameData createGame(String authToken, String gameName) throws DataAccessException {
+        verifyAuth(authToken);
         int gameID = generateGameID();
         GameData game = new GameData(gameID, null, null, gameName, new ChessGame());
         gameDAO.createGame(game);
@@ -61,8 +61,8 @@ public class GameService {
         gameDAO.updateGame(game);
     }
 
-    public void verifyAuth(String AuthToken) throws DataAccessException {
-        if(authDAO.getAuth(AuthToken) == null) {
+    public void verifyAuth(String authToken) throws DataAccessException {
+        if(authDAO.getAuth(authToken) == null) {
             throw new DataAccessException("Unauthorized");
         }
     }

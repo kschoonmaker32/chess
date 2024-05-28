@@ -166,8 +166,8 @@ public class ChessGame {
                 ChessPiece piece = board.getPiece(piecePosition);  // Assuming getPiece accepts 0-based indices
                 if (piece != null && piece.getTeamColor() == opposingTeam) {
                     // Check if any of the piece's valid moves can attack the king's position
-                    Collection<ChessMove> moves = ChessMovesCalculator.moveCalculator(piece, board, piecePosition);
-                    for (ChessMove move : moves) {
+                    Collection<ChessMove> pieceMoves = ChessMovesCalculator.moveCalculator(piece, board, piecePosition);
+                    for (ChessMove move : pieceMoves) {
                         if (move.getEndPosition().equals(kingPosition)) {
                             return true;  // King is in check
                         }
