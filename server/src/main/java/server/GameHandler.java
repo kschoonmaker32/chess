@@ -2,9 +2,9 @@ package server;
 
 import dataaccess.DataAccessException;
 import service.GameService;
-import com.google.gson.Gson;
 import model.GameData;
 import java.util.List;
+import utils.JSONUtil;
 
 import spark.Route;
 import spark.Request;
@@ -14,7 +14,6 @@ import spark.Response;
 public class GameHandler {
 
     private GameService gameService;
-    private Gson gson = new Gson();
 
     public GameHandler(GameService gameService) {
         this.gameService = gameService;
@@ -26,7 +25,7 @@ public class GameHandler {
         try {
             List<GameData> games = gameService.listGames(authtoken);
             res.status(200);
-            return gson.toJson(games);
+            return JSONUtil.toJson(games);
         } catch (DataAccessException e) {
             res.status(401);
             return "{\"message\" : \"Error: unauthorized\"}";
@@ -36,11 +35,11 @@ public class GameHandler {
     // create games
     public Route createGame = (Request req, Response res) -> {
         String authtoken = req.headers("Authorization");
-        String gameName = gson.fromJson(req.body(), String.class);
+        String gameName = JSONUtil.fromJson(req.body(), String.class);
         try {
             GameData game = gameService.createGame(authtoken, gameName);
             res.status(200);
-            return gson.toJson(game);
+            return JSONUtil.toJson(game);
         } catch (DataAccessException e) {
             res.status(400);
             return "{\"message\" : \"Error: bad request\"}";
@@ -50,7 +49,7 @@ public class GameHandler {
     // join game
     public Route joinGame = (Request req, Response res) -> {
         String authtoken = req.headers("Authorization");
-        JoinGameRequest joinRequest = gson.fromJson(req.body(), JoinGameRequest.class);
+        JoinGameRequest joinRequest = JSONUtil.fromJson(req.body(), JoinGameRequest.class);
         try {
             gameService.joinGame(authtoken, joinRequest.getGameID(), joinRequest.getPlayerColor();
             res.status(200);

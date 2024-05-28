@@ -4,7 +4,8 @@ import dataaccess.DataAccessException;
 import service.UserService;
 import model.UserData;
 import model.AuthData;
-import com.google.gson.Gson;
+import utils.JSONUtil;
+
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -12,7 +13,6 @@ import spark.Route;
 public class UserHandler {
 
     private UserService userService;
-    private Gson gson = new Gson();
 
     public UserHandler(UserService userService) {
         this.userService = userService;
@@ -20,11 +20,11 @@ public class UserHandler {
 
     // register method
     public Route register = (Request req, Response res) -> {
-        UserData user = gson.fromJson(req.body(), UserData.class);
+        UserData user = JSONUtil.fromJson(req.body(), UserData.class);
         try {
             AuthData auth = userService.register(user);
             res.status(200);
-            return gson.toJson(auth);
+            return JSONUtil.toJson(auth);
         } catch (DataAccessException e) {
             res.status(403);
             return "{\"message\" : \"Error: already taken\"}";
@@ -33,11 +33,11 @@ public class UserHandler {
 
     // login method
     public Route login = (Request req, Response res) -> {
-        UserData user = gson.fromJson(req.body(), UserData.class);
+        UserData user = JSONUtil.fromJson(req.body(), UserData.class);
         try {
             AuthData auth = userService.login(user);
             res.status(200);
-            return gson.toJson(auth);
+            return JSONUtil.toJson(auth);
         } catch (DataAccessException e ) {
             res.status(401);
             return "{\"message\" : \"Error: unauthorized\"}";
