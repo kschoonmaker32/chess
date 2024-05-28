@@ -50,8 +50,44 @@ public class GameServiceTest {
     // create game success
     @Test
     public void testCreateGameSuccess() throws Exception {
+        AuthData auth = new AuthData("authToken", "testUser");
+        authDAO.createAuth(auth);
 
+        GameData game = gameService.createGame(auth.getAuthToken(), "ChessGame 1");
+        assertEquals("ChessGame 1", game.getGameName());
     }
+
+    // create game failure (unauthorized)
+    @Test
+    public void testCreateGameFailure() throws Exception {
+        AuthData auth = new AuthData("authToken", "testUser");
+        authDAO.createAuth(auth);
+
+        assertThrows(DataAccessException.class, () -> gameService.createGame("invalid token", "ChessGame 1"));
+    }
+
+    // join game success
+    @Test
+    public void testJoinGameSuccess() throws Exception {
+        AuthData auth = new AuthData("authToken", "testUser");
+        authDAO.createAuth(auth);
+
+        GameData game = gameService.createGame(auth.getAuthToken(), "ChessGame 1");
+        gameService.joinGame(auth.getAuthToken(), game.getGameID(), "WHITE");
+
+        GameData updatedGame = gameDAO.getGame(game.getGameID());
+        assertEquals("testUser", updatedGame.getWhiteUsername());
+    }
+
+    // join game failure (game not found)
+    @Test
+    public void testJoinGameFailure() throws Exception {
+        AuthData auth = new AuthData("authToken", "testUser");
+        authDAO.createAuth(auth);
+
+        assertThrows(DataAccessException.class, () -> gameService.joinGame(auth.getAuthToken(), 7, "WHITE"));
+    }
+
 }
 
 
