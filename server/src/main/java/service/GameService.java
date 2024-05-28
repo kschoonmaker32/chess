@@ -3,6 +3,7 @@ package service;
 import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import dataaccess.AuthDAO;
+import dataaccess.UserDAO;
 import model.GameData;
 import java.util.List;
 import java.util.Random;
@@ -12,10 +13,17 @@ public class GameService {
 
     private GameDAO gameDAO;
     private AuthDAO authDAO;
+    private UserDAO userDAO;
 
     public GameService(GameDAO gameDAO, AuthDAO authDAO) {
         this.gameDAO = gameDAO;
         this.authDAO = authDAO;
+    }
+
+    public void clear() throws DataAccessException {
+        authDAO.clear();
+        userDAO.clear();
+        gameDAO.clear();
     }
 
     public List<GameData> listGames(String AuthToken) throws DataAccessException {
