@@ -18,24 +18,6 @@ public class UserHandler {
         this.userService = userService;
     }
 
-//    // register method
-//    public Route register = (Request req, Response res) -> {
-//        UserData user = JSONUtil.fromJson(req.body(), UserData.class);
-//        try {
-//            AuthData auth = userService.register(user);
-//            res.status(200);
-//            return JSONUtil.toJson(auth);
-//        } catch (InvalidUserData e) {
-//
-//        }
-//
-//        catch (DataAccessException e) {
-//            res.status(403);
-//            return "{\"message\" : \"Error: already taken\"}";
-//        }
-//    };
-
-
     public Route register = (Request req, Response res) -> {
         try {
             UserData user = JSONUtil.fromJson(req.body(), UserData.class);
@@ -67,9 +49,6 @@ public class UserHandler {
             res.status(401);
             return "{\"message\" : \"Error: unauthorized\"}";
         }
-
-
-        //continue editing route methods until they have all the error codes neccesary. youre so close you got this!! :)
     };
 
     // logout method
@@ -99,7 +78,7 @@ public class UserHandler {
 
     private void validateAuthToken(String authToken) throws Exception {
         if(authToken == null || authToken.isEmpty()) {
-            throw new InvalidUserDataException("Invalid auth toekn");
+            throw new InvalidUserDataException("Invalid auth token");
         }
     }
 

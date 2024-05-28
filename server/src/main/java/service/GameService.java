@@ -4,6 +4,7 @@ import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import dataaccess.AuthDAO;
 import dataaccess.UserDAO;
+import model.AuthData;
 import model.GameData;
 import java.util.List;
 import java.util.Random;
@@ -44,25 +45,26 @@ public class GameService {
         verifyAuth(authToken);
         GameData game = gameDAO.getGame(gameID);
         if(gameDAO.getGame(gameID) == null) {
-            throw new DataAccessException("Game not found.");
+            throw new DataAccessException("Bad request");
         }
-        if (playerColor.equalsIgnoreCase("WHITE")) {
-            if (game.getWhiteUsername() != null) {
-                throw new DataAccessException("White player already taken.");
-            }
+        if(playerColor == null) {
+            throw new DataAccessException("No color listed");
+        }
+        if (playerColor.equalsIgnoreCase("WHITE") && game.getWhiteUsername() == null) {
             game.setWhiteUsername(getUsername(authToken));
-        } else if (playerColor.equalsIgnoreCase("BLACK")) {
-            if (game.getWhiteUsername() != null) {
-                throw new DataAccessException("Black player already taken.");
-            }
+        } else if (playerColor.equalsIgnoreCase("BLACK") && game.getBlackUsername() == null) {
             game.setBlackUsername(getUsername(authToken));
-        }
+        } else if (game.getWhiteUsername() != null && game.getBlackUsername() != null) {
+            throw new DataAccessException("Already taken");
+        } else {
+            throw new DataAccessException("Bad request");
+    }
         gameDAO.updateGame(game);
     }
 
     public void verifyAuth(String AuthToken) throws DataAccessException {
         if(authDAO.getAuth(AuthToken) == null) {
-            throw new DataAccessException("Unauthorized.");
+            throw new DataAccessException("Unauthorized");
         }
     }
 
@@ -71,6 +73,6 @@ public class GameService {
     }
 
     private int generateGameID() {
-        return new Random().nextInt(10000); // find out how this works
+        return new Random().nextInt(10000);
     }
 }

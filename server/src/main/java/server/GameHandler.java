@@ -1,10 +1,13 @@
 package server;
 
 import dataaccess.DataAccessException;
+import model.AuthData;
 import service.GameService;
 import model.GameData;
 import java.util.List;
 import utils.JSONUtil;
+import java.util.Map;
+import java.util.HashMap;
 
 import spark.Route;
 import spark.Request;
@@ -20,12 +23,14 @@ public class GameHandler {
     }
 
     // list games
-    public Route listGames =  (Request req, Response res) -> {
+    public Route listGames = (Request req, Response res) -> {
         String authtoken = req.headers("Authorization");
         try {
             List<GameData> games = gameService.listGames(authtoken);
+            Map<String, List<GameData>> response = new HashMap<>();
+            response.put("games", games);
             res.status(200);
-            return JSONUtil.toJson(games);
+            return JSONUtil.toJson(response);
         } catch (DataAccessException e) {
             res.status(401);
             return "{\"message\" : \"Error: unauthorized\"}";
@@ -35,13 +40,13 @@ public class GameHandler {
     // create games
     public Route createGame = (Request req, Response res) -> {
         String authtoken = req.headers("Authorization");
-        String gameName = JSONUtil.fromJson(req.body(), String.class);
+        CreateGameRequest createRequest = JSONUtil.fromJson(req.body(), CreateGameRequest.class);
         try {
-            GameData game = gameService.createGame(authtoken, gameName);
+            GameData game = gameService.createGame(authtoken, createRequest.gameName);
             res.status(200);
             return JSONUtil.toJson(game);
         } catch (DataAccessException e) {
-            res.status(400);
+            res.status(401);
             return "{\"message\" : \"Error: bad request\"}";
         }
     };
@@ -55,10 +60,39 @@ public class GameHandler {
             res.status(200);
             return "{}";
         } catch (DataAccessException e) {
-            res.status(403);
-            return "{\"message\" : \"Error: already taken\"}";
+            if (e.getMessage().equals("Unauthorized")) {
+                res.status(401);
+                return "{\"message\" : \"Error: unauthorized\"}";
+            } else if (joinRequest.getGameID() == 0 || joinRequest.getPlayerColor() == null) {
+                res.status(400);
+                return "{\"message\" : \"Error: bad request\"}";
+            } else if (e.getMessage().equals("Bad request")) {
+                res.status(403);
+                return "{\"message\" : \"Error: already taken\"}";
+            } else {
+                res.status(401);
+                return "{\"message\" : \"Error: " + e.getMessage() + "\"}";
+            }
         }
+
+
+//        catch (DataAccessException e) {
+//            if (joinRequest.getGameID() == 0 || joinRequest.getPlayerColor() == null) {
+//                res.status(400);
+//                return "{\"message\" : \"Error: bad request\"}";
+//            }
+//            else if (e.getMessage().equals("Unauthorized")) {
+//                res.status(401);
+//                return "{\"message\" : \"Error: unauthorized\"}";
+//            } else {
+//                res.status(403);
+//            }
+////            return "{\"message\" : \"Error: already taken\"}";
+////            res.status(500);
+//        return "{\"message\" : \"Error:" + e.getMessage() + "\"}";
+//        }
     };
+
 
     private static class JoinGameRequest {
         private String playerColor;
@@ -70,6 +104,14 @@ public class GameHandler {
 
         public int getGameID() {
             return gameID;
+        }
+    }
+
+    private static class CreateGameRequest {
+        private String gameName;
+
+        public String getGameName() {
+            return gameName;
         }
     }
 }
