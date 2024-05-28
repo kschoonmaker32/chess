@@ -8,9 +8,7 @@ import dataaccess.AuthDAO;
 import model.UserData;
 import model.AuthData;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserServiceTest {
@@ -61,4 +59,19 @@ public class UserServiceTest {
         assertThrows(DataAccessException.class, () -> userService.login(user));
     }
 
+    // logout success
+    @Test
+    public void testLogoutSuccess() throws Exception {
+        UserData user = new UserData("testUser", "password123", "test@example.com");
+        AuthData auth = userService.register(user);
+        assertDoesNotThrow(() -> userService.logout(auth.getAuthToken()));
+    }
+
+    // logout failure (invalid auth token)
+    @Test
+    public void testLogoutFailure() throws Exception {
+        UserData user = new UserData("testUser", "password123", "test@example.com");
+        userService.register(user);
+        assertThrows(DataAccessException.class, () -> userService.logout("auth"));
+    }
 }
