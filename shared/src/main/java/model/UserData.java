@@ -24,13 +24,4 @@ public class UserData {
     public String getEmail() {
         return email;
     }
-
-    //SETTERS
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

@@ -1,7 +1,6 @@
 package server;
 
 import dataaccess.DataAccessException;
-import model.AuthData;
 import service.GameService;
 import model.GameData;
 import java.util.List;
@@ -74,23 +73,6 @@ public class GameHandler {
                 return "{\"message\" : \"Error: " + e.getMessage() + "\"}";
             }
         }
-
-
-//        catch (DataAccessException e) {
-//            if (joinRequest.getGameID() == 0 || joinRequest.getPlayerColor() == null) {
-//                res.status(400);
-//                return "{\"message\" : \"Error: bad request\"}";
-//            }
-//            else if (e.getMessage().equals("Unauthorized")) {
-//                res.status(401);
-//                return "{\"message\" : \"Error: unauthorized\"}";
-//            } else {
-//                res.status(403);
-//            }
-////            return "{\"message\" : \"Error: already taken\"}";
-////            res.status(500);
-//        return "{\"message\" : \"Error:" + e.getMessage() + "\"}";
-//        }
     };
 
 

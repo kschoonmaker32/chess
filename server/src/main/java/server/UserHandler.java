@@ -21,7 +21,7 @@ public class UserHandler {
     public Route register = (Request req, Response res) -> {
         try {
             UserData user = JSONUtil.fromJson(req.body(), UserData.class);
-            validateUserData(user); // Validate user data
+            validateUserData(user);
 
             AuthData auth = userService.register(user);
             res.status(200);

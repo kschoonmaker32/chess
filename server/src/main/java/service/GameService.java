@@ -4,7 +4,6 @@ import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import dataaccess.AuthDAO;
 import dataaccess.UserDAO;
-import model.AuthData;
 import model.GameData;
 import java.util.List;
 import java.util.Random;
@@ -22,7 +21,7 @@ public class GameService {
         this.userDAO = userDAO;
     }
 
-    public void clear() throws DataAccessException {
+    public void clear()  {
         authDAO.clear();
         userDAO.clear();
         gameDAO.clear();

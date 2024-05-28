@@ -48,10 +48,6 @@ public class GameData {
         this.blackUsername = blackUsername;
     }
 
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
-
     public void setGame(ChessGame game) {
         this.game = game;
     }
