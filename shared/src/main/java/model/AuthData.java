@@ -18,13 +18,4 @@ public class AuthData {
     public String getUsername() {
         return username;
     }
-
-    //SETTERS
-    public void setAuthToken(String authToken) {
-        this.authToken = authToken;
-    }
-
-    public void setUsername() {
-        this.username = username;
-    }
 }

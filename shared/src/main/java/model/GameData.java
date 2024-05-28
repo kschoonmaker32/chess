@@ -47,8 +47,4 @@ public class GameData {
     public void setBlackUsername(String blackUsername) {
         this.blackUsername = blackUsername;
     }
-
-    public void setGame(ChessGame game) {
-        this.game = game;
-    }
 }
