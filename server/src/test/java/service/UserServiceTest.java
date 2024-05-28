@@ -1,7 +1,6 @@
 package service;
 
-//import dataaccess.DataAccessException;
-//import org.junit.jupiter.api.BeforeAll;
+import dataaccess.DataAccessException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import dataaccess.UserDAO;
@@ -11,6 +10,7 @@ import model.AuthData;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class UserServiceTest {
@@ -32,12 +32,12 @@ public class UserServiceTest {
 
         assertNotNull(auth);
         assertEquals("testUser", auth.getUsername());
-    } // go over what this means
+    }
 
-    @Test //(expected = DataAccessException.class)
+    @Test
     public void testRegisterUserAlreadyTaken() throws Exception {
         UserData user = new UserData("testUser", "password123", "test@example.com");
         userService.register(user);
-        userService.register(user); // should throw data access exception here
+        assertThrows(DataAccessException.class, () -> userService.register(user));
     }
 }
