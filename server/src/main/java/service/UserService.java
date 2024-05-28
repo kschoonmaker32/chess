@@ -46,7 +46,7 @@ public class UserService {
         return UUID.randomUUID().toString();
     }
 
-    private String getUsername(String authToken) throws DataAccessException {
-        return authDAO.getAuth(authToken).getUsername();
-    }
+//    private String getUsername(String authToken) throws DataAccessException {
+//        return authDAO.getAuth(authToken).getUsername();
+//    }
 }

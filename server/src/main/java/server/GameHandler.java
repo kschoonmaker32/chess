@@ -51,7 +51,7 @@ public class GameHandler {
         String authtoken = req.headers("Authorization");
         JoinGameRequest joinRequest = JSONUtil.fromJson(req.body(), JoinGameRequest.class);
         try {
-            gameService.joinGame(authtoken, joinRequest.getGameID(), joinRequest.getPlayerColor();
+            gameService.joinGame(authtoken, joinRequest.getGameID(), joinRequest.getPlayerColor());
             res.status(200);
             return "{}";
         } catch (DataAccessException e) {
