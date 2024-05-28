@@ -18,13 +18,15 @@ public class UserService {
     }
 
     public AuthData register(UserData user) throws DataAccessException {
-        if (userDAO.getUser(user.getUsername()) != null) {
+        try {
+            userDAO.getUser(user.getUsername());
             throw new DataAccessException("User already exists.");
+        } catch (DataAccessException e) {
+            userDAO.createUser(user);
+            AuthData auth = new AuthData(generateAuthToken(), user.getUsername());
+            authDAO.createAuth(auth);
+            return auth;
         }
-        userDAO.createUser(user);
-        AuthData auth = new AuthData(generateAuthToken(), user.getUsername());
-        authDAO.createAuth(auth);
-        return auth;
     }
 
     public AuthData login(UserData user) throws DataAccessException {
