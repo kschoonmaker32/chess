@@ -25,6 +25,7 @@ public class UserServiceTest {
         userService = new UserService(userDAO, authDAO);
     }
 
+    // register success
     @Test
     public void testRegisterSuccess() throws Exception {
         UserData user = new UserData("testUser", "password123", "test@example.com");
@@ -34,10 +35,30 @@ public class UserServiceTest {
         assertEquals("testUser", auth.getUsername());
     }
 
+    // register failure (user already taken)
     @Test
     public void testRegisterUserAlreadyTaken() throws Exception {
         UserData user = new UserData("testUser", "password123", "test@example.com");
         userService.register(user);
         assertThrows(DataAccessException.class, () -> userService.register(user));
     }
+
+    // login success
+    @Test
+    public void testLoginSuccess() throws Exception {
+        UserData user = new UserData("testUser", "password123", "test@example.com");
+        userService.register(user);
+        AuthData auth = userService.login(user);
+
+        assertNotNull(auth);
+        assertEquals("testUser", auth.getUsername());
+    }
+
+    // login failure (not registered)
+    @Test
+    public void testLoginFailure() throws Exception {
+        UserData user = new UserData("testUser", "password123", "test@example.com");
+        assertThrows(DataAccessException.class, () -> userService.login(user));
+    }
+
 }
