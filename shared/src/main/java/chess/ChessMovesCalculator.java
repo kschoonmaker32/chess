@@ -17,43 +17,38 @@ public class ChessMovesCalculator {
                 int nextRow = row + direction[0] * step;
                 int nextCol = col + direction[1] * step;
 
-                if(nextRow < 0 || nextRow >= 8 || nextCol < 0 || nextCol >= 8) { // check if piece move is on the board
+                if (nextRow < 0 || nextRow >= 8 || nextCol < 0 || nextCol >= 8) { // check if piece move is on the board
                     break;
                 }
 
-                ChessPosition nextPosition = new ChessPosition(nextRow+1, nextCol+1); // get next position coordinates
+                ChessPosition nextPosition = new ChessPosition(nextRow + 1, nextCol + 1); // get next position coordinates
                 ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);// get piece type at next position
 
-
-                if(pieceAtNextPosition == null) {// if no piece
-                    if(piece.getPieceType() == ChessPiece.PieceType.PAWN && direction[1] != 0) { // if piece is a pawn and its not moving forward
-                        continue; //pawns don't move
+                if (pieceAtNextPosition == null) { // if no piece
+                    if (piece.getPieceType() == ChessPiece.PieceType.PAWN && direction[1] != 0) { // if piece is a pawn and it's not moving forward
+                        continue; // pawns don't move
                     }
-                    if(isPawnPromotion(piece, nextRow)) {
-                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.KNIGHT));
-                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.BISHOP));
-                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.QUEEN));
-                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.ROOK));
-                    } else {
-                        validMoves.add(new ChessMove(position, nextPosition, null));
-                    }
-                } else if (pieceAtNextPosition.getTeamColor() != piece.getTeamColor()) {
-                    if (piece.getPieceType() == ChessPiece.PieceType.PAWN && direction[1] == 0) {
+                } else if (pieceAtNextPosition.getTeamColor() != piece.getTeamColor()) { // if there is an opponent's piece
+                    if (piece.getPieceType() == ChessPiece.PieceType.PAWN && direction[1] == 0) { // pawns don't capture forward
                         continue;
                     }
-                    if(isPawnPromotion(piece, nextRow)) {
-                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.KNIGHT));
-                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.BISHOP));
-                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.QUEEN));
-                        validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.ROOK));
-                    } else {
-                        validMoves.add(new ChessMove(position, nextPosition, null));
-                        break;
-                    }
+                } else { // if there is a piece of the same color
+                    break;
+                }
+
+                // Adding valid moves in a single section
+                if (isPawnPromotion(piece, nextRow)) {
+                    validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.KNIGHT));
+                    validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.BISHOP));
+                    validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.QUEEN));
+                    validMoves.add(new ChessMove(position, nextPosition, ChessPiece.PieceType.ROOK));
                 } else {
-                        break;
+                    validMoves.add(new ChessMove(position, nextPosition, null));
+                    if (pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != piece.getTeamColor()) {
+                        break; // break if it was a capture
                     }
                 }
+            }
         }
         return validMoves;
     }
