@@ -26,7 +26,7 @@ public class Server {
 
         // Service instances
         UserService userService = new UserService(userDAO, authDAO);
-        GameService gameService = new GameService(gameDAO, authDAO);
+        GameService gameService = new GameService(gameDAO, authDAO, userDAO);
 
         // Handler instances
         UserHandler userHandler = new UserHandler(userService);
