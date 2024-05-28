@@ -5,7 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import dataaccess.GameDAO;
 import dataaccess.AuthDAO;
+import dataaccess.UserDAO;
 import model.GameData;
+import model.UserData;
 import model.AuthData;
 import java.util.List;
 
@@ -16,12 +18,14 @@ public class GameServiceTest {
     private GameService gameService;
     private GameDAO gameDAO;
     private AuthDAO authDAO;
+    private UserDAO userDAO;
 
     @BeforeEach
     public void setUp() {
         gameDAO = new GameDAO();
         authDAO = new AuthDAO();
-        gameService = new GameService(gameDAO, authDAO);
+        userDAO = new UserDAO();
+        gameService = new GameService(gameDAO, authDAO, userDAO);
     }
 
     // list games success
@@ -86,6 +90,22 @@ public class GameServiceTest {
         authDAO.createAuth(auth);
 
         assertThrows(DataAccessException.class, () -> gameService.joinGame(auth.getAuthToken(), 7, "WHITE"));
+    }
+
+    // clear application
+    @Test
+    public void testClearApplication() throws Exception {
+        UserData user = new UserData("testUser", "password", "test@example.com");
+        AuthData auth = new AuthData("authToken","testUser");
+        userDAO.createUser(user);
+        authDAO.createAuth(auth);
+        gameService.createGame(auth.getAuthToken(), "ChessGame 1");
+
+        gameService.clear();
+
+        assertThrows(DataAccessException.class, () -> userDAO.getUser(user.getUsername()));
+        assertThrows(DataAccessException.class, () -> authDAO.getAuth(auth.getAuthToken()));
+        assertTrue(gameDAO.listGames().isEmpty());
     }
 
 }
