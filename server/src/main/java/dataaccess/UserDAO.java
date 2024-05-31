@@ -9,7 +9,7 @@ public class UserDAO {
     //keep track of users
     private Map<String, UserData> users = new HashMap<>();
 
-    public void clear() {
+    public void clear() throws DataAccessException{
         users.clear();
     }
 
