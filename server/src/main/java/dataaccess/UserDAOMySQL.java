@@ -54,7 +54,7 @@ public class UserDAOMySQL implements UserDAO {
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Error clearing users");
+            throw new DataAccessException("Error clearing users from database");
         }
     }
 }
