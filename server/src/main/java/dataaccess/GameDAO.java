@@ -11,7 +11,7 @@ public class GameDAO {
     //keep track of games
     private Map<Integer, GameData> games = new HashMap<>();
 
-    public void clear() {
+    public void clear() throws DataAccessException{
         games.clear();
     }
 
@@ -29,7 +29,7 @@ public class GameDAO {
         return games.get(gameID);
     }
 
-    public List<GameData> listGames() {
+    public List<GameData> listGames() throws DataAccessException{
         return new ArrayList<>(games.values());
     }
 
