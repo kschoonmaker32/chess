@@ -17,6 +17,7 @@ public class GameDAOMySQL implements GameDAO{
 
     @Override
     public void createGame(GameData game) throws DataAccessException {
+        // command for inserting game data into sql database
         String sql = "INSERT INTO games (gameID, whiteUsername, blackUsername, gameName, gameState) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -33,10 +34,12 @@ public class GameDAOMySQL implements GameDAO{
 
     @Override
     public GameData getGame(int gameID) throws DataAccessException {
+        // command for finding game in sql database by looking for specific game id
         String sql = "SELECT * FROM games where WHERE gameID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
                  stmt.setInt(1, gameID);
+                 // assign row in query with game id to result set
                  ResultSet rs = stmt.executeQuery();
                  if (rs.next()) {
                      return new GameData(
@@ -55,7 +58,8 @@ public class GameDAOMySQL implements GameDAO{
     }
 
     @Override
-    public List<GameData> listGames() throws DataAccessException { // figure out exception here
+    public List<GameData> listGames() throws DataAccessException {
+        // list all games in sql database
         String sql = "SELECT * FROM games";
         List<GameData> games = new ArrayList<>();
         try (Connection conn = DatabaseManager.getConnection();
@@ -78,6 +82,7 @@ public class GameDAOMySQL implements GameDAO{
 
     @Override
     public void updateGame(GameData game) throws DataAccessException {
+        // command to set game values in database to new values
         String sql = "UPDATE games SET whiteUsername = ?, blackUsername = ?, gameName = ?, gameState = ? WHERE gameID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement stmt  = conn.prepareStatement(sql)) {
@@ -90,12 +95,11 @@ public class GameDAOMySQL implements GameDAO{
         } catch (SQLException e) {
             throw new DataAccessException("Error updating game in database");
         }
-
-        // find out why sometimes result and sometimes not
     }
 
     @Override
     public void clear() throws DataAccessException {
+        // delete all games from database
         String sql = "DELETE FROM games";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

@@ -8,9 +8,12 @@ import java.sql.SQLException;
 
 public class UserDAOMySQL implements UserDAO {
 
+    //figure out why it wants extends instead of implements
     @Override
     public void createUser(UserData user) throws DataAccessException {
+        // establish connection with database
         try (Connection conn = DatabaseManager.getConnection()) {
+            // add row to database with new user info
             String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
             try(PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, user.getUsername());
@@ -26,6 +29,7 @@ public class UserDAOMySQL implements UserDAO {
     @Override
     public UserData getUser(String username) throws DataAccessException {
         try (Connection conn = DatabaseManager.getConnection()) {
+            // find user with given username in database
             String sql = "SELECT * FROM users WHERE username = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, username);
@@ -49,6 +53,7 @@ public class UserDAOMySQL implements UserDAO {
     @Override
     public void clear() throws DataAccessException{
         try (Connection conn = DatabaseManager.getConnection()) {
+            // delete all users from database
             String sql = "DELETE FROM Users";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.executeUpdate();
