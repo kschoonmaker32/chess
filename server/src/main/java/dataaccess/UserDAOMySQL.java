@@ -53,13 +53,17 @@ public class UserDAOMySQL extends UserDAO {
     @Override
     public void clear() throws DataAccessException{
         try (Connection conn = DatabaseManager.getConnection()) {
-            // delete all users from database
-            String sql = "DELETE FROM Users";
+            // clear games first
+            try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM games")) {
+                stmt.executeUpdate();
+            }
+            // clear users next
+            String sql = "DELETE FROM users";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Error clearing users from database");
+            throw new DataAccessException("Error clearing users from database: " + e.getMessage());
         }
     }
 }
