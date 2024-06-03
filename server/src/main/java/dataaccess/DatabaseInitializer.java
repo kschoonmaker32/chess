@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class DatabaseInitializer {
     public static void initializeDatabase() throws DataAccessException {
         DatabaseManager.createDatabase();
-
+        createTables();
     }
 
     private static void createTables() throws DataAccessException {
