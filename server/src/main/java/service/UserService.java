@@ -3,6 +3,8 @@ package service;
 import dataaccess.UserDAO;
 import dataaccess.AuthDAO;
 import dataaccess.DataAccessException;
+import dataaccess.UserDAOMySQL;
+
 import model.AuthData;
 import model.UserData;
 import java.util.UUID;
@@ -13,7 +15,7 @@ public class UserService {
     private AuthDAO authDAO;
 
     public UserService(UserDAO userDAO, AuthDAO authDAO) {
-        this.userDAO = userDAO;
+        this.userDAO = new UserDAOMySQL();
         this.authDAO = authDAO;
     }
 

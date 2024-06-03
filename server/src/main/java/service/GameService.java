@@ -1,9 +1,6 @@
 package service;
 
-import dataaccess.DataAccessException;
-import dataaccess.GameDAO;
-import dataaccess.AuthDAO;
-import dataaccess.UserDAO;
+import dataaccess.*;
 import model.GameData;
 import java.util.List;
 import java.util.Random;
@@ -16,9 +13,9 @@ public class GameService {
     private UserDAO userDAO;
 
     public GameService(GameDAO gameDAO, AuthDAO authDAO, UserDAO userDAO) {
-        this.gameDAO = gameDAO;
+        this.gameDAO = new GameDAOMySQL();
         this.authDAO = authDAO;
-        this.userDAO = userDAO;
+        this.userDAO = new UserDAOMySQL();
     }
 
     public void clear() throws DataAccessException {
