@@ -32,10 +32,10 @@ public class UserDAOMySQLTest {
     // create user failure (create user twice)
     @Test
     public void testCreateUserFailure() throws DataAccessException {
-        UserData user = new UserData("username", "email@example.com", "password");
+        UserData user1 = new UserData("username", "email@example.com", "password");
         assertThrows(DataAccessException.class, () -> {
-            userDAO.createUser(user);
-            userDAO.createUser(user);
+            userDAO.createUser(user1);
+            userDAO.createUser(user1);
         });
     }
 
@@ -55,9 +55,7 @@ public class UserDAOMySQLTest {
     // get user failure (user not found)
     @Test
     public void testGetUserFailure() throws DataAccessException {
-        assertThrows(DataAccessException.class, () -> {
-            userDAO.getUser("username");
-        });
+        assertNull(userDAO.getUser("username1"));
     }
 
     // clear users
@@ -69,11 +67,7 @@ public class UserDAOMySQLTest {
         userDAO.createUser(user2);
 
         userDAO.clear();
-        assertThrows(DataAccessException.class, () -> {
-            userDAO.getUser("username1");
-        });
-        assertThrows(DataAccessException.class, () -> {
-            userDAO.getUser("username2");
-        });
+        assertNull(userDAO.getUser("username1"));
+        assertNull(userDAO.getUser("username2"));
     }
 }
