@@ -35,7 +35,7 @@ public class GameDAOMySQL extends GameDAO {
     @Override
     public GameData getGame(int gameID) throws DataAccessException {
         // command for finding game in sql database by looking for specific game id
-        String sql = "SELECT * FROM games where WHERE gameID = ?";
+        String sql = "SELECT * FROM games WHERE gameID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
                  stmt.setInt(1, gameID);
@@ -87,10 +87,10 @@ public class GameDAOMySQL extends GameDAO {
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement stmt  = conn.prepareStatement(sql)) {
             stmt.setString(1, game.getWhiteUsername());
-            stmt.setString(1, game.getBlackUsername());
-            stmt.setString(1, game.getGameName());
-            stmt.setString(1, serializeGame(game.getGame()));
-            stmt.setInt(1, game.getGameID());
+            stmt.setString(2, game.getBlackUsername());
+            stmt.setString(3, game.getGameName());
+            stmt.setString(4, serializeGame(game.getGame()));
+            stmt.setInt(5, game.getGameID());
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new DataAccessException("Error updating game in database");
