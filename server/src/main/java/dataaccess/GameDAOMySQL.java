@@ -28,7 +28,7 @@ public class GameDAOMySQL extends GameDAO {
             stmt.setString(5, serializeGame(game.getGame()));
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DataAccessException("Error updating game in database");
+            throw new DataAccessException("Error creating game in database: " + e.getMessage());
         }
     }
 
@@ -53,7 +53,7 @@ public class GameDAOMySQL extends GameDAO {
                      throw new DataAccessException("Game not found");
                  }
              } catch (SQLException e) {
-                 throw new DataAccessException("Error querying game from database");
+                 throw new DataAccessException("Error querying game from database: " + e.getMessage());
         }
     }
 
@@ -75,7 +75,7 @@ public class GameDAOMySQL extends GameDAO {
                 ));
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Error listing games from database");
+            throw new DataAccessException("Error listing games from database: " + e.getMessage());
         }
         return games;
     }
@@ -91,21 +91,25 @@ public class GameDAOMySQL extends GameDAO {
             stmt.setString(3, game.getGameName());
             stmt.setString(4, serializeGame(game.getGame()));
             stmt.setInt(5, game.getGameID());
-            stmt.executeUpdate();
+            int affectedRows = stmt.executeUpdate();
+            if(affectedRows == 0) {
+                throw new DataAccessException("No game found to update with given ID");
+            }
         } catch (SQLException e) {
-            throw new DataAccessException("Error updating game in database");
+            throw new DataAccessException("Error updating game in database: " + e.getMessage());
         }
     }
 
     @Override
     public void clear() throws DataAccessException {
         // delete all games from database
-        String sql = "DELETE FROM games";
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.executeUpdate();
+        try (Connection conn = DatabaseManager.getConnection()) {
+            String sql = "DELETE FROM games";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.executeUpdate();
+            }
         } catch (SQLException e) {
-            throw new DataAccessException("Error clearing games from database");
+            throw new DataAccessException("Error clearing games from database: " + e.getMessage());
         }
     }
 
