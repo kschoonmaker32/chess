@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAOMySQL implements UserDAO {
+public class UserDAOMySQL extends UserDAO {
 
     //figure out why it wants extends instead of implements
     @Override

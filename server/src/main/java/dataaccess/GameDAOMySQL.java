@@ -11,7 +11,7 @@ import chess.ChessGame;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameDAOMySQL implements GameDAO{
+public class GameDAOMySQL extends GameDAO {
 
     //public GameDAOMySQL() {}
 
