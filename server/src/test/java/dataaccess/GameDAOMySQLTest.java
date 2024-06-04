@@ -47,9 +47,7 @@ public class GameDAOMySQLTest {
         ChessGame newGame = new ChessGame();
         GameData game = new GameData(1, "whiteUser", "blackUser", "testGame", newGame);
         gameDAO.createGame(game);
-        assertThrows(DataAccessException.class, () -> {
-            gameDAO.createGame(game);
-        });
+        assertThrows(DataAccessException.class, () -> gameDAO.createGame(game));
     }
 
     // get game success
@@ -66,10 +64,8 @@ public class GameDAOMySQLTest {
 
     // get game failure (game doesn't exist)
     @Test
-    public void testGetGameFailure() throws DataAccessException {
-        assertThrows(DataAccessException.class, () -> {
-            gameDAO.getGame(1);
-        });
+    public void testGetGameFailure() throws DataAccessException { //never thrown
+        assertThrows(DataAccessException.class, () -> gameDAO.getGame(1));
     }
 
     // list games success
@@ -117,9 +113,7 @@ public class GameDAOMySQLTest {
         GameData game = new GameData(2, "whiteUser1", "blackUser1", "testGame", newChessGame);
 
         assertTrue(gameDAO.listGames().isEmpty());
-        assertThrows(DataAccessException.class, () -> {
-            gameDAO.updateGame(game);
-        });
+        assertThrows(DataAccessException.class, () -> gameDAO.updateGame(game));
     }
 
     // clear games

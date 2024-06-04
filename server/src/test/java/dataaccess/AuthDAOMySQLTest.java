@@ -84,7 +84,7 @@ public class AuthDAOMySQLTest {
         authDAO.createAuth(auth2);
 
         authDAO.clear();
-        assertNull(authDAO.getAuth("authToken1"));
-        assertNull(authDAO.getAuth("authToken2"));
+        assertThrows(DataAccessException.class, () -> authDAO.getAuth("authToken1"));
+        assertThrows(DataAccessException.class, () -> authDAO.getAuth("authToken2"));
     }
 }

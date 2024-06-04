@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import model.UserData;
 import model.AuthData;
-import org.mindrot.jbcrypt.BCrypt;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,7 +58,7 @@ public class UserServiceTest {
 
     // login failure (not registered)
     @Test
-    public void testLoginFailure() throws Exception {
+    public void testLoginFailure() throws Exception { // why is exception never being thrown
         UserData user = new UserData("testUser", "password123", "test@example.com");
         assertThrows(DataAccessException.class, () -> userService.login(user));
     }

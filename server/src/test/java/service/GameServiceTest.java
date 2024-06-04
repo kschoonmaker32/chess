@@ -95,7 +95,6 @@ public class GameServiceTest {
     // clear application
     @Test
     public void testClearApplication() throws Exception {
-        UserData user = new UserData("testUser", "password", "test@example.com");
         AuthData auth = new AuthData("authToken","testUser");
         //userDAO.createUser(user);
         authDAO.createAuth(auth);

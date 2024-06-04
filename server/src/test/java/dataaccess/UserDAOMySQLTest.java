@@ -31,7 +31,7 @@ public class UserDAOMySQLTest {
 
     // create user failure (create user twice)
     @Test
-    public void testCreateUserFailure() throws DataAccessException {
+    public void testCreateUserFailure() throws DataAccessException { // never thrown
         UserData user1 = new UserData("username", "email@example.com", "password");
         assertThrows(DataAccessException.class, () -> {
             userDAO.createUser(user1);

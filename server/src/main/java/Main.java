@@ -1,5 +1,4 @@
 import chess.*;
-import dataaccess.DatabaseManager;
 import dataaccess.DatabaseInitializer;
 import dataaccess.DataAccessException;
 

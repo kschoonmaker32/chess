@@ -1,6 +1,5 @@
 package dataaccess;
 
-import dataaccess.DatabaseManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -32,6 +31,14 @@ public class DatabaseInitializer {
                     "FOREIGN KEY (whiteUsername) REFERENCES users(username)," +
                     "FOREIGN KEY (blackUsername) REFERENCES users(username))";
             try (PreparedStatement stmt = conn.prepareStatement(createGamesTable)) {
+                stmt.executeUpdate();
+            }
+
+            // create auths table here
+            String createAuthsTable = "CREATE TABLE IF NOT EXISTS auths (" +
+                    "authToken VARCHAR(255) PRIMARY KEY," +
+                    "username VARCHAR(255) NOT NULL)";
+            try (PreparedStatement stmt = conn.prepareStatement(createAuthsTable)) {
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {
