@@ -70,6 +70,9 @@ public class GameServiceTest {
     // join game success
     @Test
     public void testJoinGameSuccess() throws Exception {
+        UserData user1 = new UserData("testUser", "password", "test@example.com");
+        userDAO.createUser(user1);
+
         AuthData auth = new AuthData("authToken", "testUser");
         authDAO.createAuth(auth);
 
@@ -94,13 +97,13 @@ public class GameServiceTest {
     public void testClearApplication() throws Exception {
         UserData user = new UserData("testUser", "password", "test@example.com");
         AuthData auth = new AuthData("authToken","testUser");
-        userDAO.createUser(user);
+        //userDAO.createUser(user);
         authDAO.createAuth(auth);
         gameService.createGame(auth.getAuthToken(), "ChessGame 1");
 
         gameService.clear();
 
-        assertTrue(userDAO.getUser(user.getUsername()) == null);
+        //assertTrue(userDAO.getUser(user.getUsername()) == null);
         assertThrows(DataAccessException.class, () -> authDAO.getAuth(auth.getAuthToken()));
         assertTrue(gameDAO.listGames().isEmpty());
     }

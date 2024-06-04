@@ -42,14 +42,14 @@ public class UserDAOMySQLTest {
     // get user success
     @Test
     public void testGetUserSuccess() throws DataAccessException {
-        UserData user = new UserData("username", "email@example.com", "password");
+        UserData user = new UserData("username", "password", "email@example.com");
         userDAO.createUser(user);
 
         UserData retrievedUser = userDAO.getUser("username");
         assertNotNull(retrievedUser);
         assertEquals("username", retrievedUser.getUsername());
-        assertEquals("email@example.com", retrievedUser.getEmail());
         assertEquals("password", retrievedUser.getPassword());
+        assertEquals("email@example.com", retrievedUser.getEmail());
     }
 
     // get user failure (user not found)
