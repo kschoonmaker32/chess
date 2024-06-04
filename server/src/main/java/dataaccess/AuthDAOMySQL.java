@@ -49,7 +49,10 @@ public class AuthDAOMySQL extends AuthDAO{
         try (Connection conn = DatabaseManager.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, authToken);
-            stmt.executeUpdate();
+            int deletedAuths = stmt.executeUpdate();
+            if (deletedAuths == 0) {
+                throw new DataAccessException("No auths to delete");
+            }
         } catch (SQLException e) {
             throw new DataAccessException("Error deleting auth from database: " + e.getMessage());
         }

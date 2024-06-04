@@ -51,8 +51,9 @@ public class AuthDAOMySQLTest {
 
     // get auth failure (auth not found)
     @Test
-    public void testGetAuthFaiure() throws DataAccessException {
-        assertNull(authDAO.getAuth("authToken"));
+
+    public void testGetAuthFailure() throws DataAccessException {
+        assertThrows(DataAccessException.class, () ->authDAO.getAuth("authToken"));
     }
 
     // delete auth success
@@ -68,11 +69,7 @@ public class AuthDAOMySQLTest {
     // delete auth failure (auth is still in database)
     @Test
     public void testDeleteAuthFailure() throws DataAccessException {
-        AuthData auth = new AuthData("authToken", "username");
-        authDAO.createAuth(auth);
-
-        authDAO.deleteAuth("authToken");
-        assertNotNull(authDAO.getAuth("authToken")); // fix this
+        assertThrows(DataAccessException.class, () -> authDAO.deleteAuth("authToken")); // fix this
     }
 
     // clear auths
