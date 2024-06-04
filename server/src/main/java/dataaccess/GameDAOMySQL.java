@@ -100,7 +100,7 @@ public class GameDAOMySQL extends GameDAO {
 
     @Override
     public void clear() throws DataAccessException {
-        // delete all games from database
+        // delete all games from game database
         try (Connection conn = DatabaseManager.getConnection()) {
             String sql = "DELETE FROM games";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
