@@ -7,6 +7,8 @@ import dataaccess.UserDAOMySQL;
 
 import model.AuthData;
 import model.UserData;
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.UUID;
 
 
@@ -15,7 +17,7 @@ public class UserService {
     private AuthDAO authDAO;
 
     public UserService(UserDAO userDAO, AuthDAO authDAO) {
-        this.userDAO = new UserDAOMySQL();
+        this.userDAO = userDAO;
         this.authDAO = authDAO;
     }
 
@@ -24,6 +26,8 @@ public class UserService {
             userDAO.getUser(user.getUsername());
             throw new DataAccessException("User already exists.");
         } catch (DataAccessException e) {
+            // hash password here
+            user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
             userDAO.createUser(user);
             AuthData auth = new AuthData(generateAuthToken(), user.getUsername());
             authDAO.createAuth(auth);
@@ -34,7 +38,8 @@ public class UserService {
     public AuthData login(UserData user) throws DataAccessException {
         //retrieve user from database here
         UserData existingUser = userDAO.getUser(user.getUsername());
-        if (existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
+        if (existingUser == null || !BCrypt.checkpw(user.getPassword(), existingUser.getPassword())) {
+        //if (existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
             throw new DataAccessException("Invalid credentials.");
         }
         AuthData auth = new AuthData(generateAuthToken(), user.getUsername());

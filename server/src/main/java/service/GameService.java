@@ -13,9 +13,9 @@ public class GameService {
     private UserDAO userDAO;
 
     public GameService(GameDAO gameDAO, AuthDAO authDAO, UserDAO userDAO) {
-        this.gameDAO = new GameDAOMySQL();
+        this.gameDAO = gameDAO; //GameDAOMySQL();
         this.authDAO = authDAO;
-        this.userDAO = new UserDAOMySQL();
+        this.userDAO = userDAO; //UserDAOMySQL();
     }
 
     public void clear() throws DataAccessException {

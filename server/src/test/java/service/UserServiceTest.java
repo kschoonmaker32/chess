@@ -1,26 +1,29 @@
 package service;
 
-import dataaccess.DataAccessException;
+import dataaccess.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import dataaccess.UserDAO;
-import dataaccess.AuthDAO;
 import model.UserData;
 import model.AuthData;
+import org.mindrot.jbcrypt.BCrypt;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserServiceTest {
     private UserService userService;
-    private UserDAO userDAO;
+    //private UserDAO userDAO;
     private AuthDAO authDAO;
+    private UserDAOMySQL userDAO;
 
     @BeforeEach
-    public void setUp() {
-        userDAO = new UserDAO();
+    public void setUp() throws DataAccessException{
+        DatabaseInitializer.initializeDatabase();
+        userDAO = new UserDAOMySQL();
         authDAO = new AuthDAO();
         userService = new UserService(userDAO, authDAO);
+        userDAO.clear();
+        authDAO.clear();
     }
 
     // register success
@@ -44,9 +47,11 @@ public class UserServiceTest {
     // login success
     @Test
     public void testLoginSuccess() throws Exception {
-        UserData user = new UserData("testUser", "password123", "test@example.com");
+        UserData user = new UserData("testUser","password123", "test@example.com");
         userService.register(user);
-        AuthData auth = userService.login(user);
+
+        UserData loginUser = new UserData("testUser", "password123", "test@example.com");
+        AuthData auth = userService.login(loginUser);
 
         assertNotNull(auth);
         assertEquals("testUser", auth.getUsername());

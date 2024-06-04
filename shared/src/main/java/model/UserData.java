@@ -24,4 +24,8 @@ public class UserData {
     public String getEmail() {
         return email;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

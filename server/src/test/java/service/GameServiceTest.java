@@ -1,11 +1,8 @@
 package service;
 
-import dataaccess.DataAccessException;
+import dataaccess.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import dataaccess.GameDAO;
-import dataaccess.AuthDAO;
-import dataaccess.UserDAO;
 import model.GameData;
 import model.UserData;
 import model.AuthData;
@@ -16,15 +13,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GameServiceTest {
     private GameService gameService;
-    private GameDAO gameDAO;
+    private GameDAOMySQL gameDAO;
     private AuthDAO authDAO;
-    private UserDAO userDAO;
+    private UserDAOMySQL userDAO;
 
     @BeforeEach
     public void setUp() {
-        gameDAO = new GameDAO();
+        gameDAO = new GameDAOMySQL();
         authDAO = new AuthDAO();
-        userDAO = new UserDAO();
+        userDAO = new UserDAOMySQL();
         gameService = new GameService(gameDAO, authDAO, userDAO);
     }
 
@@ -103,7 +100,7 @@ public class GameServiceTest {
 
         gameService.clear();
 
-        assertThrows(DataAccessException.class, () -> userDAO.getUser(user.getUsername()));
+        assertTrue(userDAO.getUser(user.getUsername()) == null);
         assertThrows(DataAccessException.class, () -> authDAO.getAuth(auth.getAuthToken()));
         assertTrue(gameDAO.listGames().isEmpty());
     }

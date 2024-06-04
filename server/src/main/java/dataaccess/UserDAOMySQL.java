@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 public class UserDAOMySQL extends UserDAO {
 
-    //figure out why it wants extends instead of implements
     @Override
     public void createUser(UserData user) throws DataAccessException {
         // establish connection with database
@@ -22,7 +21,7 @@ public class UserDAOMySQL extends UserDAO {
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Error creating user");
+            throw new DataAccessException("Error creating user: " + e.getMessage());
         }
     }
 
@@ -37,8 +36,8 @@ public class UserDAOMySQL extends UserDAO {
                     if (rs.next()) {
                         return new UserData(
                                 rs.getString("username"),
-                                rs.getString("email"),
-                                rs.getString("password")
+                                rs.getString("password"),
+                                rs.getString("email")
                         );
                     } else {
                         return null;
@@ -46,7 +45,7 @@ public class UserDAOMySQL extends UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Error getting user");
+            throw new DataAccessException("Error getting user:" + e.getMessage());
         }
     }
 
