@@ -1,8 +1,6 @@
 package server;
 
-import dataaccess.GameDAO;
-import dataaccess.AuthDAO;
-import dataaccess.UserDAO;
+import dataaccess.*;
 
 import service.UserService;
 import service.GameService;
@@ -13,6 +11,12 @@ import spark.*;
 public class Server {
 
     public int run(int desiredPort) {
+        try {
+            DatabaseInitializer.initializeDatabase();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+
         // set server port
         Spark.port(desiredPort);
 
@@ -20,9 +24,9 @@ public class Server {
         Spark.staticFiles.location("web");
 
         // DAO instances
-        UserDAO userDAO = new UserDAO();
-        GameDAO gameDAO = new GameDAO();
-        AuthDAO authDAO = new AuthDAO();
+        UserDAO userDAO = new UserDAOMySQL();
+        GameDAO gameDAO = new GameDAOMySQL();
+        AuthDAO authDAO = new AuthDAOMySQL();
 
         // Service instances
         UserService userService = new UserService(userDAO, authDAO);

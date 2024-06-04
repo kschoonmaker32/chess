@@ -46,6 +46,10 @@ public class GameService {
         if(playerColor == null) {
             throw new DataAccessException("No color listed");
         }
+        String username = getUsername(authToken);
+        if(username == null || userDAO.getUser(username) == null) {
+            throw new DataAccessException("User not found");
+        }
         if (playerColor.equalsIgnoreCase("WHITE") && game.getWhiteUsername() == null) {
             game.setWhiteUsername(getUsername(authToken));
         } else if (playerColor.equalsIgnoreCase("BLACK") && game.getBlackUsername() == null) {

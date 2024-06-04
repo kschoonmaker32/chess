@@ -13,8 +13,6 @@ import java.util.List;
 
 public class GameDAOMySQL extends GameDAO {
 
-    //public GameDAOMySQL() {}
-
     @Override
     public void createGame(GameData game) throws DataAccessException {
         // command for inserting game data into sql database

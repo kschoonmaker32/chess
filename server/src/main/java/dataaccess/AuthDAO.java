@@ -9,7 +9,7 @@ import java.util.Map;
 public class AuthDAO {
     private Map<String, AuthData> auths = new HashMap<>();
 
-    public void clear() {
+    public void clear() throws DataAccessException{
         auths.clear();
     }
 
