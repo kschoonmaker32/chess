@@ -64,7 +64,7 @@ public class GameDAOMySQLTest {
 
     // get game failure (game doesn't exist)
     @Test
-    public void testGetGameFailure() throws DataAccessException { //never thrown
+    public void testGetGameFailure() throws DataAccessException {
         assertThrows(DataAccessException.class, () -> gameDAO.getGame(1));
     }
 

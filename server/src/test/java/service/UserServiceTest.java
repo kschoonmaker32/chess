@@ -58,7 +58,7 @@ public class UserServiceTest {
 
     // login failure (not registered)
     @Test
-    public void testLoginFailure() throws Exception { // why is exception never being thrown
+    public void testLoginFailure() throws Exception {
         UserData user = new UserData("testUser", "password123", "test@example.com");
         assertThrows(DataAccessException.class, () -> userService.login(user));
     }
