@@ -50,5 +50,41 @@ public class DrawBoard {
         board[6][5] = 'p';
         board[6][6] = 'p';
         board[6][7] = 'p';
+        // initialize empty spaces
+        for (int i = 2; i < 6; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j] = ' ';
+            }
+        }
+    }
+
+    private String getPieceColor(char piece) {
+        if (Character.isUpperCase(piece)) {
+            return whitePieceColor;
+        } else {
+            return blackPieceColor;
+        }
+    }
+
+    public void setPiece(String position, char piece) {
+        int[] indices = convertPositionToIndices(position);
+        if (indices != null) {
+            board[indices[0]][indices[1]] = piece;
+        }
+    }
+
+    private int[] convertPositionToIndices(String position) {
+        if (position.length() != 2) {
+            return null;
+        }
+        char column = position.charAt(0);
+        char row = position.charAt(1);
+
+        int colIndex = column - 'a';
+        int rowIndex = row - 1;
+        if (colIndex < 0 || colIndex > 7 || rowIndex < 0 || rowIndex > 7) {
+            return null;
+        }
+        return new int[]{rowIndex, colIndex};
     }
 }
