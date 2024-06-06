@@ -58,6 +58,41 @@ public class DrawBoard {
         }
     }
 
+    public void drawBoard() {
+        drawBoardState(false);
+        drawBoardState(true);
+    }
+
+    private void drawBoardState(boolean whiteOnBottom) {
+        if (whiteOnBottom) {
+            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + whiteText + "    a  b  c  d  e  f  g  h    " + EscapeSequences.RESET_BG_COLOR);
+        } else {
+            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + whiteText + "    h  g  f  e  d  c  b  a    " + EscapeSequences.RESET_BG_COLOR);
+        }
+
+        for (int i = 0; i < 8; i++) {
+            int row = whiteOnBottom ? 7 - i : i;
+            System.out.print(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + " " + (row + 1) + " " + EscapeSequences.RESET_BG_COLOR);
+            for (int j = 0; j < 8; j++) {
+                int col = whiteOnBottom ? j : 7 - j;
+                char piece = board[row][col];
+                char capitalPiece = Character.toUpperCase(piece);
+                String pieceColor = getPieceColor(piece);
+                if ((row + col) % 2 == 0) {
+                    System.out.print(EscapeSequences.SET_BG_COLOR_LIGHT_BLUE + " " + pieceColor + capitalPiece + whiteText + " " + EscapeSequences.RESET_BG_COLOR);
+                } else {
+                    System.out.print(EscapeSequences.SET_BG_COLOR_WHITE + " " + pieceColor + capitalPiece + whiteText + " " + EscapeSequences.RESET_BG_COLOR);
+                }
+            }
+            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + " " + (row + 1) + " " + EscapeSequences.RESET_BG_COLOR);
+        }
+        if (whiteOnBottom) {
+            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + whiteText + "    a  b  c  d  e  f  g  h    " + EscapeSequences.RESET_BG_COLOR);
+        } else {
+            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + whiteText + "    h  g  f  e  d  c  b  a    " + EscapeSequences.RESET_BG_COLOR);
+        }
+    }
+
     private String getPieceColor(char piece) {
         if (Character.isUpperCase(piece)) {
             return whitePieceColor;
