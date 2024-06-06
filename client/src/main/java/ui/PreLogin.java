@@ -46,5 +46,15 @@ public class PreLogin {
         System.out.println("Register: create a new account. ");
     }
 
+    private void login() {
+        System.out.println("Username: ");
+        String username = scanner.nextLine();
+        System.out.println("Password: ");
+        String password = scanner.nextLine();
 
+    }
+
+    private void register() {
+
+    }
 }
