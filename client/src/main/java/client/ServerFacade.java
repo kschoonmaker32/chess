@@ -44,4 +44,16 @@ public class ServerFacade {
             throw new IOException("Error registering user" + connection.getResponseMessage());
         }
     }
+
+    // create login method
+
+    // create logout method
+
+    // create create game method
+
+    // create list games method
+
+    // create join game method
+
+    //
 }

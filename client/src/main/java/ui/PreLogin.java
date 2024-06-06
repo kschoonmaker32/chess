@@ -51,10 +51,10 @@ public class PreLogin {
         String username = scanner.nextLine();
         System.out.println("Password: ");
         String password = scanner.nextLine();
-
+        // finish implementing this
     }
 
     private void register() {
-
+        // implement this
     }
 }
