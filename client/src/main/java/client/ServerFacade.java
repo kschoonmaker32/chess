@@ -45,7 +45,27 @@ public class ServerFacade {
         }
     }
 
-    // create login method
+    public AuthData login(String username, String password) throws IOException {
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/register");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Content-type", "application/json");
+
+        UserData userData = new UserData(username, password, null);
+        String requestBody = gson.toJson(userData);
+
+        try (OutputStream os = conn.getOutputStream()) {
+            os.write(requestBody.getBytes());
+            os.flush();
+        }
+
+        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            return gson.fromJson(new InputStreamReader(conn.getInputStream()), AuthData.class);
+        } else {
+            throw new IOException("Error logging in user" + conn.getResponseMessage());
+        }
+    }
 
     // create logout method
 
