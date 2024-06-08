@@ -121,14 +121,18 @@ public class ServerFacade {
         HttpURLConnection connect = (HttpURLConnection) url.openConnection();
         connect.setRequestMethod("POST");
         connect.setRequestProperty("Authorization", "Bearer" + authToken);
-        con.setRequestProperty("Content-type", "application/json");
+        connect.setRequestProperty("Content-type", "application/json");
         connect.setDoOutput(true);
 
-        // finish this method
+        String requestBody = "{\"gameID\":" + gameID + ",\"playerColor\":\"" + playerColor + "\"}";
+
+        try (OutputStream outs = connect.getOutputStream()) {
+            outs.write(requestBody.getBytes());
+            outs.flush();
+        }
+
+        if (connect.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            throw new IOException("Error joining game: " + connect.getResponseMessage());
+        }
     }
-
-
-    // create join game method
-
-
 }
