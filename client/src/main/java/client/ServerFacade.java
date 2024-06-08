@@ -20,8 +20,7 @@ public class ServerFacade {
     public ServerFacade(String serverHost, String serverPort) {
         this.serverHost = serverHost;
         this.serverPort = serverPort;
-
-
+        this.gson = new Gson();
     }
 
     public AuthData register(String username, String password, String email) throws IOException {
@@ -81,7 +80,7 @@ public class ServerFacade {
         }
     }
 
-    public GameData createGame(String authToken, int gameID) throws IOException {
+    public GameData createGame(String authToken, String gameName) throws IOException {
         URL url = new URL("http://" + serverHost + ":" + serverPort + "/create");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
@@ -89,7 +88,7 @@ public class ServerFacade {
         con.setRequestProperty("Content-type", "application/json");
         con.setDoOutput(true);
 
-        GameData gameData = new GameData(gameID, null, null, null, null);
+        GameData gameData = new GameData(0, null, null, gameName, null); // initialize with temporary game ID
         String requestBody = gson.toJson(gameData);
 
         try (OutputStream os = con.getOutputStream()) {
@@ -122,6 +121,8 @@ public class ServerFacade {
         HttpURLConnection connect = (HttpURLConnection) url.openConnection();
         connect.setRequestMethod("POST");
         connect.setRequestProperty("Authorization", "Bearer" + authToken);
+        con.setRequestProperty("Content-type", "application/json");
+        connect.setDoOutput(true);
 
         // finish this method
     }
