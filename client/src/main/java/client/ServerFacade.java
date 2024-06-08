@@ -117,6 +117,15 @@ public class ServerFacade {
         }
     }
 
+    public void joinGame(String authToken, int gameID, String playerColor) throws IOException {
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/join");
+        HttpURLConnection connect = (HttpURLConnection) url.openConnection();
+        connect.setRequestMethod("POST");
+        connect.setRequestProperty("Authorization", "Bearer" + authToken);
+
+        // finish this method
+    }
+
 
     // create join game method
 
