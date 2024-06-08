@@ -1,6 +1,7 @@
 package client;
 
 import model.AuthData;
+import model.GameData;
 import model.UserData;
 
 import java.io.IOException;
@@ -67,13 +68,35 @@ public class ServerFacade {
         }
     }
 
-    // create logout method
+    public void logout(String authToken) throws IOException {
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/logout");
+        HttpURLConnection connect = (HttpURLConnection) url.openConnection();
+        connect.setRequestMethod("POST");
+        connect.setDoOutput(true);
+        connect.setRequestProperty("Authorization", "Bearer" + authToken);
 
-    // create create game method
+
+        if (connect.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            throw new IOException("Error logging in user" + connect.getResponseMessage());
+        }
+    }
+
+    public GameData createGame(String authToken, int gameID) throws IOException {
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/create");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Authorization", "Bearer" + authToken);
+        con.setRequestProperty("Content-type", "application/json");
+        con.setDoOutput(true);
+
+        GameData gameData = new GameData(gameID, null, null, null, null);
+        String requestBody = gson.toJson(gameData);
+
+    }
 
     // create list games method
 
     // create join game method
 
-    //
+
 }
