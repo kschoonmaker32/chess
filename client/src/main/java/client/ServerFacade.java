@@ -42,7 +42,7 @@ public class ServerFacade {
         if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
             return gson.fromJson(new InputStreamReader(connection.getInputStream()), AuthData.class);
         } else {
-            throw new IOException("Error registering user" + connection.getResponseMessage());
+            throw new IOException("Error registering user: " + connection.getResponseMessage());
         }
     }
 
@@ -64,7 +64,7 @@ public class ServerFacade {
         if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
             return gson.fromJson(new InputStreamReader(conn.getInputStream()), AuthData.class);
         } else {
-            throw new IOException("Error logging in user" + conn.getResponseMessage());
+            throw new IOException("Error logging in user: " + conn.getResponseMessage());
         }
     }
 
@@ -77,7 +77,7 @@ public class ServerFacade {
 
 
         if (connect.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            throw new IOException("Error logging in user" + connect.getResponseMessage());
+            throw new IOException("Error logging out: " + connect.getResponseMessage());
         }
     }
 
@@ -92,9 +92,31 @@ public class ServerFacade {
         GameData gameData = new GameData(gameID, null, null, null, null);
         String requestBody = gson.toJson(gameData);
 
+        try (OutputStream os = con.getOutputStream()) {
+            os.write(requestBody.getBytes());
+            os.flush();
+        }
+
+        if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            return gson.fromJson(new InputStreamReader(con.getInputStream()), GameData.class);
+        } else {
+            throw new IOException("Error creating game: " + con.getResponseMessage());
+        }
     }
 
-    // create list games method
+    public GameData[] listGames(String authToken) throws IOException{
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/list");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Authorization", "Bearer" + authToken);
+
+        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            return gson.fromJson(new InputStreamReader(connection.getInputStream()), GameData[].class);
+        } else {
+            throw new IOException("Error listing games: " + connection.getResponseMessage());
+        }
+    }
+
 
     // create join game method
 
