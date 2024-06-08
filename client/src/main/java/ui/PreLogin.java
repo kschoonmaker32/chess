@@ -2,15 +2,15 @@ package ui;
 
 import client.ServerFacade;
 
-import java.util.Locale;
 import java.util.Scanner;
+import client.ServerFacade;
 
 public class PreLogin {
 
-    //private final ServerFacade serverFacade;
+    private final ServerFacade serverFacade;
     private final Scanner scanner;
 
-    public Prelogin(ServerFacade serverFacade) {
+    public PreLogin(ServerFacade serverFacade) {
         this.serverFacade = serverFacade;
         this.scanner = new Scanner(System.in);
     }
@@ -51,10 +51,28 @@ public class PreLogin {
         String username = scanner.nextLine();
         System.out.println("Password: ");
         String password = scanner.nextLine();
-        // finish implementing this
+        try {
+            serverFacade.login(username, password);
+            System.out.println("Login successful");
+            // transition to postlogin
+        } catch (Exception e) {
+            System.out.println("Login failed: " + e.getMessage());
+        }
     }
 
     private void register() {
-        // implement this
+        System.out.println("Create a username: ");
+        String username = scanner.nextLine();
+        System.out.println("Create a password: ");
+        String password = scanner.nextLine();
+        System.out.println("Enter an email: ");
+        String email = scanner.nextLine();
+        try {
+            serverFacade.register(username, password, email);
+            System.out.println("Registration successful");
+        } catch (Exception e) {
+            System.out.println("Registration failed: " + e.getMessage());
+
+        }
     }
 }
