@@ -1,8 +1,11 @@
 package client;
 
+import model.AuthData;
 import org.junit.jupiter.api.*;
 import server.Server;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class ServerFacadeTests {
@@ -15,7 +18,7 @@ public class ServerFacadeTests {
         server = new Server();
         var port = server.run(0);
         System.out.println("Started test HTTP server on " + port);
-        //facade = new ServerFacade(port);
+        facade = new ServerFacade("localhost", String.valueOf(port));
     }
 
     //@BeforeEach
@@ -29,14 +32,23 @@ public class ServerFacadeTests {
 
     @Test
     public void sampleTest() {
-        Assertions.assertTrue(true);
+        assertTrue(true);
     }
 
 
-//    example register test
-//    @Test
-//    void register() throws Exception {
-//        var authData = facade.register("player1", "password", "p1@email.com");
-//        assertTrue(authData.authToken().length() > 10);
+    // register success
+    @Test
+    public void testRegisterSuccess() throws Exception {
+        AuthData authData = facade.register("player1", "password", "p1@email.com");
+        assertTrue(authData.getAuthToken().length() > 10);
     }
+
+    // register failure (duplicate registration)
+    @Test
+    public void testRegisterFailure() throws Exception {
+        AuthData authData = facade.register("player1", "password", "p1@email.com");
+        assertThrows(Exception.class, () -> facade.register("player1", "password", "p1@email.com"));
+    }
+
+
 }
