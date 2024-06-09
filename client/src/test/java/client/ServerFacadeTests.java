@@ -5,6 +5,8 @@ import model.GameData;
 import org.junit.jupiter.api.*;
 import server.Server;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -21,18 +23,14 @@ public class ServerFacadeTests {
         facade = new ServerFacade("localhost", String.valueOf(port));
     }
 
-    //@BeforeEach
-    // clear database somehow
+    @BeforeEach
+    public void setUp() throws IOException {
+        facade.clear();
+    }
 
     @AfterAll
     static void stopServer() {
         server.stop();
-    }
-
-
-    @Test
-    public void sampleTest() {
-        assertTrue(true);
     }
 
 
@@ -68,6 +66,8 @@ public class ServerFacadeTests {
     @Test
     public void testLogoutSuccess() throws Exception {
         AuthData authData = facade.register("username", "password", "email");
+        assertNotNull(authData);
+        System.out.println(authData.getAuthToken());
         assertDoesNotThrow(() -> facade.logout(authData.getAuthToken()));
     }
 
