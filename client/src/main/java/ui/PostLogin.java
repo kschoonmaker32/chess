@@ -72,5 +72,16 @@ public class PostLogin {
             }
         }
 
+        public void listGames() {
+            try {
+                var games = serverFacade.listGames(authToken);
+                for (int i = 0; i <= games.length; i ++) {
+                    System.out.println((i + 1) + ". " + games[i].getGameName() + " - " + games[i].getWhiteUsername() " vs " + games[i].getBlackUsername());
+                }
+            } catch (Exception e) {
+                System.out.println("Failed to list games: " + e.getMessage());
+            }
+        }
 
+        public void
 }
