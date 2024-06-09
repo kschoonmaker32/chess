@@ -4,6 +4,7 @@ import client.ServerFacade;
 
 import java.util.Scanner;
 import client.ServerFacade;
+import model.AuthData;
 
 public class PreLogin {
 
@@ -52,9 +53,10 @@ public class PreLogin {
         System.out.println("Password: ");
         String password = scanner.nextLine();
         try {
-            serverFacade.login(username, password);
+            AuthData authData = serverFacade.login(username, password);
+            PostLogin postLogin = new PostLogin(serverFacade, authData.getAuthToken());
             System.out.println("Login successful");
-            // transition to postlogin
+            postLogin.display();
         } catch (Exception e) {
             System.out.println("Login failed: " + e.getMessage());
         }
@@ -68,11 +70,12 @@ public class PreLogin {
         System.out.println("Enter an email: ");
         String email = scanner.nextLine();
         try {
-            serverFacade.register(username, password, email);
+            AuthData authData = serverFacade.register(username, password, email);
+            PostLogin postLogin = new PostLogin(serverFacade, authData.getAuthToken());
             System.out.println("Registration successful");
+            postLogin.display();
         } catch (Exception e) {
             System.out.println("Registration failed: " + e.getMessage());
-
         }
     }
 }
