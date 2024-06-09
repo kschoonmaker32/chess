@@ -135,4 +135,13 @@ public class ServerFacade {
         }
     }
 
+    public void clear() throws IOException {
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/db");
+        HttpURLConnection connect = (HttpURLConnection) url.openConnection();
+        connect.setRequestMethod("DELETE");
+
+        if (connect.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            throw new IOException("Error clearing database: " + connect.getResponseMessage());
+        }
+    }
 }
