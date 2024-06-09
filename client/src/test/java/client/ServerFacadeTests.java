@@ -4,8 +4,7 @@ import model.AuthData;
 import org.junit.jupiter.api.*;
 import server.Server;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class ServerFacadeTests {
@@ -63,5 +62,19 @@ public class ServerFacadeTests {
     public void testLoginFailure() throws Exception {
         assertThrows(Exception.class, () -> facade.login("nonexistent", "password"));
     }
+
+    // logout success
+    @Test
+    public void testLogoutSuccess() throws Exception {
+        AuthData authData = facade.login("username", "password");
+        assertDoesNotThrow(() -> facade.logout(authData.getAuthToken()));
+    }
+
+    @Test
+    public void testLogoutFailure() throws Exception {
+        AuthData authData = facade.login("username", "password");
+        assertThrows(Exception.class, () -> facade.logout("Invalid auth token"));
+    }
+
 
 }
