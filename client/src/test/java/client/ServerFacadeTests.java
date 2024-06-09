@@ -1,6 +1,7 @@
 package client;
 
 import model.AuthData;
+import model.GameData;
 import org.junit.jupiter.api.*;
 import server.Server;
 
@@ -66,15 +67,60 @@ public class ServerFacadeTests {
     // logout success
     @Test
     public void testLogoutSuccess() throws Exception {
-        AuthData authData = facade.login("username", "password");
+        AuthData authData = facade.register("username", "password", "email");
         assertDoesNotThrow(() -> facade.logout(authData.getAuthToken()));
     }
 
+    // logout failure (invalid auth token)
     @Test
     public void testLogoutFailure() throws Exception {
-        AuthData authData = facade.login("username", "password");
+        AuthData authData = facade.register("username", "password", "email");
         assertThrows(Exception.class, () -> facade.logout("Invalid auth token"));
     }
 
+    // create game success
+    @Test
+    public void testCreateGameSuccess() throws Exception {
+        AuthData authData = facade.register("username", "password", "email");
+        GameData gameData = facade.createGame(authData.getAuthToken(), "game1");
+        assertEquals("game1", gameData.getGameName());
+    }
 
+    // create game failure (invalid auth token)
+    @Test
+    public void testCreateGameFailure() throws Exception {
+        assertThrows(Exception.class, () -> facade.createGame("invalid token", "game1"));
+    }
+
+    // list games success
+    @Test
+    public void listGamesSuccess() throws Exception {
+        AuthData authData = facade.register("player", "password", "email");
+        GameData gameData = facade.createGame(authData.getAuthToken(), "chessgame");
+        GameData[] games = facade.listGames(authData.getAuthToken());
+        assertTrue(games.length > 0);
+    }
+
+    // list games failure (invalid auth token)
+    @Test
+    public void listGamesFailure() throws Exception {
+        assertThrows(Exception.class, () -> facade.listGames("invalid auth"));
+    }
+
+    // join game success
+    @Test
+    public void joinGameSuccess() throws Exception {
+        AuthData authData1 = facade.register("player1", "password", "email");
+        AuthData authData2 = facade.register("player2", "password", "email");
+        GameData gameData = facade.createGame(authData1.getAuthToken(), "Chess game");
+        assertDoesNotThrow(() -> facade.joinGame(authData2.getAuthToken(), gameData.getGameID(), "Chess game"));
+    }
+
+    // join game failure (invalid game name)
+    @Test
+    public void joinGameFailure() throws Exception {
+        AuthData authData1 = facade.register("player1", "password", "email");
+        GameData gameData = facade.createGame(authData1.getAuthToken(), "Chess game");
+        assertThrows(Exception.class, () -> facade.joinGame("invalid auth", 10, "blue"));
+    }
 }
