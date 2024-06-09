@@ -1,6 +1,8 @@
 package ui;
 
 import client.ServerFacade;
+import model.GameData;
+
 import java.util.Scanner;
 
 public class PostLogin {
@@ -25,16 +27,17 @@ public class PostLogin {
                         displayHelp();
                         break;
                     case "logout":
+                        logout();
                         running = false;
                         break;
                     case "create game":
-                        login();
+                        createGame();
                         break;
                     case "list games":
-                        register();
+                        listGames();
                         break;
                     case "play game" :
-                        joinGame();
+                        playGame();
                         break;
                     case "observe game":
                         // implement this in phase 6
@@ -76,12 +79,37 @@ public class PostLogin {
             try {
                 var games = serverFacade.listGames(authToken);
                 for (int i = 0; i <= games.length; i ++) {
-                    System.out.println((i + 1) + ". " + games[i].getGameName() + " - " + games[i].getWhiteUsername() " vs " + games[i].getBlackUsername());
+                    System.out.println((i + 1) + ". " + games[i].getGameName() + " - " + games[i].getWhiteUsername() +  " vs " + games[i].getBlackUsername());
                 }
             } catch (Exception e) {
                 System.out.println("Failed to list games: " + e.getMessage());
             }
         }
 
-        public void
+        public void playGame() {
+            System.out.println("Which game would you like to join? ");
+            String gameName = scanner.nextLine();
+            try {
+                var games = serverFacade.listGames(authToken);
+                GameData selectedGame = null;
+                for (GameData game : games) {
+                    if(game.getGameName().equalsIgnoreCase(gameName)) {
+                        selectedGame = game;
+                        break;
+                    }
+                }
+                if (selectedGame == null) {
+                    System.out.println("Game not found. ");
+                    return;
+                }
+
+                int gameID = selectedGame.getGameID();
+                System.out.println("Enter color (white/black): ");
+                String color = scanner.nextLine();
+                serverFacade.joinGame(authToken, gameID, color);
+                System.out.println("Joined game successfully!");
+            } catch (Exception e) {
+                System.out.println("Failed to join game: " + e.getMessage());
+            }
+        }
 }
