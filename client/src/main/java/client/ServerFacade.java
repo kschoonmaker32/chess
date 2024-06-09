@@ -15,7 +15,7 @@ public class ServerFacade {
 
     private final String serverHost;
     private final String serverPort;
-    private Gson gson;
+    private final Gson gson;
 
     public ServerFacade(String serverHost, String serverPort) {
         this.serverHost = serverHost;
@@ -24,7 +24,7 @@ public class ServerFacade {
     }
 
     public AuthData register(String username, String password, String email) throws IOException {
-        URL url = new URL("http://" + serverHost + ":" + serverPort + "/register");
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/user");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
@@ -46,7 +46,7 @@ public class ServerFacade {
     }
 
     public AuthData login(String username, String password) throws IOException {
-        URL url = new URL("http://" + serverHost + ":" + serverPort + "/register");
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/session");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setDoOutput(true);
@@ -68,11 +68,10 @@ public class ServerFacade {
     }
 
     public void logout(String authToken) throws IOException {
-        URL url = new URL("http://" + serverHost + ":" + serverPort + "/logout");
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/session");
         HttpURLConnection connect = (HttpURLConnection) url.openConnection();
-        connect.setRequestMethod("POST");
-        connect.setDoOutput(true);
-        connect.setRequestProperty("Authorization", "Bearer" + authToken);
+        connect.setRequestMethod("DELETE");
+        connect.setRequestProperty("Authorization", "Bearer " + authToken);
 
 
         if (connect.getResponseCode() != HttpURLConnection.HTTP_OK) {
@@ -81,10 +80,10 @@ public class ServerFacade {
     }
 
     public GameData createGame(String authToken, String gameName) throws IOException {
-        URL url = new URL("http://" + serverHost + ":" + serverPort + "/create");
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/game");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
-        con.setRequestProperty("Authorization", "Bearer" + authToken);
+        con.setRequestProperty("Authorization", "Bearer " + authToken);
         con.setRequestProperty("Content-type", "application/json");
         con.setDoOutput(true);
 
@@ -103,8 +102,8 @@ public class ServerFacade {
         }
     }
 
-    public GameData[] listGames(String authToken) throws IOException{
-        URL url = new URL("http://" + serverHost + ":" + serverPort + "/list");
+    public GameData[] listGames(String authToken) throws IOException {
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/game");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Authorization", "Bearer" + authToken);
@@ -117,9 +116,9 @@ public class ServerFacade {
     }
 
     public void joinGame(String authToken, int gameID, String playerColor) throws IOException {
-        URL url = new URL("http://" + serverHost + ":" + serverPort + "/join");
+        URL url = new URL("http://" + serverHost + ":" + serverPort + "/game");
         HttpURLConnection connect = (HttpURLConnection) url.openConnection();
-        connect.setRequestMethod("POST");
+        connect.setRequestMethod("PUT");
         connect.setRequestProperty("Authorization", "Bearer" + authToken);
         connect.setRequestProperty("Content-type", "application/json");
         connect.setDoOutput(true);
@@ -135,4 +134,5 @@ public class ServerFacade {
             throw new IOException("Error joining game: " + connect.getResponseMessage());
         }
     }
+
 }
