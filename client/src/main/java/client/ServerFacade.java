@@ -73,7 +73,6 @@ public class ServerFacade {
         connect.setRequestMethod("DELETE");
         connect.setRequestProperty("Authorization", "Bearer " + authToken);
 
-
         if (connect.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new IOException("Error logging out: " + connect.getResponseMessage());
         }
@@ -106,7 +105,7 @@ public class ServerFacade {
         URL url = new URL("http://" + serverHost + ":" + serverPort + "/game");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("Authorization", "Bearer" + authToken);
+        connection.setRequestProperty("Authorization", "Bearer " + authToken);
 
         if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
             return gson.fromJson(new InputStreamReader(connection.getInputStream()), GameData[].class);
