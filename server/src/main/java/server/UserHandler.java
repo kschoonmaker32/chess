@@ -53,7 +53,7 @@ public class UserHandler {
 
     // logout method
     public Route logout = (Request req, Response res) -> {
-        String authToken = req.headers("Authorization");
+        String authToken = req.headers("Authorization").replace("Bearer ", "");
         try {
             validateAuthToken(authToken);
             userService.logout(authToken);

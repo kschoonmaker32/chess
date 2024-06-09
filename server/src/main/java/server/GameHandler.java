@@ -23,7 +23,7 @@ public class GameHandler {
 
     // list games
     public Route listGames = (Request req, Response res) -> {
-        String authtoken = req.headers("Authorization");
+        String authtoken = req.headers("Authorization").replace("Bearer ", "");
         try {
             List<GameData> games = gameService.listGames(authtoken);
             Map<String, List<GameData>> response = new HashMap<>();
@@ -38,7 +38,7 @@ public class GameHandler {
 
     // create games
     public Route createGame = (Request req, Response res) -> {
-        String authtoken = req.headers("Authorization");
+        String authtoken = req.headers("Authorization").replace("Bearer ", "");
         CreateGameRequest createRequest = JSONUtil.fromJson(req.body(), CreateGameRequest.class);
         try {
             GameData game = gameService.createGame(authtoken, createRequest.gameName);
@@ -52,7 +52,7 @@ public class GameHandler {
 
     // join game
     public Route joinGame = (Request req, Response res) -> {
-        String authtoken = req.headers("Authorization");
+        String authtoken = req.headers("Authorization").replace("Bearer ", "");
         JoinGameRequest joinRequest = JSONUtil.fromJson(req.body(), JoinGameRequest.class);
         try {
             gameService.joinGame(authtoken, joinRequest.getGameID(), joinRequest.getPlayerColor());
