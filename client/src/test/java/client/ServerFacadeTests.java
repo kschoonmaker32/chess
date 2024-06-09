@@ -50,5 +50,18 @@ public class ServerFacadeTests {
         assertThrows(Exception.class, () -> facade.register("player1", "password", "p1@email.com"));
     }
 
+    // login success
+    @Test
+    public void testLoginSuccess() throws Exception {
+        facade.register("player1", "password", "p1@email.com");
+        AuthData authData = facade.login("player1", "password");
+        assertTrue(authData.getAuthToken().length() > 10);
+    }
+
+    // login failure (not registered)
+    @Test
+    public void testLoginFailure() throws Exception {
+        assertThrows(Exception.class, () -> facade.login("nonexistent", "password"));
+    }
 
 }
