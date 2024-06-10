@@ -113,7 +113,7 @@ public class ServerFacadeTests {
         AuthData authData1 = facade.register("player1", "password", "email");
         AuthData authData2 = facade.register("player2", "password", "email");
         GameData gameData = facade.createGame(authData1.getAuthToken(), "Chess game");
-        assertDoesNotThrow(() -> facade.joinGame(authData2.getAuthToken(), gameData.getGameID(), "Chess game"));
+        assertDoesNotThrow(() -> facade.joinGame(authData2.getAuthToken(), gameData.getGameID(), "White"));
     }
 
     // join game failure (invalid game name)

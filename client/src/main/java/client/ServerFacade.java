@@ -1,5 +1,7 @@
 package client;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
@@ -108,7 +110,10 @@ public class ServerFacade {
         connection.setRequestProperty("Authorization", "Bearer " + authToken);
 
         if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            return gson.fromJson(new InputStreamReader(connection.getInputStream()), GameData[].class);
+            InputStreamReader reader = new InputStreamReader(connection.getInputStream());
+            JsonObject responseObject = JsonParser.parseReader(reader).getAsJsonObject();
+            GameData[] games = gson.fromJson(responseObject.getAsJsonArray("games"), GameData[].class);
+            return games;
         } else {
             throw new IOException("Error listing games: " + connection.getResponseMessage());
         }
@@ -118,7 +123,7 @@ public class ServerFacade {
         URL url = new URL("http://" + serverHost + ":" + serverPort + "/game");
         HttpURLConnection connect = (HttpURLConnection) url.openConnection();
         connect.setRequestMethod("PUT");
-        connect.setRequestProperty("Authorization", "Bearer" + authToken);
+        connect.setRequestProperty("Authorization", "Bearer " + authToken);
         connect.setRequestProperty("Content-type", "application/json");
         connect.setDoOutput(true);
 
