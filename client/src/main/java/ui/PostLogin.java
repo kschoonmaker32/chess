@@ -3,6 +3,8 @@ package ui;
 import client.ServerFacade;
 import model.GameData;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class PostLogin {
@@ -10,11 +12,13 @@ public class PostLogin {
     private final ServerFacade serverFacade;
     private final Scanner scanner;
     private final String authToken;
+    private final Map<Integer, Integer> gameIDs;
 
     public PostLogin(ServerFacade serverFacade, String authToken) {
         this.serverFacade = serverFacade;
         this.authToken = authToken;
         this.scanner = new Scanner(System.in);
+        this.gameIDs = new HashMap<>();
     }
 
     public void display() {
@@ -79,12 +83,14 @@ public class PostLogin {
 
     public void listGames() {
         try {
+
             var games = serverFacade.listGames(authToken);
             if (games.length == 0) {
                 System.out.println("No games available. ");
             } else {
                 for (int i = 0; i < games.length; i ++) {
-                    System.out.println((i + 1) + ". " + games[i].getGameName() + " (" + games[i].getGameID() + ")" + " - " + games[i].getWhiteUsername() +  " vs " + games[i].getBlackUsername());
+                    gameIDs.put(i+1, games[i].getGameID());
+                    System.out.println((i + 1) + ". " + games[i].getGameName() + " - " + games[i].getWhiteUsername() +  " vs " + games[i].getBlackUsername());
                 }
             }
         } catch (Exception e) {
@@ -93,21 +99,10 @@ public class PostLogin {
     }
 
     public void playGame() {
-        System.out.println("Which game would you like to join? Please enter the game ID. ");
-        int gameID = Integer.parseInt(scanner.nextLine());
+        System.out.println("Which game would you like to join? Please enter the game number. ");
+        int gameNumber = Integer.parseInt(scanner.nextLine());
         try {
-            var games = serverFacade.listGames(authToken);
-            GameData selectedGame = null;
-            for (GameData game : games) {
-                if(game.getGameID() == (gameID)) {
-                    selectedGame = game;
-                    break;
-                }
-            }
-            if (selectedGame == null) {
-                System.out.println("Game not found. ");
-                return;
-            }
+            int gameID = gameIDs.get(gameNumber);
 
             System.out.println("Enter color (white/black): ");
             String color = scanner.nextLine();
@@ -121,7 +116,7 @@ public class PostLogin {
     }
 
     public void observeGame() {
-        System.out.println("Which game would you like to observe? Please enter the game ID. ");
+        System.out.println("Which game would you like to observe? Please enter the game number. ");
         int gameID = Integer.parseInt(scanner.nextLine());
         try {
             var games = serverFacade.listGames(authToken);

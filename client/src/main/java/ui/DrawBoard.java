@@ -19,8 +19,8 @@ public class DrawBoard {
         board[0][0] = 'R';
         board[0][1] = 'N';
         board[0][2] = 'B';
-        board[0][3] = 'K';
-        board[0][4] = 'Q';
+        board[0][3] = 'Q';
+        board[0][4] = 'K';
         board[0][5] = 'B';
         board[0][6] = 'N';
         board[0][7] = 'R';
@@ -37,8 +37,8 @@ public class DrawBoard {
         board[7][0] = 'r';
         board[7][1] = 'n';
         board[7][2] = 'b';
-        board[7][3] = 'k';
-        board[7][4] = 'q';
+        board[7][3] = 'q';
+        board[7][4] = 'k';
         board[7][5] = 'b';
         board[7][6] = 'n';
         board[7][7] = 'r';
