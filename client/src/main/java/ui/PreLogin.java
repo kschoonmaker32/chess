@@ -3,7 +3,6 @@ package ui;
 import client.ServerFacade;
 
 import java.util.Scanner;
-import client.ServerFacade;
 import model.AuthData;
 
 public class PreLogin {

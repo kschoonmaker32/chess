@@ -3,9 +3,9 @@ package ui;
 public class DrawBoard {
 
     private final char[][] board;
-    private static final String whitePieceColor = EscapeSequences.SET_TEXT_COLOR_RED;
-    private static final String blackPieceColor = EscapeSequences.SET_TEXT_COLOR_BLACK;
-    private static final String whiteText = EscapeSequences.SET_TEXT_COLOR_WHITE;
+    private static final String WHITE_PIECE_COLOR = EscapeSequences.SET_TEXT_COLOR_RED;
+    private static final String BLACK_PIECE_COLOR = EscapeSequences.SET_TEXT_COLOR_BLACK;
+    private static final String WHITE_TEXT = EscapeSequences.SET_TEXT_COLOR_WHITE;
 
     public DrawBoard() {
         board = new char[8][8];
@@ -65,9 +65,9 @@ public class DrawBoard {
 
     private void drawBoardState(boolean whiteOnBottom) {
         if (whiteOnBottom) {
-            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + whiteText + "    a  b  c  d  e  f  g  h    " + EscapeSequences.RESET_BG_COLOR);
+            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + WHITE_TEXT + "    a  b  c  d  e  f  g  h    " + EscapeSequences.RESET_BG_COLOR);
         } else {
-            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + whiteText + "    h  g  f  e  d  c  b  a    " + EscapeSequences.RESET_BG_COLOR);
+            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + WHITE_TEXT + "    h  g  f  e  d  c  b  a    " + EscapeSequences.RESET_BG_COLOR);
         }
 
         for (int i = 0; i < 8; i++) {
@@ -79,32 +79,25 @@ public class DrawBoard {
                 char capitalPiece = Character.toUpperCase(piece);
                 String pieceColor = getPieceColor(piece);
                 if ((row + col) % 2 == 0) {
-                    System.out.print(EscapeSequences.SET_BG_COLOR_LIGHT_BLUE + " " + pieceColor + capitalPiece + whiteText + " " + EscapeSequences.RESET_BG_COLOR);
+                    System.out.print(EscapeSequences.SET_BG_COLOR_LIGHT_BLUE + " " + pieceColor + capitalPiece + WHITE_TEXT + " " + EscapeSequences.RESET_BG_COLOR);
                 } else {
-                    System.out.print(EscapeSequences.SET_BG_COLOR_WHITE + " " + pieceColor + capitalPiece + whiteText + " " + EscapeSequences.RESET_BG_COLOR);
+                    System.out.print(EscapeSequences.SET_BG_COLOR_WHITE + " " + pieceColor + capitalPiece + WHITE_TEXT + " " + EscapeSequences.RESET_BG_COLOR);
                 }
             }
             System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + " " + (row + 1) + " " + EscapeSequences.RESET_BG_COLOR);
         }
         if (whiteOnBottom) {
-            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + whiteText + "    a  b  c  d  e  f  g  h    " + EscapeSequences.RESET_BG_COLOR);
+            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + WHITE_TEXT + "    a  b  c  d  e  f  g  h    " + EscapeSequences.RESET_BG_COLOR);
         } else {
-            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + whiteText + "    h  g  f  e  d  c  b  a    " + EscapeSequences.RESET_BG_COLOR);
+            System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + WHITE_TEXT + "    h  g  f  e  d  c  b  a    " + EscapeSequences.RESET_BG_COLOR);
         }
     }
 
     private String getPieceColor(char piece) {
         if (Character.isUpperCase(piece)) {
-            return whitePieceColor;
+            return WHITE_PIECE_COLOR;
         } else {
-            return blackPieceColor;
-        }
-    }
-
-    public void setPiece(String position, char piece) {
-        int[] indices = convertPositionToIndices(position);
-        if (indices != null) {
-            board[indices[0]][indices[1]] = piece;
+            return BLACK_PIECE_COLOR;
         }
     }
 

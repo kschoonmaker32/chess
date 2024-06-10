@@ -44,7 +44,6 @@ public class ServerFacadeTests {
     // register failure (duplicate registration)
     @Test
     public void testRegisterFailure() throws Exception {
-        AuthData authData = facade.register("player1", "password", "p1@email.com");
         assertThrows(Exception.class, () -> facade.register("player1", "password", "p1@email.com"));
     }
 
