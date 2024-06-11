@@ -8,6 +8,7 @@ import model.GameData;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import service.GameService;
 import websocket.commands.ConnectCommand;
+import websocket.commands.LeaveCommand;
 import websocket.commands.UserGameCommand;
 import websocket.messages.ErrorMessage;
 import websocket.messages.LoadGameMessage;
@@ -42,6 +43,10 @@ public class WebSocketHandler {
                 ConnectCommand connectCommand = gson.fromJson(message, ConnectCommand.class);
                 handleConnect(session, authToken, connectCommand.getGameID());
                 break;
+            case LEAVE:
+                LeaveCommand leaveCommand = gson.fromJson(message, LeaveCommand.class);
+                handleLeave(session, authToken, leaveCommand.getGameID());
+                break;
         }
     }
 
@@ -49,6 +54,14 @@ public class WebSocketHandler {
         gameSessions.computeIfAbsent(gameID, k -> ConcurrentHashMap.newKeySet()).add(session);
         sendNotificationToOthers(gameID, session, authToken + " connected to game " + gameID);
         sendLoadGameMessage(gameID, session);
+    }
+
+    private void handleLeave(Session session, String authToken, int gameID) throws IOException {
+        Set<Session> sessions = gameSessions.get(gameID);
+        if (sessions != null) {
+            sessions.remove(session);
+            sendNotificationToOthers(gameID, session, authToken + " left the game");
+        }
     }
 
     private void sendLoadGameMessage(int gameID, Session session) throws IOException {
