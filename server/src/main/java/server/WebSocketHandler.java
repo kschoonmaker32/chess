@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import model.GameData;
 
 
+import service.GameService;
 import websocket.commands.ConnectCommand;
 import websocket.commands.UserGameCommand;
 import websocket.messages.ErrorMessage;
@@ -17,7 +18,11 @@ import java.util.Set;
 public class WebSocketHandler {
     private static final Map<Integer, Set<Session>> gameSessions = new ConcurrentHashMap<>();
     private static final Gson gson = new Gson();
+    private final GameService gameService;
 
+    public WebSocketHandler(GameService gameService) {
+        this.gameService = gameService;
+    }
 
     public void onOpen(Session session) {
         //
