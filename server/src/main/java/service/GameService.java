@@ -75,4 +75,8 @@ public class GameService {
     private int generateGameID() {
         return new Random().nextInt(10000);
     }
+
+    public GameData getGameData(int gameID) throws DataAccessException {
+        return gameDAO.getGame(gameID);
+    }
 }
