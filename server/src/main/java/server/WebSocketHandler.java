@@ -49,7 +49,7 @@ public class WebSocketHandler {
 
     private void sendLoadGameMessage(int gameID, Session session) throws IOException {
         try {
-            //GameData gameData = getGameData(gameID);
+            GameData gameData = gameService.getGameData(gameID);
             LoadGameMessage loadGameMessage = new LoadGameMessage(gameData);
             String message = gson.toJson(loadGameMessage);
             session.getRemote().sendString(message);
