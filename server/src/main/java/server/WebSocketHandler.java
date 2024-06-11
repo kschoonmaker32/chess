@@ -1,6 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
+import dataaccess.DataAccessException;
 import model.GameData;
 
 
@@ -8,6 +9,7 @@ import service.GameService;
 import websocket.commands.ConnectCommand;
 import websocket.commands.UserGameCommand;
 import websocket.messages.ErrorMessage;
+import websocket.messages.LoadGameMessage;
 import websocket.messages.NotificationMessage;
 import org.eclipse.jetty.websocket.api.Session;
 import java.io.IOException;
@@ -42,9 +44,18 @@ public class WebSocketHandler {
         gameSessions.computeIfAbsent(gameID, k -> ConcurrentHashMap.newKeySet()).add(session);
         sendNotificationToOthers(gameID, session, authToken + " connected to game " + gameID);
 
+
     }
 
-    private void sendLoadGameMessage(int gameID) throws IOException {
+    private void sendLoadGameMessage(int gameID, Session session) throws IOException {
+        try {
+            //GameData gameData = getGameData(gameID);
+            LoadGameMessage loadGameMessage = new LoadGameMessage(gameData);
+            String message = gson.toJson(loadGameMessage);
+            session.getRemote().sendString(message);
+        } catch (DataAccessException e) {
+            sendError(session, "Failed to load game data");
+        }
     }
 
     private void sendNotificationToOthers(int gameID, Session senderSession, String notification) throws IOException {
