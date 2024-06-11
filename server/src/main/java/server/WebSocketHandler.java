@@ -5,6 +5,7 @@ import dataaccess.DataAccessException;
 import model.GameData;
 
 
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import service.GameService;
 import websocket.commands.ConnectCommand;
 import websocket.commands.UserGameCommand;
@@ -26,10 +27,12 @@ public class WebSocketHandler {
         this.gameService = gameService;
     }
 
+
     public void onOpen(Session session) {
         //
     }
 
+    @OnWebSocketMessage
     public void onMessage(String message, Session session) throws IOException {
         UserGameCommand command = gson.fromJson(message, UserGameCommand.class);
         String authToken = command.getAuthString();
@@ -37,14 +40,15 @@ public class WebSocketHandler {
         switch (command.getCommandType()) {
             case CONNECT:
                 ConnectCommand connectCommand = gson.fromJson(message, ConnectCommand.class);
+                handleConnect(session, authToken, connectCommand.getGameID());
+                break;
         }
     }
 
     private void handleConnect(Session session, String authToken, int gameID) throws IOException {
         gameSessions.computeIfAbsent(gameID, k -> ConcurrentHashMap.newKeySet()).add(session);
         sendNotificationToOthers(gameID, session, authToken + " connected to game " + gameID);
-
-
+        sendLoadGameMessage(gameID, session);
     }
 
     private void sendLoadGameMessage(int gameID, Session session) throws IOException {
