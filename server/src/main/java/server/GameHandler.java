@@ -7,6 +7,7 @@ import java.util.List;
 import utils.JSONUtil;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import spark.Route;
 import spark.Request;
@@ -16,6 +17,7 @@ import spark.Response;
 public class GameHandler {
 
     private GameService gameService;
+    //private final ConcurrentHashMap<Integer, Set<Session>> gameSessions;
 
     public GameHandler(GameService gameService) {
         this.gameService = gameService;
