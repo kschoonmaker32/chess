@@ -35,6 +35,7 @@ public class Server {
         // Handler instances
         UserHandler userHandler = new UserHandler(userService);
         GameHandler gameHandler = new GameHandler(gameService);
+        WebSocketHandler webSocketHandler = new WebSocketHandler(gameService);
 
         // Register your endpoints and handle exceptions here.
         Spark.post("/user", userHandler.register);
@@ -58,6 +59,7 @@ public class Server {
             }
         });
 
+        Spark.webSocket("/ws", webSocketHandler);
 
         Spark.awaitInitialization();
 
