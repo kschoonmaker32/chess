@@ -91,6 +91,16 @@ public class WebSocketHandler {
         }
     }
 
+    private void sendLoadGameMessageToAll(int gameID, Session session) throws IOException {
+        try {
+            GameData gameData = gameService.getGameData(gameID);
+            LoadGameMessage loadGameMessage = new LoadGameMessage(gameData);
+            String message = gson.toJson(loadGameMessage);
+            sendToAll(gameID, message);
+        } catch (DataAccessException e) {
+            sendError(session, "Failed to load game data");
+        }
+    }
 
     private void sendNotificationToOthers(int gameID, Session senderSession, String notification) throws IOException {
         NotificationMessage notificationMessage = new NotificationMessage(notification);
