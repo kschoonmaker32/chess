@@ -1,5 +1,6 @@
 package server;
 
+import chess.ChessMove;
 import com.google.gson.Gson;
 import dataaccess.DataAccessException;
 import model.GameData;
@@ -56,12 +57,27 @@ public class WebSocketHandler {
         sendLoadGameMessage(gameID, session);
     }
 
+    private void handleMakeMove(Session session, String authToken, int gameID, ChessMove move) throws IOException {
+        try {
+            gameService.makeMove(authToken, gameID, move);
+
+        }
+    }
+
     private void handleLeave(Session session, String authToken, int gameID) throws IOException {
         Set<Session> sessions = gameSessions.get(gameID);
         if (sessions != null) {
             sessions.remove(session);
             sendNotificationToOthers(gameID, session, authToken + " left the game");
         }
+    }
+
+    private void handleResign(Session session, String authToken, int gameID) throws IOException {
+//        Set<Session> sessions = gameSessions.get(gameID);
+//        if (sessions != null) {
+//            sessions.remove(session);
+//            sendNotificationToAll(gameID,authToken + " resigned");
+//        }
     }
 
     private void sendLoadGameMessage(int gameID, Session session) throws IOException {
@@ -74,6 +90,7 @@ public class WebSocketHandler {
             sendError(session, "Failed to load game data");
         }
     }
+
 
     private void sendNotificationToOthers(int gameID, Session senderSession, String notification) throws IOException {
         NotificationMessage notificationMessage = new NotificationMessage(notification);
