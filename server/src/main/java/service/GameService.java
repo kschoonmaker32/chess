@@ -1,5 +1,6 @@
 package service;
 
+import chess.ChessMove;
 import dataaccess.*;
 import model.GameData;
 import java.util.List;
@@ -80,7 +81,11 @@ public class GameService {
         return gameDAO.getGame(gameID);
     }
 
-    public void makeMove(String authToken, int gameID, ChessMove move) throws DataAccessException {
-        if (verifyAuth(authToken))
+    public void makeMove(int gameID, String authToken, ChessMove move) throws DataAccessException {
+        //if (verifyAuth(authToken))
+    }
+
+    public void resign(String authToken, int gameID) throws DataAccessException {
+        //
     }
 }
