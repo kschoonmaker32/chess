@@ -59,8 +59,11 @@ public class WebSocketHandler {
 
     private void handleMakeMove(Session session, String authToken, int gameID, ChessMove move) throws IOException {
         try {
-            gameService.makeMove(authToken, gameID, move);
-
+            gameService.makeMove(gameID, authToken, move);
+            sendLoadGameMessageToAll(gameID, session);
+            sendNotificationToAll(gameID, authToken + " made a move: " + move);
+        } catch (DataAccessException e) {
+            sendError(session, "Failed to make move: " + e.getMessage());
         }
     }
 
@@ -73,11 +76,12 @@ public class WebSocketHandler {
     }
 
     private void handleResign(Session session, String authToken, int gameID) throws IOException {
-//        Set<Session> sessions = gameSessions.get(gameID);
-//        if (sessions != null) {
-//            sessions.remove(session);
-//            sendNotificationToAll(gameID,authToken + " resigned");
-//        }
+        try {
+            gameService.resign(authToken, gameID);
+            sendNotificationToAll(gameID, authToken + " resigned");
+        } catch (DataAccessException e) {
+            sendError(session, "Failed to resign: " + e.getMessage());
+        }
     }
 
     private void sendLoadGameMessage(int gameID, Session session) throws IOException {
