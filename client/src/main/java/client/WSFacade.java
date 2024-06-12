@@ -2,6 +2,7 @@ package client;
 
 import com.google.gson.Gson;
 import websocket.commands.ConnectCommand;
+import websocket.commands.UserGameCommand;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -42,4 +43,12 @@ public class WSFacade {
         this.session = null;
     }
 
+    private void sendMessage(UserGameCommand command) throws IOException{
+        String message = gson.toJson(command);
+        session.getBasicRemote().sendText(message);
+    }
+
+    public void receiveMessage() throws InterruptedException {
+        messageQueue.take();
+    }
 }
