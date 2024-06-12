@@ -27,11 +27,6 @@ public class WebSocketHandler {
         this.gameService = gameService;
     }
 
-
-    public void onOpen(Session session) {
-        //
-    }
-
     @OnWebSocketMessage
     public void onMessage(String message, Session session) throws IOException {
         UserGameCommand command = gson.fromJson(message, UserGameCommand.class);
@@ -48,7 +43,7 @@ public class WebSocketHandler {
                 break;
             case MAKE_MOVE:
                 MakeMoveCommand makeMoveCommand = gson.fromJson(message, MakeMoveCommand.class);
-                handleMakeMove(session, authToken, makeMoveCommand.getGameID(), move); // fix move here
+                handleMakeMove(session, authToken, makeMoveCommand.getGameID(), makeMoveCommand.getMove());
                 break;
             case RESIGN:
                 ResignCommand resignCommand = gson.fromJson(message, ResignCommand.class);
