@@ -1,8 +1,8 @@
 package client;
 
+import chess.ChessMove;
 import com.google.gson.Gson;
-import websocket.commands.ConnectCommand;
-import websocket.commands.UserGameCommand;
+import websocket.commands.*;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -41,6 +41,26 @@ public class WSFacade {
     @OnClose
     public void onClose() {
         this.session = null;
+    }
+
+    public void sendConnect(String authToken, int gameID) throws IOException {
+        ConnectCommand connectCommand = new ConnectCommand(authToken, gameID);
+        sendMessage(connectCommand);
+    }
+
+    public void sendLeave(String authToken, int gameID) throws IOException {
+        LeaveCommand leaveCommand = new LeaveCommand(authToken, gameID);
+        sendMessage(leaveCommand);
+    }
+
+    public void sendMakeMove(String authToken, int gameID, ChessMove move) throws IOException {
+        MakeMoveCommand moveCommand = new MakeMoveCommand(authToken, gameID, move);
+        sendMessage(moveCommand);
+    }
+
+    public void sendResign(String authToken, int gameID) throws IOException {
+        ResignCommand resignCommand = new ResignCommand(authToken, gameID);
+        sendMessage(resignCommand);
     }
 
     private void sendMessage(UserGameCommand command) throws IOException{
