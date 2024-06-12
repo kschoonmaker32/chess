@@ -79,4 +79,8 @@ public class GameService {
     public GameData getGameData(int gameID) throws DataAccessException {
         return gameDAO.getGame(gameID);
     }
+
+    public void makeMove(String authToken, int gameID, ChessMove move) throws DataAccessException {
+        if (verifyAuth(authToken))
+    }
 }
