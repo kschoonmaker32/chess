@@ -35,6 +35,7 @@ public class GamePlay {
                     displayHelp();
                     break;
                 case "redraw":
+                    drawBoard.
                 case "leave":
                     leaveGame();
                     running = false;
@@ -96,14 +97,43 @@ public class GamePlay {
             String endPos = scanner.nextLine();
 
             ChessPosition start = convertPositionToIndices(startPos);
+            ChessPosition end = convertPositionToIndices(endPos);
+            if (start == null || end == null) {
+                System.out.println("Invalid position entered. ");
+                return;
+            }
+            ChessPiece piece = chessGame.getBoard().getPiece(start);
 
-            ChessPiece piece =
-            // check if promotion
-            if (ChessMovesCalculator.isPawnPromotion())
-            ChessMove move = new ChessMove(startPos, endPos,)
+            // if pawn promotion:
+            if (piece != null && piece.getPieceType() == ChessPiece.PieceType.PAWN && ChessMovesCalculator.isPawnPromotion(piece, end.getRow())) {
+                ChessPiece.PieceType promoPiece = null;
+
+                while (promoPiece == null) {
+                    System.out.println("Pawn promotion! Choose a piece to promote to: (Queen, Rook, Bishop, Knight) ");
+                    String promoString = scanner.nextLine().trim().toLowerCase();
+                    switch (promoString) {
+                        case "queen" -> promoPiece = ChessPiece.PieceType.QUEEN;
+                        case "rook" -> promoPiece = ChessPiece.PieceType.ROOK;
+                        case "bishop" -> promoPiece = ChessPiece.PieceType.BISHOP;
+                        case "knight" -> promoPiece = ChessPiece.PieceType.KNIGHT;
+                        default -> System.out.println("Invalid promotion piece. Please choose again. ");
+                    }
+                }
+                ChessMove move = new ChessMove(start, end, promoPiece);
+                webSocketFacade.sendMakeMove(authToken, gameID, move);
+                chessGame.makeMove(move); // move with promo
+            // if not pawn promotion:
+            } else {
+                ChessMove move = new ChessMove(start, end, null);
+                webSocketFacade.sendMakeMove(authToken, gameID, move);
+                chessGame.makeMove(move); // move with no promo
+            }
+            System.out.println("Moved successfully. ");
+            redrawBoard();
+        } catch (Exception e) {
+            System.out.println("Failed to make move: " + e.getMessage());
         }
     }
-
 
     private ChessPosition convertPositionToIndices(String position) {
         if (position.length() != 2) {
