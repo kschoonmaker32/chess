@@ -24,6 +24,9 @@ public class GamePlay {
                 case "make move":
                 case "resign":
                 case "highlight legal moves":
+                default:
+                    System.out.println("Command not recognized. Type 'Help' for a list of available commands. ");
+                    break;
             }
         }
     }
