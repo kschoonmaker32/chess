@@ -114,6 +114,13 @@ public class WebSocketHandler {
         sendToOthers(gameID, senderSession, message);
     }
 
+    private void sendNotificationToAll(int gameID, String notification) throws IOException {
+        NotificationMessage notificationMessage = new NotificationMessage(notification);
+        String message = gson.toJson(notificationMessage);
+
+        sendToAll(gameID, message);
+    }
+
     private void sendToOthers(int gameID, Session senderSession, String message) throws IOException {
         Set<Session> sessions = gameSessions.get(gameID);
         if (sessions != null) {
@@ -123,13 +130,6 @@ public class WebSocketHandler {
                 }
             }
         }
-    }
-
-    private void sendNotificationToAll(int gameID, String notification) throws IOException {
-        NotificationMessage notificationMessage = new NotificationMessage(notification);
-        String message = gson.toJson(notificationMessage);
-
-        sendToAll(gameID, message);
     }
 
     private void sendToAll(int gameID, String message) throws IOException {
