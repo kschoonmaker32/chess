@@ -1,5 +1,7 @@
 package ui;
 
+import chess.ChessMove;
+import chess.ChessMovesCalculator;
 import client.ServerFacade;
 import client.WebSocketFacade;
 
@@ -36,6 +38,14 @@ public class GamePlay {
                     break;
                 case "make move":
                 case "resign":
+                    System.out.println("Are you sure you want to resign? You will lose lol. Enter yes or no: ");
+                    String answer = scanner.nextLine().trim().toLowerCase();
+                    if (answer.equals("yes")) {
+                        resignGame();
+                        break;
+                    } else {
+                        break;
+                    }
                 case "highlight moves":
                 default:
                     System.out.println("Command not recognized. Type 'Help' for a list of available commands. ");
@@ -60,5 +70,15 @@ public class GamePlay {
             System.out.println("Failed to leave the game: " + e.getMessage());
         }
     }
+
+    public void resignGame() {
+        try {
+            webSocketFacade.sendResign(authToken, gameID);
+            System.out.println("You have resigned from the game. ");
+        } catch (Exception e) {
+            System.out.println("Failed to leave the game: " + e.getMessage());
+        }
+    }
+
 
 }
