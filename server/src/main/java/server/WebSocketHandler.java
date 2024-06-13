@@ -78,8 +78,8 @@ public class WebSocketHandler {
 
     private void handleResign(Session session, String authToken, int gameID) throws IOException {
         try {
-            gameService.resign(authToken, gameID);
-            sendNotificationToAll(gameID, authToken + " resigned");
+            String winner = gameService.resign(authToken, gameID);
+            sendNotificationToAll(gameID, authToken + " resigned. " + winner + " wins. ");
         } catch (DataAccessException e) {
             sendError(session, "Failed to resign: " + e.getMessage());
         }

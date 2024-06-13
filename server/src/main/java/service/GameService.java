@@ -113,7 +113,24 @@ public class GameService {
         gameDAO.updateGame(gameData);
     }
 
-    public void resign(String authToken, int gameID) throws DataAccessException {
-        //
+    public String resign(String authToken, int gameID) throws DataAccessException {
+        verifyAuth(authToken);
+        GameData gameData = getGameData(gameID);
+        if (gameData == null) {
+            throw new DataAccessException("Game not found.");
+        }
+
+        String username = getUsername(authToken);
+        String winner;
+
+        if (username.equals(gameData.getWhiteUsername())) {
+            winner = gameData.getBlackUsername();
+        } else if (username.equals(gameData.getBlackUsername())) {
+            winner = gameData.getWhiteUsername();
+        } else {
+            throw new DataAccessException("You are not a player in this game. ");
+        }
+
+        return winner;
     }
 }
