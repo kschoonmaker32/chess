@@ -21,6 +21,8 @@ public class GamePlay {
                     break;
                 case "redraw chess board":
                 case "leave":
+                    running = false;
+                    break;
                 case "make move":
                 case "resign":
                 case "highlight legal moves":
