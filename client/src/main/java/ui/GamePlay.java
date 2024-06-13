@@ -7,15 +7,13 @@ import javax.websocket.WebSocketContainer;
 import java.util.Scanner;
 
 public class GamePlay {
-    private final ServerFacade serverFacade;
     private final WebSocketFacade webSocketFacade;
     private final Scanner scanner;
     private final String authToken;
     private final int gameID;
 
 
-    public GamePlay(ServerFacade serverFacade, WebSocketFacade webSocketFacade, String authToken, int gameID) {
-        this.serverFacade = serverFacade;
+    public GamePlay(WebSocketFacade webSocketFacade, String authToken, int gameID) {
         this.webSocketFacade = webSocketFacade;
         this.scanner = new Scanner(System.in);
         this.authToken = authToken;
