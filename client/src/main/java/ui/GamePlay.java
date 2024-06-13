@@ -95,7 +95,8 @@ public class GamePlay {
             System.out.println("Where would you like to move this piece? Enter the letter and the number: ");
             String endPos = scanner.nextLine();
 
-            int[] startind = chessboard.convertPositionToIndices(startPos);
+            ChessPosition start = convertPositionToIndices(startPos);
+
             ChessPiece piece =
             // check if promotion
             if (ChessMovesCalculator.isPawnPromotion())
@@ -103,4 +104,19 @@ public class GamePlay {
         }
     }
 
+
+    private ChessPosition convertPositionToIndices(String position) {
+        if (position.length() != 2) {
+            return null;
+        }
+        char column = position.charAt(0);
+        char row = position.charAt(1);
+
+        int colIndex = column - 'a';
+        int rowIndex = row - 1;
+        if (colIndex < 0 || colIndex > 7 || rowIndex < 0 || rowIndex > 7) {
+            return null;
+        }
+        return new ChessPosition(rowIndex, colIndex);
+    }
 }

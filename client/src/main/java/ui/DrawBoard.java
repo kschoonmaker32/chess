@@ -60,20 +60,7 @@ public class DrawBoard {
         } return type;
     }
 
-    public int[] convertPositionToIndices(String position) {
-        if (position.length() != 2) {
-            return null;
-        }
-        char column = position.charAt(0);
-        char row = position.charAt(1);
 
-        int colIndex = column - 'a';
-        int rowIndex = row - 1;
-        if (colIndex < 0 || colIndex > 7 || rowIndex < 0 || rowIndex > 7) {
-            return null;
-        }
-        return new int[]{rowIndex, colIndex};
-    }
 
     public void redrawBoard(boolean whiteOnBottom) {
         drawBoard(whiteOnBottom);
