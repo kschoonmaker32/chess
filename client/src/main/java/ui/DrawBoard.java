@@ -108,7 +108,7 @@ public class DrawBoard {
         }
     }
 
-    private int[] convertPositionToIndices(String position) {
+    public int[] convertPositionToIndices(String position) {
         if (position.length() != 2) {
             return null;
         }
