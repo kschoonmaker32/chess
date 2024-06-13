@@ -1,7 +1,6 @@
 package ui;
 
-import chess.ChessMove;
-import chess.ChessMovesCalculator;
+import chess.*;
 import client.ServerFacade;
 import client.WebSocketFacade;
 
@@ -13,13 +12,17 @@ public class GamePlay {
     private final Scanner scanner;
     private final String authToken;
     private final int gameID;
+    private final ChessGame chessGame;
+    private final DrawBoard drawBoard;
 
 
-    public GamePlay(WebSocketFacade webSocketFacade, String authToken, int gameID) {
+    public GamePlay(WebSocketFacade webSocketFacade, String authToken, int gameID, ChessGame chessGame, DrawBoard drawBoard) {
         this.webSocketFacade = webSocketFacade;
         this.scanner = new Scanner(System.in);
         this.authToken = authToken;
         this.gameID = gameID;
+        this.chessGame = chessGame;
+        this.drawBoard = new DrawBoard(chessGame);
     }
 
     public void display() {
@@ -62,6 +65,11 @@ public class GamePlay {
         System.out.println("Highlight moves: highlight the possible moves for a piece of your choice. ");
     }
 
+    public void redrawBoard() {
+        boolean whiteOnBottom = chessGame.getTeamTurn() == ChessGame.TeamColor.WHITE;
+        drawBoard.redrawBoard(whiteOnBottom);
+    }
+
     public void leaveGame() {
         try {
             webSocketFacade.sendLeave(authToken, gameID);
@@ -80,5 +88,19 @@ public class GamePlay {
         }
     }
 
+    public void makeMove() {
+        try {
+            System.out.println("Which piece would you like to move? Enter the letter and the number (e.g. e2): ");
+            String startPos = scanner.nextLine();
+            System.out.println("Where would you like to move this piece? Enter the letter and the number: ");
+            String endPos = scanner.nextLine();
+
+            int[] startind = chessboard.convertPositionToIndices(startPos);
+            ChessPiece piece =
+            // check if promotion
+            if (ChessMovesCalculator.isPawnPromotion())
+            ChessMove move = new ChessMove(startPos, endPos,)
+        }
+    }
 
 }
