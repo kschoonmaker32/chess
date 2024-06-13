@@ -1,6 +1,8 @@
 package ui;
 
+import chess.ChessGame;
 import client.ServerFacade;
+import client.WebSocketFacade;
 import model.GameData;
 
 import java.util.HashMap;
@@ -10,12 +12,14 @@ import java.util.Scanner;
 public class PostLogin {
 
     private final ServerFacade serverFacade;
+    private final WebSocketFacade webSocketFacade;
     private final Scanner scanner;
     private final String authToken;
     private final Map<Integer, Integer> gameIDs;
 
-    public PostLogin(ServerFacade serverFacade, String authToken) {
+    public PostLogin(ServerFacade serverFacade, WebSocketFacade webSocketFacade, String authToken) {
         this.serverFacade = serverFacade;
+        this.webSocketFacade = webSocketFacade;
         this.authToken = authToken;
         this.scanner = new Scanner(System.in);
         this.gameIDs = new HashMap<>();
@@ -108,8 +112,13 @@ public class PostLogin {
             String color = scanner.nextLine();
             serverFacade.joinGame(authToken, gameID, color);
             System.out.println("Joined game successfully!");
-            DrawBoard drawBoard = new DrawBoard();
-            drawBoard.drawBoard();
+
+            ChessGame chessGame = new ChessGame();
+            DrawBoard drawBoard = new DrawBoard(chessGame);
+            ChessGame.TeamColor userColor = color.equalsIgnoreCase("white") ? ChessGame.TeamColor.WHITE : ChessGame.TeamColor.BLACK;
+
+            GamePlay gamePlay = new GamePlay(webSocketFacade, authToken, gameID, chessGame, drawBoard);
+            gamePlay.display();
         } catch (Exception e) {
             System.out.println("Failed to join game: " + e.getMessage());
         }
@@ -117,8 +126,10 @@ public class PostLogin {
 
     public void observeGame() {
         System.out.println("Which game would you like to observe? Please enter the game number. ");
-        int gameID = Integer.parseInt(scanner.nextLine());
+        int gameNumber = Integer.parseInt(scanner.nextLine());
         try {
+            int gameID = gameIDs.get(gameNumber);
+
             var games = serverFacade.listGames(authToken);
             GameData selectedGame = null;
             for (GameData game : games) {
@@ -132,8 +143,15 @@ public class PostLogin {
                 return;
             }
             System.out.println("Observing game. ");
-            DrawBoard drawBoard = new DrawBoard();
-            drawBoard.drawBoard();
+
+            // set up board
+            ChessGame chessGame = new ChessGame();
+            chessGame.setBoard(selectedGame.getGame().getBoard());
+            DrawBoard drawBoard = new DrawBoard(chessGame);
+            // start gameplay ui
+            GamePlay gamePlay = new GamePlay(webSocketFacade, authToken, gameID, chessGame, drawBoard);
+            gamePlay.display();
+
         } catch (Exception e) {
             System.out.println("Failed to join game: " + e.getMessage());
         }

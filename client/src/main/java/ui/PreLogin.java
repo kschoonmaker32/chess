@@ -3,15 +3,19 @@ package ui;
 import client.ServerFacade;
 
 import java.util.Scanner;
+
+import client.WebSocketFacade;
 import model.AuthData;
 
 public class PreLogin {
 
     private final ServerFacade serverFacade;
+    private final WebSocketFacade webSocketFacade;
     private final Scanner scanner;
 
-    public PreLogin(ServerFacade serverFacade) {
+    public PreLogin(ServerFacade serverFacade, WebSocketFacade webSocketFacade) {
         this.serverFacade = serverFacade;
+        this.webSocketFacade = webSocketFacade;
         this.scanner = new Scanner(System.in);
     }
 
@@ -53,7 +57,7 @@ public class PreLogin {
         String password = scanner.nextLine();
         try {
             AuthData authData = serverFacade.login(username, password);
-            PostLogin postLogin = new PostLogin(serverFacade, authData.getAuthToken());
+            PostLogin postLogin = new PostLogin(serverFacade, webSocketFacade, authData.getAuthToken());
             System.out.println("Login successful");
             postLogin.display();
         } catch (Exception e) {
@@ -70,7 +74,7 @@ public class PreLogin {
         String email = scanner.nextLine();
         try {
             AuthData authData = serverFacade.register(username, password, email);
-            PostLogin postLogin = new PostLogin(serverFacade, authData.getAuthToken());
+            PostLogin postLogin = new PostLogin(serverFacade, webSocketFacade, authData.getAuthToken());
             System.out.println("Registration successful");
             postLogin.display();
         } catch (Exception e) {
