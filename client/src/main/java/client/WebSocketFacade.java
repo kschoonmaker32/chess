@@ -11,12 +11,12 @@ import java.net.URISyntaxException;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
-public class WSFacade {
+public class WebSocketFacade {
     private Session session;
     private final Gson gson;
     private final BlockingDeque<String> messageQueue;
 
-    public WSFacade(String serverURI) throws URISyntaxException, DeploymentException, IOException {
+    public WebSocketFacade(String serverURI) throws URISyntaxException, DeploymentException, IOException {
         this.gson = new Gson();
         this.messageQueue = new LinkedBlockingDeque<>();
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
