@@ -82,7 +82,35 @@ public class GameService {
     }
 
     public void makeMove(int gameID, String authToken, ChessMove move) throws DataAccessException {
-        //if (verifyAuth(authToken))
+        verifyAuth(authToken);
+        GameData gameData = getGameData(gameID);
+        if (gameData == null) {
+            throw new DataAccessException("Game not found.");
+        }
+
+        String username = getUsername(authToken);
+        ChessGame.TeamColor currentTurn = gameData.getGame().getTeamTurn();
+        ChessGame.TeamColor playerColor = null;
+
+        if (username.equals(gameData.getWhiteUsername())) {
+            playerColor = ChessGame.TeamColor.WHITE;
+        } else if (username.equals(gameData.getBlackUsername())) {
+            playerColor = ChessGame.TeamColor.BLACK;
+        } else {
+            throw new DataAccessException("You are not a player in this game. ");
+        }
+
+        if (currentTurn != playerColor) {
+            throw new DataAccessException("It is not your turn. ");
+        }
+
+        try {
+            gameData.getGame().makeMove(move);
+        } catch (Exception e) {
+            throw new DataAccessException("Invalid move: " + e.getMessage());
+        }
+
+        gameDAO.updateGame(gameData);
     }
 
     public void resign(String authToken, int gameID) throws DataAccessException {
