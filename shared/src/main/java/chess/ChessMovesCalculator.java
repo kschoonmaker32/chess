@@ -87,7 +87,7 @@ public class ChessMovesCalculator {
         };
     }
 
-    private static boolean isPawnPromotion(ChessPiece piece, int nextRow) {
+    public static boolean isPawnPromotion(ChessPiece piece, int nextRow) {
         if(piece.getPieceType() == ChessPiece.PieceType.PAWN) {
             return (piece.getTeamColor() == ChessGame.TeamColor.WHITE && nextRow == 7) ||
                     (piece.getTeamColor() == ChessGame.TeamColor.BLACK && nextRow == 0);
