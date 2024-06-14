@@ -13,7 +13,7 @@ public class DrawBoard {
         this.chessGame = chessGame;
     }
 
-    private void drawBoard(boolean whiteOnBottom) {
+    private void drawBoardState(boolean whiteOnBottom) {
         if (whiteOnBottom) {
             System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + WHITE_TEXT + "    a  b  c  d  e  f  g  h    " + EscapeSequences.RESET_BG_COLOR);
         } else {
@@ -63,7 +63,7 @@ public class DrawBoard {
 
 
     public void redrawBoard(boolean whiteOnBottom) {
-        drawBoard(whiteOnBottom);
+        drawBoardState(whiteOnBottom);
     }
 
 }
