@@ -44,20 +44,16 @@ public class DrawBoard {
     }
 
     private char getPieceType(ChessPiece piece) {
-        char type = 0;
-        if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
-            type = 'P';
-        } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
-            type = 'B';
-        } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
-            type = 'Q';
-        } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
-            type = 'K';
-        } else if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
-            type = 'R';
-        } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
-            type = 'N';
-        } return type;
+        if (piece == null) return ' ';
+        return switch (piece.getPieceType()) {
+            case PAWN -> 'P';
+            case BISHOP -> 'B';
+            case QUEEN -> 'Q';
+            case KING -> 'K';
+            case ROOK -> 'R';
+            case KNIGHT -> 'N';
+            default -> ' ';
+        };
     }
 
 
