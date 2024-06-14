@@ -117,7 +117,7 @@ public class PostLogin {
             DrawBoard drawBoard = new DrawBoard(chessGame);
             ChessGame.TeamColor userColor = color.equalsIgnoreCase("white") ? ChessGame.TeamColor.WHITE : ChessGame.TeamColor.BLACK;
 
-            GamePlay gamePlay = new GamePlay(webSocketFacade, authToken, gameID, chessGame, drawBoard);
+            GamePlay gamePlay = new GamePlay(webSocketFacade, authToken, gameID, chessGame, drawBoard, userColor);
             gamePlay.display();
         } catch (Exception e) {
             System.out.println("Failed to join game: " + e.getMessage());
@@ -149,7 +149,7 @@ public class PostLogin {
             chessGame.setBoard(selectedGame.getGame().getBoard());
             DrawBoard drawBoard = new DrawBoard(chessGame);
             // start gameplay ui
-            GamePlay gamePlay = new GamePlay(webSocketFacade, authToken, gameID, chessGame, drawBoard);
+            GamePlay gamePlay = new GamePlay(webSocketFacade, authToken, gameID, chessGame, drawBoard, ChessGame.TeamColor.WHITE);
             gamePlay.display();
 
         } catch (Exception e) {
