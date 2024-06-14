@@ -5,6 +5,7 @@ import client.ServerFacade;
 import client.WebSocketFacade;
 
 import javax.websocket.WebSocketContainer;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class GamePlay {
@@ -44,16 +45,16 @@ public class GamePlay {
                     leaveGame();
                     running = false;
                     break;
-                case "make move": // implement here
+                case "make move":
+                    makeMove();
+                    break;
                 case "resign":
-                    System.out.println("Are you sure you want to resign? You will lose lol. Enter yes or no: ");
+                    System.out.println("Are you sure you want to resign? Enter yes or no: ");
                     String answer = scanner.nextLine().trim().toLowerCase();
                     if (answer.equals("yes")) {
                         resignGame();
-                        break;
-                    } else {
-                        break;
                     }
+                    break;
                 case "highlight moves":
                 default:
                     System.out.println("Command not recognized. Type 'Help' for a list of available commands. ");
@@ -103,6 +104,9 @@ public class GamePlay {
             }
             ChessPiece piece = chessGame.getBoard().getPiece(start);
 
+            Collection<ChessMove> validMoves = chessGame.validMoves(start);
+
+            ChessMove move;
             // if pawn promotion:
             if (piece != null && piece.getPieceType() == ChessPiece.PieceType.PAWN && ChessMovesCalculator.isPawnPromotion(piece, end.getRow())) {
                 ChessPiece.PieceType promoPiece = null;
@@ -118,19 +122,19 @@ public class GamePlay {
                         default -> System.out.println("Invalid promotion piece. Please choose again. ");
                     }
                 }
-                ChessMove move = new ChessMove(start, end, promoPiece);
-                webSocketFacade.sendMakeMove(authToken, gameID, move);
-                chessGame.makeMove(move); // move with promo
+                move = new ChessMove(start, end, promoPiece);
             // if not pawn promotion:
             } else {
-                ChessMove move = new ChessMove(start, end, null);
-                webSocketFacade.sendMakeMove(authToken, gameID, move);
-                chessGame.makeMove(move); // move with no promo
+                move = new ChessMove(start, end, null);
+            }
+            if (!validMoves.contains(move)) {
+                System.out.println("This move is not allowed.");
             }
 
-            // check if move is in valid moves
+            webSocketFacade.sendMakeMove(authToken, gameID, move);
+            chessGame.makeMove(move); // execute move
             System.out.println("Moved successfully. ");
-            drawBoard.redrawBoard(//team color here );
+            drawBoard.redrawBoard(userColor == ChessGame.TeamColor.WHITE);
         } catch (Exception e) {
             System.out.println("Failed to make move: " + e.getMessage());
         }
