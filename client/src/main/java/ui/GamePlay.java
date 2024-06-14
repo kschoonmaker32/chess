@@ -14,15 +14,18 @@ public class GamePlay {
     private final int gameID;
     private final ChessGame chessGame;
     private final DrawBoard drawBoard;
+    private final ChessGame.TeamColor userColor;
 
 
-    public GamePlay(WebSocketFacade webSocketFacade, String authToken, int gameID, ChessGame chessGame, DrawBoard drawBoard) {
+    public GamePlay(WebSocketFacade webSocketFacade, String authToken, int gameID, ChessGame chessGame, DrawBoard drawBoard, ChessGame.TeamColor userColor) {
         this.webSocketFacade = webSocketFacade;
         this.scanner = new Scanner(System.in);
         this.authToken = authToken;
         this.gameID = gameID;
         this.chessGame = chessGame;
         this.drawBoard = new DrawBoard(chessGame);
+        this.userColor = userColor;
+
     }
 
     public void display() {
@@ -35,12 +38,13 @@ public class GamePlay {
                     displayHelp();
                     break;
                 case "redraw":
-                    drawBoard.
+                    drawBoard.redrawBoard(userColor == ChessGame.TeamColor.WHITE);
+                    break;
                 case "leave":
                     leaveGame();
                     running = false;
                     break;
-                case "make move":
+                case "make move": // implement here
                 case "resign":
                     System.out.println("Are you sure you want to resign? You will lose lol. Enter yes or no: ");
                     String answer = scanner.nextLine().trim().toLowerCase();
@@ -64,11 +68,6 @@ public class GamePlay {
         System.out.println("Make move: make a move when it's your turn. ");
         System.out.println("Resign: Forfeit the game. ");
         System.out.println("Highlight moves: highlight the possible moves for a piece of your choice. ");
-    }
-
-    public void redrawBoard() {
-        boolean whiteOnBottom = chessGame.getTeamTurn() == ChessGame.TeamColor.WHITE;
-        drawBoard.redrawBoard(whiteOnBottom);
     }
 
     public void leaveGame() {
@@ -128,8 +127,10 @@ public class GamePlay {
                 webSocketFacade.sendMakeMove(authToken, gameID, move);
                 chessGame.makeMove(move); // move with no promo
             }
+
+            // check if move is in valid moves
             System.out.println("Moved successfully. ");
-            redrawBoard();
+            drawBoard.redrawBoard(//team color here );
         } catch (Exception e) {
             System.out.println("Failed to make move: " + e.getMessage());
         }
