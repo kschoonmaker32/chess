@@ -67,7 +67,6 @@ public class DrawBoard {
             case KING -> 'K';
             case ROOK -> 'R';
             case KNIGHT -> 'N';
-            default -> ' ';
         };
     }
 
