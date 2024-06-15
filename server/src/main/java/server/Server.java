@@ -37,6 +37,8 @@ public class Server {
         GameHandler gameHandler = new GameHandler(gameService);
         WebSocketHandler webSocketHandler = new WebSocketHandler(gameService);
 
+        Spark.webSocket("/ws", webSocketHandler);
+
         // Register your endpoints and handle exceptions here.
         Spark.post("/user", userHandler.register);
         Spark.post("/session", userHandler.login);
@@ -58,8 +60,6 @@ public class Server {
                 return "{\"message\" : \"Error: " + e.getMessage()+ "\"}";
             }
         });
-
-        Spark.webSocket("/ws", webSocketHandler);
 
         Spark.awaitInitialization();
 
