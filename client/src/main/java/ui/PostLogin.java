@@ -111,7 +111,10 @@ public class PostLogin {
             System.out.println("Enter color (white/black): ");
             String color = scanner.nextLine();
             serverFacade.joinGame(authToken, gameID, color);
+
             System.out.println("Joined game successfully!");
+            // send connect message
+            webSocketFacade.sendConnect(authToken, gameID);
 
             ChessGame chessGame = new ChessGame();
             DrawBoard drawBoard = new DrawBoard(chessGame);
@@ -143,6 +146,7 @@ public class PostLogin {
             }
             serverFacade.joinGame(authToken, gameID, null);
             System.out.println("Observing game successfully! ");
+            webSocketFacade.sendConnect(authToken, gameID);
 
             // set up board
             ChessGame chessGame = new ChessGame();
