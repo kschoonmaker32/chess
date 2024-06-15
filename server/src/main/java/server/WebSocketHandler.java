@@ -65,7 +65,7 @@ public class WebSocketHandler {
     private void handleMakeMove(Session session, String authToken, int gameID, ChessMove move) throws IOException {
         try {
             gameService.makeMove(gameID, authToken, move);
-            sendLoadGameMessageToAll(gameID, session);
+            sendLoadGameMessageToAll(gameID);
             sendNotificationToAll(gameID, authToken + " made a move: " + move);
         } catch (DataAccessException e) {
             sendError(session, "Failed to make move: " + e.getMessage());
