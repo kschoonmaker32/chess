@@ -45,7 +45,7 @@ public class WebSocketTests {
         serverFacade = new TestServerFacade("localhost", port);
         serverFacade.clear();
 
-        GsonBuilder gsonBuilder = org.junit.jupiter.api.TestFactory.getGsonBuilder();
+        GsonBuilder gsonBuilder = TestFactory.getGsonBuilder();
         environment = new WebsocketTestingEnvironment("localhost", port, "/ws", gsonBuilder);
 
         waitTime = TestFactory.getMessageTime();
