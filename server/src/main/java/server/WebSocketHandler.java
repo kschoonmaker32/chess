@@ -7,6 +7,7 @@ import model.GameData;
 
 
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import service.GameService;
 import websocket.commands.*;
 import websocket.messages.ErrorMessage;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set;
 
+@WebSocket
 public class WebSocketHandler {
     private static final Map<Integer, Set<Session>> gameSessions = new ConcurrentHashMap<>();
     private static final Gson gson = new Gson();
@@ -49,6 +51,8 @@ public class WebSocketHandler {
                 ResignCommand resignCommand = gson.fromJson(message, ResignCommand.class);
                 handleResign(session, authToken, resignCommand.getGameID());
                 break;
+            default:
+                sendError(session, "Unknown command type ");
         }
     }
 
@@ -96,14 +100,14 @@ public class WebSocketHandler {
         }
     }
 
-    private void sendLoadGameMessageToAll(int gameID, Session session) throws IOException {
+    private void sendLoadGameMessageToAll(int gameID) throws IOException {
         try {
             GameData gameData = gameService.getGameData(gameID);
             LoadGameMessage loadGameMessage = new LoadGameMessage(gameData);
             String message = gson.toJson(loadGameMessage);
             sendToAll(gameID, message);
         } catch (DataAccessException e) {
-            sendError(session, "Failed to load game data");
+            sendErrorToAll(gameID, "Failed to load game data");
         }
     }
 
@@ -147,4 +151,9 @@ public class WebSocketHandler {
         session.getRemote().sendString(message);
     }
 
+    private void sendErrorToAll(int gameID, String errorMessage) throws IOException {
+        ErrorMessage errorMessageObj = new ErrorMessage(errorMessage);
+        String message = gson.toJson(errorMessageObj);
+        sendToAll(gameID, message);
+    }
 }
