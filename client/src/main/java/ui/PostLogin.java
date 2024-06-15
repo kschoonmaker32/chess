@@ -129,7 +129,6 @@ public class PostLogin {
         int gameNumber = Integer.parseInt(scanner.nextLine());
         try {
             int gameID = gameIDs.get(gameNumber);
-
             var games = serverFacade.listGames(authToken);
             GameData selectedGame = null;
             for (GameData game : games) {
@@ -142,11 +141,11 @@ public class PostLogin {
                 System.out.println("Game not found. ");
                 return;
             }
-            System.out.println("Observing game. ");
+            serverFacade.joinGame(authToken, gameID, null);
+            System.out.println("Observing game successfully! ");
 
             // set up board
             ChessGame chessGame = new ChessGame();
-            chessGame.setBoard(selectedGame.getGame().getBoard());
             DrawBoard drawBoard = new DrawBoard(chessGame);
             // start gameplay ui
             GamePlay gamePlay = new GamePlay(webSocketFacade, authToken, gameID, chessGame, drawBoard, ChessGame.TeamColor.WHITE);
