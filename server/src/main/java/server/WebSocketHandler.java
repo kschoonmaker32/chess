@@ -73,7 +73,7 @@ public class WebSocketHandler {
 
     private void handleConnect(Session session, String authToken, int gameID) throws IOException {
         gameSessions.computeIfAbsent(gameID, k -> ConcurrentHashMap.newKeySet()).add(session);
-        sendNotificationToOthers(gameID, session, authToken + " connected to game " + gameID);
+        // sendNotificationToOthers(gameID, session, authToken + " connected to game " + gameID);
         sendLoadGameMessage(gameID, session);
     }
 
@@ -81,7 +81,7 @@ public class WebSocketHandler {
         try {
             gameService.makeMove(gameID, authToken, move);
             sendLoadGameMessageToAll(gameID);
-            sendNotificationToAll(gameID, authToken + " made a move: " + move);
+            // sendNotificationToAll(gameID, authToken + " made a move: " + move);
         } catch (DataAccessException e) {
             sendError(session, "Failed to make move: " + e.getMessage());
         }
@@ -109,6 +109,7 @@ public class WebSocketHandler {
             GameData gameData = gameService.getGameData(gameID);
             LoadGameMessage loadGameMessage = new LoadGameMessage(gameData);
             String message = gson.toJson(loadGameMessage);
+            System.out.println("Sending LOAD_GAME message to all for gameID: " + gameID);
             session.getRemote().sendString(message);
         } catch (DataAccessException e) {
             sendError(session, "Failed to load game data");
@@ -120,6 +121,7 @@ public class WebSocketHandler {
             GameData gameData = gameService.getGameData(gameID);
             LoadGameMessage loadGameMessage = new LoadGameMessage(gameData);
             String message = gson.toJson(loadGameMessage);
+            System.out.println("Sending LOAD_GAME message to all for gameID: " + gameID);
             sendToAll(gameID, message);
         } catch (DataAccessException e) {
             sendErrorToAll(gameID, "Failed to load game data");
@@ -129,14 +131,13 @@ public class WebSocketHandler {
     private void sendNotificationToOthers(int gameID, Session senderSession, String notification) throws IOException {
         NotificationMessage notificationMessage = new NotificationMessage(notification);
         String message = gson.toJson(notificationMessage);
-
         sendToOthers(gameID, senderSession, message);
     }
 
     private void sendNotificationToAll(int gameID, String notification) throws IOException {
         NotificationMessage notificationMessage = new NotificationMessage(notification);
         String message = gson.toJson(notificationMessage);
-
+        System.out.println("Sending NOTIFICATION to all for gameID: " + gameID + " with message: " + notification);
         sendToAll(gameID, message);
     }
 
@@ -153,7 +154,7 @@ public class WebSocketHandler {
 
     private void sendToAll(int gameID, String message) throws IOException {
         Set<Session> sessions = gameSessions.get(gameID);
-        if(sessions != null) {
+        if (sessions != null) {
             for (Session session : sessions) {
                 session.getRemote().sendString(message);
             }
