@@ -40,7 +40,7 @@ public class WebSocketHandler {
     }
 
     @OnWebSocketError
-    public void onError(Session session, Throwable error) {
+    public void onError(Throwable error) {
         error.printStackTrace();
     }
 
