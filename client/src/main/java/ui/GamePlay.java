@@ -1,10 +1,7 @@
 package ui;
 
 import chess.*;
-import client.ServerFacade;
 import client.WebSocketFacade;
-
-import javax.websocket.WebSocketContainer;
 import java.util.Collection;
 import java.util.Scanner;
 
