@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
+@ClientEndpoint
 public class WebSocketFacade {
     private Session session;
     private final Gson gson;
