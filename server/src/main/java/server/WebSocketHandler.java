@@ -6,8 +6,7 @@ import dataaccess.DataAccessException;
 import model.GameData;
 
 
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.eclipse.jetty.websocket.api.annotations.*;
 import service.GameService;
 import websocket.commands.*;
 import websocket.messages.ErrorMessage;
@@ -29,8 +28,24 @@ public class WebSocketHandler {
         this.gameService = gameService;
     }
 
+    @OnWebSocketConnect
+    public void onConnect(Session session) {
+        System.out.println("Connected: " + session.getRemoteAddress().getAddress());
+    }
+
+    @OnWebSocketClose
+    public void onClose(Session session, int statusCode, String reason) {
+        System.out.println("Closed: " + session.getRemoteAddress().getAddress() + " with statusCode: " + statusCode + " reason: " + reason);
+        gameSessions.values().forEach(sessions -> sessions.remove(session));
+    }
+
+    @OnWebSocketError
+    public void onError(Session session, Throwable error) {
+        error.printStackTrace();
+    }
+
     @OnWebSocketMessage
-    public void onMessage(String message, Session session) throws IOException {
+    public void onMessage(Session session, String message) throws IOException {
         UserGameCommand command = gson.fromJson(message, UserGameCommand.class);
         String authToken = command.getAuthString();
 
