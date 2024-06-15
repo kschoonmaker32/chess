@@ -2,18 +2,29 @@ package ui;
 
 import chess.*;
 
+import java.util.Collection;
+
 public class DrawBoard {
 
     private ChessGame chessGame;
     private static final String WHITE_PIECE_COLOR = EscapeSequences.SET_TEXT_COLOR_RED;
     private static final String BLACK_PIECE_COLOR = EscapeSequences.SET_TEXT_COLOR_BLACK;
     private static final String WHITE_TEXT = EscapeSequences.SET_TEXT_COLOR_WHITE;
+    private static final String HIGHLIGHT_COLOR = EscapeSequences.SET_BG_COLOR_YELLOW;
 
     public DrawBoard(ChessGame chessGame) {
         this.chessGame = chessGame;
     }
 
-    private void drawBoardState(boolean whiteOnBottom) {
+    public void drawChessBoard(boolean whiteOnBottom) {
+        drawBoardState(whiteOnBottom, null);
+    }
+
+    public void highlightMoves(boolean whiteOnBottom, Collection<ChessMove> moves) {
+        drawBoardState(whiteOnBottom, moves);
+    }
+
+    private void drawBoardState(boolean whiteOnBottom, Collection<ChessMove> moves) {
         if (whiteOnBottom) {
             System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + WHITE_TEXT + "    a  b  c  d  e  f  g  h    " + EscapeSequences.RESET_BG_COLOR);
         } else {
@@ -28,10 +39,14 @@ public class DrawBoard {
                 ChessPiece piece = chessGame.getBoard().getPiece(new ChessPosition(row + 1, col + 1));
                 char pieceChar = getPieceType(piece);
                 String pieceColor = piece != null && piece.getTeamColor() == ChessGame.TeamColor.WHITE ? WHITE_PIECE_COLOR : BLACK_PIECE_COLOR;
-                if ((row + col) % 2 == 0) {
-                    System.out.print(EscapeSequences.SET_BG_COLOR_LIGHT_BLUE + " " + pieceColor + pieceChar + WHITE_TEXT + " " + EscapeSequences.RESET_BG_COLOR);
+                ChessPosition pos = new ChessPosition(row + 1, col + 1);
+                boolean isHighlight = moves != null && moves.stream().anyMatch(move -> move.getEndPosition().equals(pos));
+
+                String bgColor = (row + col) % 2 == 0 ? EscapeSequences.SET_BG_COLOR_LIGHT_BLUE : EscapeSequences.SET_BG_COLOR_WHITE;
+                if (isHighlight) {
+                    System.out.print(HIGHLIGHT_COLOR + " " + pieceColor + pieceChar + WHITE_TEXT + " " + EscapeSequences.RESET_BG_COLOR);
                 } else {
-                    System.out.print(EscapeSequences.SET_BG_COLOR_WHITE + " " + pieceColor + pieceChar + WHITE_TEXT + " " + EscapeSequences.RESET_BG_COLOR);
+                    System.out.print(bgColor + " " + pieceColor + pieceChar + WHITE_TEXT + " " + EscapeSequences.RESET_BG_COLOR);
                 }
             }
             System.out.println(EscapeSequences.SET_BG_COLOR_LIGHT_GREY + " " + (row + 1) + " " + EscapeSequences.RESET_BG_COLOR);
@@ -56,10 +71,7 @@ public class DrawBoard {
         };
     }
 
-
-
     public void redrawBoard(boolean whiteOnBottom) {
-        drawBoardState(whiteOnBottom);
+        drawChessBoard(whiteOnBottom);
     }
-
 }
