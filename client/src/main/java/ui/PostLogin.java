@@ -151,7 +151,6 @@ public class PostLogin {
             // start gameplay ui
             GamePlay gamePlay = new GamePlay(webSocketFacade, authToken, gameID, chessGame, drawBoard, ChessGame.TeamColor.WHITE);
             gamePlay.display();
-
         } catch (Exception e) {
             System.out.println("Failed to join game: " + e.getMessage());
         }

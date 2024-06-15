@@ -56,6 +56,8 @@ public class GamePlay {
                     }
                     break;
                 case "highlight moves":
+                    highlightMoves();
+                    break;
                 default:
                     System.out.println("Command not recognized. Type 'Help' for a list of available commands. ");
                     break;
@@ -138,6 +140,26 @@ public class GamePlay {
         } catch (Exception e) {
             System.out.println("Failed to make move: " + e.getMessage());
         }
+    }
+
+    public void highlightMoves() {
+        try {
+            System.out.println("Enter the position of the piece you would like to highlight moves for: (e.g. e2) ");
+            String startPos = scanner.nextLine();
+
+            ChessPosition start = convertPositionToIndices(startPos);
+            if (start == null) {
+                System.out.println("Invalid position entered. ");
+                return;
+            }
+            Collection<ChessMove> moves = chessGame.validMoves(start);
+            boolean whiteOnBottom = chessGame.getTeamTurn() == ChessGame.TeamColor.WHITE;
+
+            drawBoard.highlightMoves(whiteOnBottom, moves);
+        } catch (Exception e) {
+            System.out.println("Failed to highlight moves: " + e.getMessage());
+        }
+
     }
 
     private ChessPosition convertPositionToIndices(String position) {
