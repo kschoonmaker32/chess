@@ -8,18 +8,14 @@ import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
 
 @ClientEndpoint
 public class WebSocketFacade {
     private Session session;
     private final Gson gson;
-    private final BlockingDeque<String> messageQueue;
 
     public WebSocketFacade(String serverURI) throws URISyntaxException, DeploymentException, IOException {
         this.gson = new Gson();
-        this.messageQueue = new LinkedBlockingDeque<>();
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         try {
             container.connectToServer(this, new URI(serverURI));
@@ -27,26 +23,6 @@ public class WebSocketFacade {
             System.err.println("Failed to connect to server: " + e.getMessage());
             throw e;
         }
-    }
-
-    @OnOpen
-    public void onOpen(Session session) {
-        this.session = session;
-    }
-
-    @OnMessage
-    public void onMessage(String message) {
-        messageQueue.offer(message);
-    }
-
-    @OnError
-    public void onError(Throwable throwable) {
-        throwable.printStackTrace();
-    }
-
-    @OnClose
-    public void onClose() {
-        this.session = null;
     }
 
     public void sendConnect(String authToken, int gameID) throws IOException {
