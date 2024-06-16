@@ -69,7 +69,7 @@ public class GameService {
         }
     }
 
-    private String getUsername(String authToken) throws DataAccessException{
+    public String getUsername(String authToken) throws DataAccessException{
         return authDAO.getAuth(authToken).getUsername();
     }
 

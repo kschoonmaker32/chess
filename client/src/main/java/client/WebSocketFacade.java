@@ -21,7 +21,12 @@ public class WebSocketFacade {
         this.gson = new Gson();
         this.messageQueue = new LinkedBlockingDeque<>();
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        container.connectToServer(this, new URI(serverURI));
+        try {
+            container.connectToServer(this, new URI(serverURI));
+        } catch (Exception e) {
+            System.err.println("Failed to connect to server: " + e.getMessage());
+            throw e;
+        }
     }
 
     @OnOpen

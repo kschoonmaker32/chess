@@ -73,15 +73,22 @@ public class WebSocketHandler {
 
     private void handleConnect(Session session, String authToken, int gameID) throws IOException {
         gameSessions.computeIfAbsent(gameID, k -> ConcurrentHashMap.newKeySet()).add(session);
-        // sendNotificationToOthers(gameID, session, authToken + " connected to game " + gameID);
-        sendLoadGameMessage(gameID, session);
+        try {
+            String username = gameService.getUsername(authToken);
+
+            sendLoadGameMessage(gameID, session);
+            sendNotificationToOthers(gameID, session, username + " connected to game " + gameID);
+        } catch (Exception e) {
+            sendError(session, "Failed to find username: " + e.getMessage());}
+
     }
 
     private void handleMakeMove(Session session, String authToken, int gameID, ChessMove move) throws IOException {
         try {
             gameService.makeMove(gameID, authToken, move);
             sendLoadGameMessageToAll(gameID);
-            // sendNotificationToAll(gameID, authToken + " made a move: " + move);
+            String username = gameService.getUsername(authToken);
+            sendNotificationToOthers(gameID, session, username + " made a move: " + move);
         } catch (DataAccessException e) {
             sendError(session, "Failed to make move: " + e.getMessage());
         }
@@ -91,14 +98,21 @@ public class WebSocketHandler {
         Set<Session> sessions = gameSessions.get(gameID);
         if (sessions != null) {
             sessions.remove(session);
-            sendNotificationToOthers(gameID, session, authToken + " left the game");
+            try {
+                String username = gameService.getUsername(authToken);
+                sendNotificationToOthers(gameID, session, username + " left the game");
+            } catch (Exception e) {
+                sendError(session, "Failed to find username: " + e.getMessage());
+            }
+
         }
     }
 
     private void handleResign(Session session, String authToken, int gameID) throws IOException {
         try {
             String winner = gameService.resign(authToken, gameID);
-            sendNotificationToAll(gameID, authToken + " resigned. " + winner + " wins. ");
+            String username = gameService.getUsername(authToken);
+            sendNotificationToAll(gameID, username + " resigned. " + winner + " wins. ");
         } catch (DataAccessException e) {
             sendError(session, "Failed to resign: " + e.getMessage());
         }
@@ -109,7 +123,7 @@ public class WebSocketHandler {
             GameData gameData = gameService.getGameData(gameID);
             LoadGameMessage loadGameMessage = new LoadGameMessage(gameData);
             String message = gson.toJson(loadGameMessage);
-            System.out.println("Sending LOAD_GAME message to all for gameID: " + gameID);
+            System.out.println("Sending LOAD_GAME message to others for gameID: " + gameID);
             session.getRemote().sendString(message);
         } catch (DataAccessException e) {
             sendError(session, "Failed to load game data");
@@ -137,7 +151,7 @@ public class WebSocketHandler {
     private void sendNotificationToAll(int gameID, String notification) throws IOException {
         NotificationMessage notificationMessage = new NotificationMessage(notification);
         String message = gson.toJson(notificationMessage);
-        System.out.println("Sending NOTIFICATION to all for gameID: " + gameID + " with message: " + notification);
+        System.out.println("Sending NOTIFICATION to others for gameID: " + gameID + " with message: " + notification);
         sendToAll(gameID, message);
     }
 
