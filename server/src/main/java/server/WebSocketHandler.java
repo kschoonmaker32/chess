@@ -20,10 +20,10 @@ import java.util.Set;
 
 @WebSocket
 public class WebSocketHandler {
-    private static final Map<Integer, Set<Session>> gameSessions = new ConcurrentHashMap<>();
-    private static final Gson gson = new Gson();
+    private static final Map<Integer, Set<Session>> GAME_SESSIONS = new ConcurrentHashMap<>();
+    private static final Gson GSON = new Gson();
     private final GameService gameService;
-    private static final Set<Integer> finishedGames = ConcurrentHashMap.newKeySet();
+    private static final Set<Integer> FINISHED_GAMES = ConcurrentHashMap.newKeySet();
 
     public WebSocketHandler(GameService gameService) {
         this.gameService = gameService;
@@ -37,7 +37,7 @@ public class WebSocketHandler {
     @OnWebSocketClose
     public void onClose(Session session, int statusCode, String reason) {
         System.out.println("Closed: " + session.getRemoteAddress().getAddress() + " with statusCode: " + statusCode + " reason: " + reason);
-        gameSessions.values().forEach(sessions -> sessions.remove(session));
+        GAME_SESSIONS.values().forEach(sessions -> sessions.remove(session));
     }
 
     @OnWebSocketError
@@ -47,24 +47,24 @@ public class WebSocketHandler {
 
     @OnWebSocketMessage
     public void onMessage(Session session, String message) throws IOException {
-        UserGameCommand command = gson.fromJson(message, UserGameCommand.class);
+        UserGameCommand command = GSON.fromJson(message, UserGameCommand.class);
         String authToken = command.getAuthString();
 
         switch (command.getCommandType()) {
             case CONNECT:
-                ConnectCommand connectCommand = gson.fromJson(message, ConnectCommand.class);
+                ConnectCommand connectCommand = GSON.fromJson(message, ConnectCommand.class);
                 handleConnect(session, authToken, connectCommand.getGameID());
                 break;
             case LEAVE:
-                LeaveCommand leaveCommand = gson.fromJson(message, LeaveCommand.class);
+                LeaveCommand leaveCommand = GSON.fromJson(message, LeaveCommand.class);
                 handleLeave(session, authToken, leaveCommand.getGameID());
                 break;
             case MAKE_MOVE:
-                MakeMoveCommand makeMoveCommand = gson.fromJson(message, MakeMoveCommand.class);
+                MakeMoveCommand makeMoveCommand = GSON.fromJson(message, MakeMoveCommand.class);
                 handleMakeMove(session, authToken, makeMoveCommand.getGameID(), makeMoveCommand.getMove());
                 break;
             case RESIGN:
-                ResignCommand resignCommand = gson.fromJson(message, ResignCommand.class);
+                ResignCommand resignCommand = GSON.fromJson(message, ResignCommand.class);
                 handleResign(session, authToken, resignCommand.getGameID());
                 break;
             default:
@@ -76,7 +76,7 @@ public class WebSocketHandler {
         try {
             String username = gameService.getUsername(authToken);
             GameData gameData = gameService.getGameData(gameID);
-            gameSessions.computeIfAbsent(gameID, k -> ConcurrentHashMap.newKeySet()).add(session);
+            GAME_SESSIONS.computeIfAbsent(gameID, k -> ConcurrentHashMap.newKeySet()).add(session);
             sendLoadGameMessage(gameID, session);
             sendNotificationToOthers(gameID, session, username + " connected to game " + gameID);
         } catch (Exception e) {
@@ -87,7 +87,7 @@ public class WebSocketHandler {
 
     private void handleMakeMove(Session session, String authToken, int gameID, ChessMove move) throws IOException {
         try {
-            if (finishedGames.contains(gameID)) {
+            if (FINISHED_GAMES.contains(gameID)) {
                 sendError(session, "Game has already finished. ");
                 return;
             }
@@ -103,7 +103,7 @@ public class WebSocketHandler {
     }
 
     private void handleLeave(Session session, String authToken, int gameID) throws IOException {
-        Set<Session> sessions = gameSessions.get(gameID);
+        Set<Session> sessions = GAME_SESSIONS.get(gameID);
         if (sessions != null) {
             sessions.remove(session);
             try {
@@ -122,12 +122,12 @@ public class WebSocketHandler {
 
     private void handleResign(Session session, String authToken, int gameID) throws IOException {
         try {
-            if (finishedGames.contains(gameID)) {
+            if (FINISHED_GAMES.contains(gameID)) {
                 sendError(session, "Game is already over ");
                 return;
             }
             String winner = gameService.resign(authToken, gameID);
-            finishedGames.add(gameID); // mark game over
+            FINISHED_GAMES.add(gameID); // mark game over
             String username = gameService.getUsername(authToken);
             sendNotificationToAll(gameID, username + " resigned. " + winner + " wins. ");
         } catch (DataAccessException e) {
@@ -139,7 +139,7 @@ public class WebSocketHandler {
         try {
             GameData gameData = gameService.getGameData(gameID);
             LoadGameMessage loadGameMessage = new LoadGameMessage(gameData);
-            String message = gson.toJson(loadGameMessage);
+            String message = GSON.toJson(loadGameMessage);
             System.out.println("Sending LOAD_GAME message to others for gameID: " + gameID);
             session.getRemote().sendString(message);
         } catch (DataAccessException e) {
@@ -151,7 +151,7 @@ public class WebSocketHandler {
         try {
             GameData gameData = gameService.getGameData(gameID);
             LoadGameMessage loadGameMessage = new LoadGameMessage(gameData);
-            String message = gson.toJson(loadGameMessage);
+            String message = GSON.toJson(loadGameMessage);
             System.out.println("Sending LOAD_GAME message to all for gameID: " + gameID);
             sendToAll(gameID, message);
         } catch (DataAccessException e) {
@@ -161,19 +161,19 @@ public class WebSocketHandler {
 
     private void sendNotificationToOthers(int gameID, Session senderSession, String notification) throws IOException {
         NotificationMessage notificationMessage = new NotificationMessage(notification);
-        String message = gson.toJson(notificationMessage);
+        String message = GSON.toJson(notificationMessage);
         sendToOthers(gameID, senderSession, message);
     }
 
     private void sendNotificationToAll(int gameID, String notification) throws IOException {
         NotificationMessage notificationMessage = new NotificationMessage(notification);
-        String message = gson.toJson(notificationMessage);
+        String message = GSON.toJson(notificationMessage);
         System.out.println("Sending NOTIFICATION to others for gameID: " + gameID + " with message: " + notification);
         sendToAll(gameID, message);
     }
 
     private void sendToOthers(int gameID, Session senderSession, String message) throws IOException {
-        Set<Session> sessions = gameSessions.get(gameID);
+        Set<Session> sessions = GAME_SESSIONS.get(gameID);
         if (sessions != null) {
             for (Session session : sessions) {
                 if (!session.equals(senderSession)) {
@@ -184,7 +184,7 @@ public class WebSocketHandler {
     }
 
     private void sendToAll(int gameID, String message) throws IOException {
-        Set<Session> sessions = gameSessions.get(gameID);
+        Set<Session> sessions = GAME_SESSIONS.get(gameID);
         if (sessions != null) {
             for (Session session : sessions) {
                 session.getRemote().sendString(message);
@@ -194,7 +194,7 @@ public class WebSocketHandler {
 
     private void sendError(Session session, String errorMessage) throws IOException {
         ErrorMessage errorMessageObj = new ErrorMessage(errorMessage);
-        String message = gson.toJson(errorMessageObj);
+        String message = GSON.toJson(errorMessageObj);
         System.out.println("Sending error to root client: " + session.getRemoteAddress().getAddress());
         session.getRemote().sendString(message);
     }
