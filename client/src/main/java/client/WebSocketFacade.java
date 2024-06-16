@@ -73,8 +73,4 @@ public class WebSocketFacade {
         String message = gson.toJson(command);
         session.getBasicRemote().sendText(message);
     }
-
-    public void receiveMessage() throws InterruptedException {
-        messageQueue.take();
-    }
 }

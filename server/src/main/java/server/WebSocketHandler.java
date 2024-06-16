@@ -73,13 +73,14 @@ public class WebSocketHandler {
     }
 
     private void handleConnect(Session session, String authToken, int gameID) throws IOException {
-        gameSessions.computeIfAbsent(gameID, k -> ConcurrentHashMap.newKeySet()).add(session);
         try {
             String username = gameService.getUsername(authToken);
-
+            GameData gameData = gameService.getGameData(gameID);
+            gameSessions.computeIfAbsent(gameID, k -> ConcurrentHashMap.newKeySet()).add(session);
             sendLoadGameMessage(gameID, session);
             sendNotificationToOthers(gameID, session, username + " connected to game " + gameID);
         } catch (Exception e) {
+            System.out.println("handleconnect");
             sendError(session, "Failed to find username: " + e.getMessage());}
 
     }
@@ -96,6 +97,7 @@ public class WebSocketHandler {
             sendNotificationToOthers(gameID, session, username + " made a move: " + move); // clean up move
             // implement notif for check or checkmate or stalemate
         } catch (DataAccessException e) {
+            System.out.println("handlemove");
             sendError(session, "Failed to make move: " + e.getMessage());
         }
     }
@@ -105,9 +107,13 @@ public class WebSocketHandler {
         if (sessions != null) {
             sessions.remove(session);
             try {
+                System.out.println("Removing player with authToken: " + authToken + " from gameID: " + gameID); // Debugging
+                gameService.leave(authToken, gameID);
+                System.out.println("hi bbg");
                 String username = gameService.getUsername(authToken);
                 sendNotificationToOthers(gameID, session, username + " left the game");
             } catch (Exception e) {
+                System.out.println("handleleave");
                 sendError(session, "Failed to find username: " + e.getMessage());
             }
 
@@ -124,7 +130,6 @@ public class WebSocketHandler {
             finishedGames.add(gameID); // mark game over
             String username = gameService.getUsername(authToken);
             sendNotificationToAll(gameID, username + " resigned. " + winner + " wins. ");
-            //sendLoadGameMessageToAll(gameID, session);
         } catch (DataAccessException e) {
             sendError(session, "Failed to resign: " + e.getMessage());
         }

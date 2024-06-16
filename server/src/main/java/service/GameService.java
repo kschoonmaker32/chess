@@ -133,4 +133,13 @@ public class GameService {
 
         return winner;
     }
+
+    public void leave(String authToken, int gameID) throws DataAccessException {
+        verifyAuth(authToken);
+        GameData gameData = getGameData(gameID);
+        if (gameData == null) {
+            throw new DataAccessException("Game not found.");
+        }
+        gameDAO.removePlayer(authToken, gameID);
+    }
 }

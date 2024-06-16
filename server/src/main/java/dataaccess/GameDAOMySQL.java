@@ -13,6 +13,8 @@ import java.util.List;
 
 public class GameDAOMySQL extends GameDAO {
 
+    private AuthDAO authDAO = new AuthDAOMySQL();
+
     @Override
     public void createGame(GameData game) throws DataAccessException {
         // command for inserting game data into sql database
@@ -108,6 +110,27 @@ public class GameDAOMySQL extends GameDAO {
             }
         } catch (SQLException e) {
             throw new DataAccessException("Error clearing games from database: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void removePlayer(String authToken, int gameID) throws DataAccessException {
+        String username = authDAO.getAuth(authToken).getUsername(); // Get username from authToken
+        String sql = "UPDATE games SET whiteUsername = CASE WHEN whiteUsername = ? THEN NULL ELSE whiteUsername END, " +
+                "blackUsername = CASE WHEN blackUsername = ? THEN NULL ELSE blackUsername END " +
+                "WHERE gameID = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, username);
+            stmt.setInt(3, gameID);
+            int affectedRows = stmt.executeUpdate();
+            System.out.println("hi");
+            if (affectedRows == 0) {
+                throw new DataAccessException("No rows affected, game or player might not exist.");
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to remove player from game: " + e.getMessage());
         }
     }
 
